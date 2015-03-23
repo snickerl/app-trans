@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- version:2015-03-17 04:41:16 -->
+<hibernate-mapping auto-import="false">  
+    <class name="com.poweruniverse.app.entity.trans.GongNengCZYS" table="TRANS_GongNengCZYS" >
+    	<!--主键-->
+        <id name="gongNengCZYSDM" type="integer">
+	        <column name="gongNengCZYSDM" precision="12" scale="0" />
+	        <generator class="increment"></generator>
+        </id>
+        
+		<!--目标功能代号-->
+        <property name="targetGNDH" type="java.lang.String" lazy="false">
+        	<column name="targetGNDH" precision="200" scale="0" not-null="false" />
+        </property>
+		<!--源操作代号-->
+        <property name="sourceCZDH" type="java.lang.String" lazy="false">
+        	<column name="sourceCZDH" precision="200" scale="0" not-null="false" />
+        </property>
+		<!--源功能代号-->
+        <property name="sourceGNDH" type="java.lang.String" lazy="false">
+        	<column name="sourceGNDH" precision="200" scale="0" not-null="false" />
+        </property>
+		<!--目标系统代号-->
+        <property name="targetXTDH" type="java.lang.String" lazy="false">
+        	<column name="targetXTDH" precision="200" scale="0" not-null="false" />
+        </property>
+		<!--源系统代号-->
+        <property name="sourceXTDH" type="java.lang.String" lazy="false">
+        	<column name="sourceXTDH" precision="200" scale="0" not-null="false" />
+        </property>
+		<!--目标操作代号-->
+        <property name="targetCZDH" type="java.lang.String" lazy="false">
+        	<column name="targetCZDH" precision="200" scale="0" not-null="false" />
+        </property>
+     </class>
+</hibernate-mapping>

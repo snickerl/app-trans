@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- version:2015-03-17 05:41:17 -->
+<hibernate-mapping auto-import="false">  
+    <class name="com.poweruniverse.app.entity.trans.ZiDuanYS" table="TRANS_ZiDuanYS" >
+    	<!--主键-->
+        <id name="ziDuanYSDM" type="integer">
+	        <column name="ziDuanYSDM" precision="12" scale="0" />
+	        <generator class="increment"></generator>
+        </id>
+        
+		<!--实体类映射-->
+        <many-to-one name="shiTiLeiYS" class="com.poweruniverse.app.entity.trans.ShiTiLeiYS" fetch="select">
+            <column name="shiTiLeiYSDM" precision="12" scale="0" not-null="false" />
+        </many-to-one>
+        
+		<!--源字段代号-->
+        <property name="sourceZDDH" type="java.lang.String" lazy="false">
+        	<column name="sourceZDDH" precision="200" scale="0" not-null="false" />
+        </property>
+		<!--源字段类型-->
+        <many-to-one name="sourceZDLX" class="com.poweruniverse.nim.data.entity.sys.ZiDuanLX" fetch="select">
+            <column name="sourceZDLXDM" precision="12" scale="0" not-null="false" />
+        </many-to-one>
+        
+		<!--目标字段代号-->
+        <property name="targetZDDH" type="java.lang.String" lazy="false">
+        	<column name="targetZDDH" precision="200" scale="0" not-null="false" />
+        </property>
+		<!--目标字段类型-->
+        <many-to-one name="targetZDLX" class="com.poweruniverse.nim.data.entity.sys.ZiDuanLX" fetch="select">
+            <column name="targetZDLX" precision="12" scale="0" not-null="false" />
+        </many-to-one>
+        
+     </class>
+</hibernate-mapping>

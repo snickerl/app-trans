@@ -1,0 +1,274 @@
+{
+	"shiTiLeiMC" : "传输记录",
+	"shiTiLeiBB" : "2015-03-17 04:41:16",
+	"shiTiLeiDH" : "TRANS_ChuanShuJL",
+	"zhuJianLie" : "chuanShuJLDM",
+	"xianShiLie" : "chuanShuJLDM",
+	"paiXuLie" : "chuanShuJLDM",
+	"biaoMing" : "TRANS_ChuanShuJL",
+	"shiTiLeiClassName" : "com.poweruniverse.app.entity.trans.ChuanShuJL",
+	"shiFouYWB" : false,
+	"xiTong" : {
+		"xiTongDH" : "trans"
+	},
+	"zds" : [{
+				"ziDuanBT" : "源实体类代号",
+				"lieMing" : "sourceSTLDH",
+				"ziDuanDH" : "sourceSTLDH",
+				"ziDuanCD" : 40,
+				"ziDuanJD" : 0,
+				"yunXuKZ" : false,
+				"yanChiJZ" : false,
+				"shiFouWY" : false,
+				"ziDuanLX" : {
+					"ziDuanLXDM" : 1,
+					"ziDuanLXDH" : "string"
+				}
+			}, {
+				"ziDuanBT" : "传输记录代码",
+				"lieMing" : "chuanShuJLDM",
+				"ziDuanDH" : "chuanShuJLDM",
+				"ziDuanCD" : 12,
+				"ziDuanJD" : 0,
+				"yunXuKZ" : false,
+				"yanChiJZ" : false,
+				"shiFouWY" : false,
+				"ziDuanLX" : {
+					"ziDuanLXDH" : "int"
+				}
+			}, {
+				"ziDuanBT" : "源主键值",
+				"lieMing" : "sourceZJZ",
+				"ziDuanDH" : "sourceZJZ",
+				"ziDuanCD" : 12,
+				"ziDuanJD" : 0,
+				"yunXuKZ" : false,
+				"yanChiJZ" : false,
+				"shiFouWY" : false,
+				"ziDuanLX" : {
+					"ziDuanLXDH" : "int"
+				}
+			}, {
+				"ziDuanBT" : "目标系统代号",
+				"lieMing" : "targetXTDH",
+				"ziDuanDH" : "targetXTDH",
+				"ziDuanCD" : 40,
+				"ziDuanJD" : 0,
+				"yunXuKZ" : false,
+				"yanChiJZ" : false,
+				"shiFouWY" : false,
+				"ziDuanLX" : {
+					"ziDuanLXDH" : "string"
+				}
+			}, {
+				"ziDuanBT" : "目标功能代号",
+				"lieMing" : "targetGNDH",
+				"ziDuanDH" : "targetGNDH",
+				"ziDuanCD" : 40,
+				"ziDuanJD" : 0,
+				"yunXuKZ" : false,
+				"yanChiJZ" : false,
+				"shiFouWY" : false,
+				"ziDuanLX" : {
+					"ziDuanLXDH" : "string"
+				}
+			}, {
+				"ziDuanBT" : "目标操作代号",
+				"lieMing" : "targetCZDH",
+				"ziDuanDH" : "targetCZDH",
+				"ziDuanCD" : 40,
+				"ziDuanJD" : 0,
+				"yunXuKZ" : false,
+				"yanChiJZ" : false,
+				"shiFouWY" : false,
+				"ziDuanLX" : {
+					"ziDuanLXDM" : 1,
+					"ziDuanLXDH" : "string"
+				}
+			}, {
+				"ziDuanBT" : "目标主键值",
+				"lieMing" : "targetZJZ",
+				"ziDuanDH" : "targetZJZ",
+				"ziDuanCD" : 12,
+				"ziDuanJD" : 0,
+				"yunXuKZ" : false,
+				"yanChiJZ" : false,
+				"shiFouWY" : false,
+				"ziDuanLX" : {
+					"ziDuanLXDM" : 2,
+					"ziDuanLXDH" : "int"
+				}
+			}, {
+				"ziDuanBT" : "信息类别名称",
+				"lieMing" : "xinXiLBMC",
+				"ziDuanDH" : "xinXiLBMC",
+				"ziDuanCD" : 40,
+				"ziDuanJD" : 0,
+				"yunXuKZ" : false,
+				"yanChiJZ" : false,
+				"shiFouWY" : false,
+				"ziDuanLX" : {
+					"ziDuanLXDM" : 1,
+					"ziDuanLXDH" : "string"
+				}
+			}, {
+				"ziDuanBT" : "目标实体类代号",
+				"lieMing" : "targetSTLDH",
+				"ziDuanDH" : "targetSTLDH",
+				"ziDuanCD" : 40,
+				"ziDuanJD" : 0,
+				"yunXuKZ" : false,
+				"yanChiJZ" : false,
+				"shiFouWY" : false,
+				"ziDuanLX" : {
+					"ziDuanLXDM" : 1,
+					"ziDuanLXDH" : "string"
+				}
+			}, {
+				"ziDuanBT" : "目标类别名称",
+				"lieMing" : "targetLBMC",
+				"ziDuanDH" : "targetLBMC",
+				"ziDuanCD" : 40,
+				"ziDuanJD" : 0,
+				"yunXuKZ" : false,
+				"yanChiJZ" : false,
+				"shiFouWY" : false,
+				"ziDuanLX" : {
+					"ziDuanLXDM" : 1,
+					"ziDuanLXDH" : "string"
+				}
+			}, {
+				"ziDuanBT" : "JSON数据",
+				"lieMing" : "jsonData",
+				"ziDuanDH" : "jsonData",
+				"ziDuanCD" : 8000,
+				"ziDuanJD" : 0,
+				"yunXuKZ" : false,
+				"yanChiJZ" : false,
+				"shiFouWY" : false,
+				"ziDuanLX" : {
+					"ziDuanLXDH" : "text"
+				}
+			}, {
+				"ziDuanBT" : "数据类别名称",
+				"lieMing" : "shuJuLBMC",
+				"ziDuanDH" : "shuJuLBMC",
+				"ziDuanCD" : 40,
+				"ziDuanJD" : 0,
+				"yunXuKZ" : false,
+				"yanChiJZ" : false,
+				"shiFouWY" : false,
+				"ziDuanLX" : {
+					"ziDuanLXDH" : "string"
+				}
+			}, {
+				"ziDuanBT" : "是否传输完成",
+				"lieMing" : "shiFouCSWC",
+				"ziDuanDH" : "shiFouCSWC",
+				"ziDuanCD" : 1,
+				"ziDuanJD" : 0,
+				"yunXuKZ" : false,
+				"yanChiJZ" : false,
+				"shiFouWY" : false,
+				"ziDuanLX" : {
+					"ziDuanLXDH" : "boolean"
+				}
+			}, {
+				"ziDuanBT" : "传输次数",
+				"lieMing" : "chuanShuCS",
+				"ziDuanDH" : "chuanShuCS",
+				"ziDuanCD" : 12,
+				"ziDuanJD" : 0,
+				"yunXuKZ" : false,
+				"yanChiJZ" : false,
+				"shiFouWY" : false,
+				"ziDuanLX" : {
+					"ziDuanLXDH" : "int"
+				}
+			}, {
+				"ziDuanBT" : "错误信息",
+				"lieMing" : "cuoWuXXX",
+				"ziDuanDH" : "cuoWuXXX",
+				"ziDuanCD" : 1200,
+				"ziDuanJD" : 0,
+				"yunXuKZ" : false,
+				"yanChiJZ" : false,
+				"shiFouWY" : false,
+				"ziDuanLX" : {
+					"ziDuanLXDH" : "string"
+				}
+			}, {
+				"ziDuanBT" : "源主键字段代号",
+				"lieMing" : "sourceZJDH",
+				"ziDuanDH" : "sourceZJDH",
+				"ziDuanCD" : 40,
+				"ziDuanJD" : 0,
+				"yunXuKZ" : false,
+				"yanChiJZ" : false,
+				"shiFouWY" : false,
+				"ziDuanLX" : {
+					"ziDuanLXDH" : "string"
+				}
+			}, {
+				"ziDuanBT" : "依赖数据集合",
+				"ziDuanDH" : "yls",
+				"guanLianFLZD" : {
+					"ziDuanDH" : "chuanShuJL",
+					"lieMing" : "chuanShuJLDM",
+					"shiTiLei" : {
+						"shiTiLeiDH" : "TRANS_ChuanShuJLYL"
+					}
+				},
+				"ziDuanCD" : 0,
+				"ziDuanJD" : 0,
+				"yunXuKZ" : false,
+				"yanChiJZ" : false,
+				"shiFouWY" : false,
+				"ziDuanLX" : {
+					"ziDuanLXDH" : "set"
+				},
+				"guanLianSTL" : {
+					"shiTiLeiDH" : "TRANS_ChuanShuJLYL",
+					"shiTiLeiClassName" : "com.poweruniverse.app.entity.trans.ChuanShuJLYL",
+					"zhuJianLie" : "chuanShuJLYLDM",
+					"paiXuLie" : "chuanShuJLYLDM",
+					"shiFouYWB" : false
+				}
+			}, {
+				"ziDuanBT" : "源系统代号",
+				"lieMing" : "sourceXTDH",
+				"ziDuanDH" : "sourceXTDH",
+				"ziDuanCD" : 40,
+				"ziDuanJD" : 0,
+				"yunXuKZ" : false,
+				"yanChiJZ" : false,
+				"shiFouWY" : false,
+				"ziDuanLX" : {
+					"ziDuanLXDH" : "string"
+				}
+			}, {
+				"ziDuanBT" : "创建时间",
+				"lieMing" : "chuangJianSJ",
+				"ziDuanDH" : "chuangJianSJ",
+				"ziDuanCD" : 7,
+				"ziDuanJD" : 0,
+				"yunXuKZ" : false,
+				"yanChiJZ" : false,
+				"shiFouWY" : false,
+				"ziDuanLX" : {
+					"ziDuanLXDH" : "date"
+				}
+			}, {
+				"ziDuanBT" : "最后发送时间",
+				"lieMing" : "zuiHouFSSJ",
+				"ziDuanDH" : "zuiHouFSSJ",
+				"ziDuanCD" : 7,
+				"ziDuanJD" : 0,
+				"yunXuKZ" : false,
+				"yanChiJZ" : false,
+				"shiFouWY" : false,
+				"ziDuanLX" : {
+					"ziDuanLXDH" : "date"
+				}
+			}]
+}

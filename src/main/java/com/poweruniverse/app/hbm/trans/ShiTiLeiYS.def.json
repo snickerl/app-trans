@@ -1,0 +1,142 @@
+{
+	"shiTiLeiDM" : 1120,
+	"shiTiLeiMC" : "实体类映射",
+	"shiTiLeiDH" : "TRANS_ShiTiLeiYS",
+	"zhuJianLie" : "shiTiLeiYSDM",
+	"xianShiLie" : "shiTiLeiYSDM",
+	"paiXuLie" : "shiTiLeiYSDM",
+	"biaoMing" : "TRANS_ShiTiLeiYS",
+	"shiTiLeiClassName" : "com.poweruniverse.app.entity.trans.ShiTiLeiYS",
+	"shiFouYWB" : false,
+	"xiTong" : {
+		"xiTongDH" : "trans"
+	},
+	"zds" : [{
+				"ziDuanBT" : "实体类映射代码",
+				"lieMing" : "shiTiLeiYSDM",
+				"ziDuanDH" : "shiTiLeiYSDM",
+				"ziDuanCD" : 12,
+				"ziDuanJD" : 0,
+				"yunXuKZ" : false,
+				"yanChiJZ" : false,
+				"shiFouWY" : false,
+				"ziDuanLX" : {
+					"ziDuanLXDH" : "int"
+				}
+			}, {
+				"ziDuanBT" : "源实体类代号",
+				"lieMing" : "sourceSTLDH",
+				"ziDuanDH" : "sourceSTLDH",
+				"ziDuanCD" : 200,
+				"ziDuanJD" : 0,
+				"yunXuKZ" : false,
+				"yanChiJZ" : false,
+				"shiFouWY" : false,
+				"ziDuanLX" : {
+					"ziDuanLXDH" : "string"
+				}
+			}, {
+				"ziDuanBT" : "目标实体类代号",
+				"lieMing" : "targetSTLDH",
+				"ziDuanDH" : "targetSTLDH",
+				"ziDuanCD" : 200,
+				"ziDuanJD" : 0,
+				"yunXuKZ" : false,
+				"yanChiJZ" : false,
+				"shiFouWY" : false,
+				"ziDuanLX" : {
+					"ziDuanLXDM" : 1,
+					"ziDuanLXDH" : "string"
+				}
+			}, {
+				"ziDuanBT" : "源实体类名称",
+				"lieMing" : "sourceSTLMC",
+				"ziDuanDH" : "sourceSTLMC",
+				"ziDuanCD" : 200,
+				"ziDuanJD" : 0,
+				"yunXuKZ" : false,
+				"yanChiJZ" : false,
+				"shiFouWY" : false,
+				"ziDuanLX" : {
+					"ziDuanLXDM" : 1,
+					"ziDuanLXDH" : "string"
+				}
+			}, {
+				"ziDuanBT" : "目标实体类名称",
+				"lieMing" : "targetSTLMC",
+				"ziDuanDH" : "targetSTLMC",
+				"ziDuanCD" : 200,
+				"ziDuanJD" : 0,
+				"yunXuKZ" : false,
+				"yanChiJZ" : false,
+				"shiFouWY" : false,
+				"ziDuanLX" : {
+					"ziDuanLXDM" : 1,
+					"ziDuanLXDH" : "string"
+				}
+			}, {
+				"ziDuanBT" : "目标主键代号",
+				"lieMing" : "targetZJDH",
+				"ziDuanDH" : "targetZJDH",
+				"ziDuanCD" : 200,
+				"ziDuanJD" : 0,
+				"yunXuKZ" : false,
+				"yanChiJZ" : false,
+				"shiFouWY" : false,
+				"ziDuanLX" : {
+					"ziDuanLXDM" : 1,
+					"ziDuanLXDH" : "string"
+				}
+			}, {
+				"ziDuanBT" : "源系统代号",
+				"lieMing" : "sourceXTDH",
+				"ziDuanDH" : "sourceXTDH",
+				"ziDuanCD" : 200,
+				"ziDuanJD" : 0,
+				"yunXuKZ" : false,
+				"yanChiJZ" : false,
+				"shiFouWY" : false,
+				"ziDuanLX" : {
+					"ziDuanLXDM" : 1,
+					"ziDuanLXDH" : "string"
+				}
+			}, {
+				"ziDuanBT" : "目标系统代号",
+				"lieMing" : "targetXTDH",
+				"ziDuanDH" : "targetXTDH",
+				"ziDuanCD" : 200,
+				"ziDuanJD" : 0,
+				"yunXuKZ" : false,
+				"yanChiJZ" : false,
+				"shiFouWY" : false,
+				"ziDuanLX" : {
+					"ziDuanLXDH" : "string"
+				}
+			}, {
+				"ziDuanBT" : "字段映射集合",
+				"ziDuanDH" : "zds",
+				"guanLianFLZD" :{
+					"ziDuanDH" : "shiTiLeiYS",
+					"lieMing" : "shiTiLeiYSDM",
+					"shiTiLei" : {
+						"shiTiLeiDH" : "TRANS_ZiDuanYS"
+					}
+				},
+				"ziDuanCD" : 0,
+				"ziDuanJD" : 0,
+				"yunXuKZ" : false,
+				"yanChiJZ" : false,
+				"shiFouWY" : false,
+				"ziDuanLX" : {
+					"ziDuanLXDH" : "set"
+				},
+				"guanLianSTL" : {
+					"shiTiLeiDH" : "TRANS_ZiDuanYS",
+					"shiTiLeiClassName" : "com.poweruniverse.app.entity.trans.ZiDuanYS",
+					"zhuJianLie" : "ziDuanYSDM",
+					"paiXuLie" : "ziDuanYSDM",
+					"shiFouYWB" : false
+				}
+			}],
+	"shiTiLeiBB" : "2015-03-17 04:41:16"
+}

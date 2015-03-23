@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<page component="page" needsLogin="true" label="实体类编辑">
+  <form component="singleEditForm" label="实体类编辑表单" name="shiTiLeiEditForm" datasourceType="private" datasourceName="shiTiLeiRecord" autoLoad="true" renderto="#shiTiLeiForm" renderType="rela" autoRender="true" xiTongDH="trans" gongNengDH="yyxt" caoZuoDH="append">
+    <record onSubmit="onYyxtDataSubmit" component="gnRecord" label="应用系统记录" name="yingYongXTRecord" autoLoad="true" xiTongDH="trans" gongNengDH="yyxt" caoZuoDH="append">
+      <properties component="properties">
+        <property component="simpleProperty" name="yingYongXTBH" label="应用系统编号" fieldType="string"/>
+        <property component="simpleProperty" name="yingYongXTMC" label="应用系统名称" fieldType="string"/>
+        <property component="simpleProperty" name="shuJuJKSXL" label="数据接口实现类" fieldType="string"/>
+        <property component="simpleProperty" name="shiFouJSSJ" label="是否接收数据" fieldType="boolean"/>
+        <property component="simpleProperty" name="shiFouCCSJ" label="是否传出数据" fieldType="boolean"/>
+        <property component="simpleProperty" name="fuJianJKSXL" label="附件接口实现类" fieldType="string"/>
+        <property component="simpleProperty" name="shiFouJSFJ" label="是否接收附件" fieldType="boolean"/>
+        <property component="simpleProperty" name="shiFouCCFJ" label="是否传出附件" fieldType="boolean"/>
+        <property component="simpleProperty" name="renWuJKSXL" label="任务接口实现类" fieldType="string"/>
+        <property component="simpleProperty" name="shiFouJSRW" label="是否接收任务" fieldType="boolean"/>
+        <property component="simpleProperty" name="shiFouCCRW" label="是否传出任务" fieldType="boolean"/>
+      </properties>
+    </record>
+    <fields component="formFields">
+      <field fieldType="string" component="stringEditor" name="yingYongXTBH" label="应用系统编号" renderType="insert" width="120px" height="22px" renderto="#shiTiLeiDH" renderTemplate="{{yingYongXTBH}}" enabled="true" allowEdit="true" allowBlank="false" hidden="false"/>
+      <field fieldType="string" component="stringEditor" name="yingYongXTMC" label="应用系统名称" renderType="insert" width="375px" height="29px" renderto="#shiTiLeiMC" renderTemplate="{{yingYongXTMC}}" enabled="true" allowEdit="true" allowBlank="false" hidden="false"/>
+      <field fieldType="string" component="stringEditor" name="shuJuJKSXL" label="数据接口实现类" renderType="insert" width="375px" height="29px" renderto="#sjjk" renderTemplate="{{shuJuJKSXL}}" enabled="true" allowEdit="true" allowBlank="false" hidden="false"/>
+      <field fieldType="boolean" component="booleanCheckEditor" name="shiFouJSSJ" label="是否接收数据" renderType="insert" width="120px" height="22px" renderto="#sjjk_input" renderTemplate="{{shiFouJSSJ}}" enabled="true" allowEdit="true" allowBlank="false" hidden="false"/>
+      <field fieldType="boolean" component="booleanCheckEditor" name="shiFouCCSJ" label="是否传出数据" renderType="insert" width="120px" height="22px" renderto="#sjjk_output" renderTemplate="{{shiFouCCSJ}}" enabled="true" allowEdit="true" allowBlank="false" hidden="false"/>
+      <field fieldType="string" component="stringEditor" name="fuJianJKSXL" label="附件接口实现类" renderType="insert" width="375px" height="22px" renderto="#fjjk" renderTemplate="{{fuJianJKSXL}}" enabled="true" allowEdit="true" allowBlank="false" hidden="false"/>
+      <field fieldType="boolean" component="booleanCheckEditor" name="shiFouJSFJ" label="是否接收附件" renderType="insert" width="120px" height="22px" renderto="#fjjk_input" renderTemplate="{{shiFouJSFJ}}" enabled="true" allowEdit="true" allowBlank="false" hidden="false"/>
+      <field fieldType="boolean" component="booleanCheckEditor" name="shiFouCCFJ" label="是否传出附件" renderType="insert" width="120px" height="22px" renderto="#fjjk_output" renderTemplate="{{shiFouCCFJ}}" enabled="true" allowEdit="true" allowBlank="false" hidden="false"/>
+      <field fieldType="string" component="stringEditor" name="renWuJKSXL" label="任务接口实现类" renderType="insert" width="375px" height="22px" renderto="#rwjk" renderTemplate="{{renWuJKSXL}}" enabled="true" allowEdit="true" allowBlank="false" hidden="false"/>
+      <field fieldType="boolean" component="booleanCheckEditor" name="shiFouJSRW" label="是否接收任务" renderType="insert" width="120px" height="22px" renderto="#rwjk_input" renderTemplate="{{shiFouJSRW}}" enabled="true" allowEdit="true" allowBlank="false" hidden="false"/>
+      <field fieldType="boolean" component="booleanCheckEditor" name="shiFouCCRW" label="是否传出任务" renderType="insert" width="120px" height="22px" renderto="#rwjk_output" renderTemplate="{{shiFouCCRW}}" enabled="true" allowEdit="true" allowBlank="false" hidden="false"/>
+    </fields>
+    <buttons component="buttons">
+      <submit component="submitButton" name="submitButton" label="提交按钮" enabled="true" renderType="rela" renderto="#saveBtn"/>
+    </buttons>
+  </form>
+</page>

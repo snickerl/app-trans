@@ -1,0 +1,114 @@
+{
+	"shiTiLeiDM" : 1119,
+	"shiTiLeiMC" : "功能操作映射",
+	"shiTiLeiDH" : "TRANS_GongNengCZYS",
+	"zhuJianLie" : "gongNengCZYSDM",
+	"xianShiLie" : "gongNengCZYSDM",
+	"paiXuLie" : "gongNengCZYSDM",
+	"biaoMing" : "TRANS_GongNengCZYS",
+	"shiTiLeiClassName" : "com.poweruniverse.app.entity.trans.GongNengCZYS",
+	"shiFouYWB" : false,
+	"xiTong" : {
+		"xiTongDH" : "trans"
+	},
+	"zds" : [{
+				"ziDuanDM" : 16809,
+				"ziDuanBT" : "功能操作映射代码",
+				"lieMing" : "gongNengCZYSDM",
+				"ziDuanDH" : "gongNengCZYSDM",
+				"ziDuanCD" : 12,
+				"ziDuanJD" : 0,
+				"yunXuKZ" : false,
+				"yanChiJZ" : false,
+				"shiFouWY" : false,
+				"ziDuanLX" : {
+					"ziDuanLXDM" : 2,
+					"ziDuanLXDH" : "int"
+				}
+			}, {
+				"ziDuanDM" : 16810,
+				"ziDuanBT" : "目标功能代号",
+				"lieMing" : "targetGNDH",
+				"ziDuanDH" : "targetGNDH",
+				"ziDuanCD" : 200,
+				"ziDuanJD" : 0,
+				"yunXuKZ" : false,
+				"yanChiJZ" : false,
+				"shiFouWY" : false,
+				"ziDuanLX" : {
+					"ziDuanLXDM" : 1,
+					"ziDuanLXDH" : "string"
+				}
+			}, {
+				"ziDuanDM" : 16811,
+				"ziDuanBT" : "源操作代号",
+				"lieMing" : "sourceCZDH",
+				"ziDuanDH" : "sourceCZDH",
+				"ziDuanCD" : 200,
+				"ziDuanJD" : 0,
+				"yunXuKZ" : false,
+				"yanChiJZ" : false,
+				"shiFouWY" : false,
+				"ziDuanLX" : {
+					"ziDuanLXDM" : 1,
+					"ziDuanLXDH" : "string"
+				}
+			}, {
+				"ziDuanDM" : 16812,
+				"ziDuanBT" : "源功能代号",
+				"lieMing" : "sourceGNDH",
+				"ziDuanDH" : "sourceGNDH",
+				"ziDuanCD" : 200,
+				"ziDuanJD" : 0,
+				"yunXuKZ" : false,
+				"yanChiJZ" : false,
+				"shiFouWY" : false,
+				"ziDuanLX" : {
+					"ziDuanLXDM" : 1,
+					"ziDuanLXDH" : "string"
+				}
+			}, {
+				"ziDuanDM" : 16813,
+				"ziDuanBT" : "目标系统代号",
+				"lieMing" : "targetXTDH",
+				"ziDuanDH" : "targetXTDH",
+				"ziDuanCD" : 200,
+				"ziDuanJD" : 0,
+				"yunXuKZ" : false,
+				"yanChiJZ" : false,
+				"shiFouWY" : false,
+				"ziDuanLX" : {
+					"ziDuanLXDM" : 1,
+					"ziDuanLXDH" : "string"
+				}
+			}, {
+				"ziDuanDM" : 16814,
+				"ziDuanBT" : "源系统代号",
+				"lieMing" : "sourceXTDH",
+				"ziDuanDH" : "sourceXTDH",
+				"ziDuanCD" : 200,
+				"ziDuanJD" : 0,
+				"yunXuKZ" : false,
+				"yanChiJZ" : false,
+				"shiFouWY" : false,
+				"ziDuanLX" : {
+					"ziDuanLXDM" : 1,
+					"ziDuanLXDH" : "string"
+				}
+			}, {
+				"ziDuanDM" : 16815,
+				"ziDuanBT" : "目标操作代号",
+				"lieMing" : "targetCZDH",
+				"ziDuanDH" : "targetCZDH",
+				"ziDuanCD" : 200,
+				"ziDuanJD" : 0,
+				"yunXuKZ" : false,
+				"yanChiJZ" : false,
+				"shiFouWY" : false,
+				"ziDuanLX" : {
+					"ziDuanLXDM" : 1,
+					"ziDuanLXDH" : "string"
+				}
+			}],
+	"shiTiLeiBB" : "2015-03-17 04:41:16"
+}

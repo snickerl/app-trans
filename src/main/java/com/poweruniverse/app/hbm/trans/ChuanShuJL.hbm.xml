@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- version:2015-03-17 04:41:16 -->
+<hibernate-mapping auto-import="false">  
+    <class name="com.poweruniverse.app.entity.trans.ChuanShuJL" table="TRANS_ChuanShuJL" >
+    	<!--主键-->
+        <id name="chuanShuJLDM" type="integer">
+	        <column name="chuanShuJLDM" precision="12" scale="0" />
+	        <generator class="increment"></generator>
+        </id>
+        
+		<!--源实体类代号-->
+        <property name="sourceSTLDH" type="java.lang.String" lazy="false">
+        	<column name="sourceSTLDH" precision="40" scale="0" not-null="false" />
+        </property>
+		<!--源主键值-->
+        <property name="sourceZJZ" type="java.lang.Integer" lazy="false">
+        	<column name="sourceZJZ" precision="12" scale="0" not-null="false" />
+        </property>
+		<!--目标系统代号-->
+        <property name="targetXTDH" type="java.lang.String" lazy="false">
+        	<column name="targetXTDH" precision="40" scale="0" not-null="false" />
+        </property>
+		<!--目标功能代号-->
+        <property name="targetGNDH" type="java.lang.String" lazy="false">
+        	<column name="targetGNDH" precision="40" scale="0" not-null="false" />
+        </property>
+		<!--目标操作代号-->
+        <property name="targetCZDH" type="java.lang.String" lazy="false">
+        	<column name="targetCZDH" precision="40" scale="0" not-null="false" />
+        </property>
+		<!--目标主键值-->
+        <property name="targetZJZ" type="java.lang.Integer" lazy="false">
+        	<column name="targetZJZ" precision="12" scale="0" not-null="false" />
+        </property>
+		<!--信息类别名称-->
+        <property name="xinXiLBMC" type="java.lang.String" lazy="false">
+        	<column name="xinXiLBMC" precision="40" scale="0" not-null="false" />
+        </property>
+		<!--目标实体类代号-->
+        <property name="targetSTLDH" type="java.lang.String" lazy="false">
+        	<column name="targetSTLDH" precision="40" scale="0" not-null="false" />
+        </property>
+		<!--目标类别名称-->
+        <property name="targetLBMC" type="java.lang.String" lazy="false">
+        	<column name="targetLBMC" precision="40" scale="0" not-null="false" />
+        </property>
+		<!--JSON数据-->
+        <property name="jsonData" type="java.lang.String" lazy="false">
+        	<column name="jsonData" precision="8000" scale="0" not-null="false" />
+        </property>
+		<!--数据类别名称-->
+        <property name="shuJuLBMC" type="java.lang.String" lazy="false">
+        	<column name="shuJuLBMC" precision="40" scale="0" not-null="false" />
+        </property>
+		<!--是否传输完成-->
+        <property name="shiFouCSWC" type="java.lang.Boolean" lazy="false">
+        	<column name="shiFouCSWC" precision="1" scale="0" not-null="false" />
+        </property>
+		<!--传输次数-->
+        <property name="chuanShuCS" type="java.lang.Integer" lazy="false">
+        	<column name="chuanShuCS" precision="12" scale="0" not-null="false" />
+        </property>
+		<!--错误信息-->
+        <property name="cuoWuXXX" type="java.lang.String" lazy="false">
+        	<column name="cuoWuXXX" precision="1200" scale="0" not-null="false" />
+        </property>
+		<!--源主键字段代号-->
+        <property name="sourceZJDH" type="java.lang.String" lazy="false">
+        	<column name="sourceZJDH" precision="40" scale="0" not-null="false" />
+        </property>
+		<!--依赖数据集合-->
+        <set name="yls" inverse="true"  lazy="true" cascade="all-delete-orphan" order-by="chuanShuJLYLDM" >
+        	<key>
+        		<column name="chuanShuJLDM" precision="12" scale="0" not-null="true" />
+        	</key>
+        	<one-to-many class="com.poweruniverse.app.entity.trans.ChuanShuJLYL" />
+        </set>
+		<!--源系统代号-->
+        <property name="sourceXTDH" type="java.lang.String" lazy="false">
+        	<column name="sourceXTDH" precision="40" scale="0" not-null="false" />
+        </property>
+		<!--创建时间-->
+        <property name="chuangJianSJ" type="java.util.Date" lazy="false">
+        	<column name="chuangJianSJ" precision="7" scale="0" not-null="false" />
+        </property>
+		<!--最后发送时间-->
+        <property name="zuiHouFSSJ" type="java.util.Date" lazy="false">
+        	<column name="zuiHouFSSJ" precision="7" scale="0" not-null="false" />
+        </property>
+     </class>
+</hibernate-mapping>

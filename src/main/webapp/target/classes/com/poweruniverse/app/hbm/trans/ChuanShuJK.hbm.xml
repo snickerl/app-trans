@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- version:2015-03-18 10:27:01 -->
+<hibernate-mapping auto-import="false">  
+    <class name="com.poweruniverse.app.entity.trans.ChuanShuJK" table="TRANS_ChuanShuJK" >
+    	<!--主键-->
+        <id name="chuanShuJKDM" type="integer">
+	        <column name="chuanShuJKDM" precision="12" scale="0" />
+	        <generator class="increment"></generator>
+        </id>
+        
+		<!--传输接口名称-->
+        <property name="chuanShuJKMC" type="java.lang.String" lazy="false">
+        	<column name="chuanShuJKMC" precision="200" scale="0" not-null="false" />
+        </property>
+		<!--传输接口实现类-->
+        <property name="chuanShuJKClassName" type="java.lang.String" lazy="false">
+        	<column name="chuanShuJKClassName" precision="200" scale="0" not-null="false" />
+        </property>
+		<!--系统-->
+        <many-to-one name="xiTong" class="com.poweruniverse.nim.data.entity.sys.XiTong" fetch="select">
+            <column name="xiTongDM" precision="12" scale="0" not-null="false" />
+        </many-to-one>
+        
+     </class>
+</hibernate-mapping>

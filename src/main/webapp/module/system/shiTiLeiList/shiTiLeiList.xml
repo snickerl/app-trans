@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<page component="page" needsLogin="true" label="实体类-列表" onLoad="onPageRady">
+  <grid component="displayGrid" datasourceType="private" label="实体类列表" name="shiTiLeiGrid" autoLoad="true" onRowRendered="onGridRowRender" autoRender="true" headerLines="1" footerLines="0" renderto="#zslist" pagiTarget="#zsListpage">
+    <dataset component="gnDataset" label="实体类集合数据源" name="shiTiLeiListDataset" autoLoad="true" xiTongDH="sys" gongNengDH="stl" caoZuoDH="list" start="0" limit="12">
+      <properties component="properties">
+        <property component="simpleProperty" fieldType="string" label="实体类代号" name="shiTiLeiDH"/>
+        <property component="complexProperty" fieldType="object" label="系统" name="xiTong">
+          <properties component="properties">
+            <property component="simpleProperty" name="xiTongMC" label="系统名称" fieldType="string"/>
+          </properties>
+        </property>
+        <property component="simpleProperty" name="shiTiLeiMC" label="实体类名称" fieldType="string"/>
+        <property component="simpleProperty" name="zhuJianLie" label="主键列" fieldType="string"/>
+        <property component="simpleProperty" name="shiTiLeiClassName" label="JAVA类名" fieldType="string"/>
+      </properties>
+      <filters component="filters"/>
+      <sorts component="sorts">
+        <sort component="propertySort" label="系统.系统名称" property="xiTong.id" dir="ASC"/>
+        <sort component="propertySort" label="实体类代号" property="shiTiLeiDH" dir="ASC"/>
+      </sorts>
+    </dataset>
+    <columns component="gridColumns">
+      <column fieldType="object" component="objectDisplayColumn" label="系统" name="xiTong" enabled="true" allowBlank="false" renderto="#GYS_gongHuoFW" renderTemplate="{{xiTong.xiTongMC}}" renderType="insert" datasourceType="private" searchMode="local" minLength="0" width="70px" height="150px" type="objectColumn"/>
+      <column component="stringDisplayColumn" name="shiTiLeiDH" label="实体类代号" fieldType="string" renderto="#GYS_gongFangBH" renderTemplate="{{shiTiLeiDH}}" type="stringColumn"/>
+      <column component="stringDisplayColumn" name="shiTiLeiMC" label="实体类名称" fieldType="string" renderto="#GYS_gongYingSMC" renderTemplate="{{shiTiLeiMC}}" type="stringColumn"/>
+      <column component="stringDisplayColumn" name="zhuJianLie" label="主键列" fieldType="string" renderto="#GYS_shiYeB" renderTemplate="{{zhuJianLie}}" type="stringColumn"/>
+      <column fieldType="string" component="stringDisplayColumn" label="JAVA类名" name="shiTiLeiClassName" renderto="#GYS_gongFangDJ" renderTemplate="{{shiTiLeiClassName}}" type="stringColumn"/>
+      <column component="intDisplayColumn" textAlign="right" zeroAsBlank="true" name="@index" label="行号" fieldType="int" renderto="#GYS_xuHao" renderTemplate="{{@index}}" type="intColumn"/>
+    </columns>
+  </grid>
+</page>

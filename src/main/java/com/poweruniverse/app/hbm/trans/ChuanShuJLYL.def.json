@@ -1,0 +1,81 @@
+{
+	"shiTiLeiMC" : "传输记录依赖",
+	"shiTiLeiDH" : "TRANS_ChuanShuJLYL",
+	"zhuJianLie" : "chuanShuJLYLDM",
+	"xianShiLie" : "chuanShuJLYLDM",
+	"paiXuLie" : "chuanShuJLYLDM",
+	"biaoMing" : "TRANS_ChuanShuJLYL",
+	"shiTiLeiClassName" : "com.poweruniverse.app.entity.trans.ChuanShuJLYL",
+	"shiFouYWB" : false,
+	"xiTong" : {
+		"xiTongDH" : "trans"
+	},
+	"zds" : [{
+				"ziDuanBT" : "传输记录依赖代码",
+				"lieMing" : "chuanShuJLYLDM",
+				"ziDuanDH" : "chuanShuJLYLDM",
+				"ziDuanCD" : 12,
+				"ziDuanJD" : 0,
+				"yunXuKZ" : false,
+				"yanChiJZ" : false,
+				"shiFouWY" : false,
+				"ziDuanLX" : {
+					"ziDuanLXDM" : 2,
+					"ziDuanLXDH" : "int"
+				}
+			}, {
+				"ziDuanBT" : "传输记录",
+				"lieMing" : "chuanShuJLDM",
+				"ziDuanDH" : "chuanShuJL",
+				"ziDuanCD" : 12,
+				"ziDuanJD" : 0,
+				"yunXuKZ" : false,
+				"yanChiJZ" : false,
+				"shiFouWY" : false,
+				"ziDuanLX" : {
+					"ziDuanLXDM" : 9,
+					"ziDuanLXDH" : "object"
+				},
+				"guanLianSTL" : {
+					"shiTiLeiDH" : "TRANS_ChuanShuJL",
+					"shiTiLeiClassName" : "com.poweruniverse.app.entity.trans.ChuanShuJL",
+					"zhuJianLie" : "chuanShuJLDM",
+					"paiXuLie" : "chuanShuJLDM",
+					"shiFouYWB" : false
+				}
+			}, {
+				"ziDuanBT" : "依赖的传输记录",
+				"lieMing" : "yiLaiCSJLDM",
+				"ziDuanDH" : "yiLaiCSJL",
+				"ziDuanCD" : 12,
+				"ziDuanJD" : 0,
+				"yunXuKZ" : false,
+				"yanChiJZ" : false,
+				"shiFouWY" : false,
+				"ziDuanLX" : {
+					"ziDuanLXDM" : 9,
+					"ziDuanLXDH" : "object"
+				},
+				"guanLianSTL" : {
+					"shiTiLeiDH" : "TRANS_ChuanShuJL",
+					"shiTiLeiClassName" : "com.poweruniverse.app.entity.trans.ChuanShuJL",
+					"zhuJianLie" : "chuanShuJLDM",
+					"paiXuLie" : "chuanShuJLDM",
+					"shiFouYWB" : false
+				}
+			}, {
+				"ziDuanBT" : "字段代号",
+				"lieMing" : "ziDuanDH",
+				"ziDuanDH" : "ziDuanDH",
+				"ziDuanCD" : 40,
+				"ziDuanJD" : 0,
+				"yunXuKZ" : false,
+				"yanChiJZ" : false,
+				"shiFouWY" : false,
+				"ziDuanLX" : {
+					"ziDuanLXDM" : 1,
+					"ziDuanLXDH" : "string"
+				}
+			}],
+	"shiTiLeiBB" : "2015-03-17 04:41:16"
+}

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- version:2015-03-23 16:01:35 -->
+<hibernate-mapping auto-import="false">  
+    <class name="com.poweruniverse.app.entity.trans.YingYongXT" table="TRANS_YingYongXT" >
+    	<!--主键-->
+        <id name="yingYongXTDM" type="integer">
+	        <column name="yingYongXTDM" precision="12" scale="0" />
+	        <generator class="increment"></generator>
+        </id>
+        
+		<!--应用系统名称-->
+        <property name="yingYongXTMC" type="java.lang.String" lazy="false">
+        	<column name="yingYongXTMC" precision="200" scale="0" not-null="false" />
+        </property>
+		<!--应用系统编号-->
+        <property name="yingYongXTBH" type="java.lang.String" lazy="false">
+        	<column name="yingYongXTBH" precision="200" scale="0" not-null="false" />
+        </property>
+		<!--是否接收数据-->
+        <property name="shiFouJSSJ" type="java.lang.Boolean" lazy="false">
+        	<column name="shiFouJSSJ" precision="1" scale="0" not-null="false" />
+        </property>
+		<!--是否传出数据-->
+        <property name="shiFouCCSJ" type="java.lang.Boolean" lazy="false">
+        	<column name="shiFouCCSJ" precision="1" scale="0" not-null="false" />
+        </property>
+		<!--是否接收附件-->
+        <property name="shiFouJSFJ" type="java.lang.Boolean" lazy="false">
+        	<column name="shiFouJSFJ" precision="1" scale="0" not-null="false" />
+        </property>
+		<!--是否传出附件-->
+        <property name="shiFouCCFJ" type="java.lang.Boolean" lazy="false">
+        	<column name="shiFouCCFJ" precision="1" scale="0" not-null="false" />
+        </property>
+		<!--是否接收任务-->
+        <property name="shiFouJSRW" type="java.lang.Boolean" lazy="false">
+        	<column name="shiFouJSRW" precision="1" scale="0" not-null="false" />
+        </property>
+		<!--是否传出任务-->
+        <property name="shiFouCCRW" type="java.lang.Boolean" lazy="false">
+        	<column name="shiFouCCRW" precision="1" scale="0" not-null="false" />
+        </property>
+		<!--接口实现类-->
+        <property name="jieKouSXL" type="java.lang.String" lazy="false">
+        	<column name="jieKouSXL" precision="200" scale="0" not-null="false" />
+        </property>
+		<!--应用系统ip地址-->
+        <property name="yingYongXTIP" type="java.lang.String" lazy="false">
+        	<column name="yingYongXTIP" precision="200" scale="0" not-null="false" />
+        </property>
+		<!--应用系统webservice端口-->
+        <property name="yingYongXTPort" type="java.lang.String" lazy="false">
+        	<column name="yingYongXTPort" precision="200" scale="0" not-null="false" />
+        </property>
+     </class>
+</hibernate-mapping>

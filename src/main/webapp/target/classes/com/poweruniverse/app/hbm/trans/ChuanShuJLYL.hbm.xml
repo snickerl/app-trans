@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- version:2015-03-17 04:41:16 -->
+<hibernate-mapping auto-import="false">  
+    <class name="com.poweruniverse.app.entity.trans.ChuanShuJLYL" table="TRANS_ChuanShuJLYL" >
+    	<!--主键-->
+        <id name="chuanShuJLYLDM" type="integer">
+	        <column name="chuanShuJLYLDM" precision="12" scale="0" />
+	        <generator class="increment"></generator>
+        </id>
+        
+		<!--传输记录-->
+        <many-to-one name="chuanShuJL" class="com.poweruniverse.app.entity.trans.ChuanShuJL" fetch="select">
+            <column name="chuanShuJLDM" precision="12" scale="0" not-null="false" />
+        </many-to-one>
+        
+		<!--依赖的传输记录-->
+        <many-to-one name="yiLaiCSJL" class="com.poweruniverse.app.entity.trans.ChuanShuJL" fetch="select">
+            <column name="yiLaiCSJLDM" precision="12" scale="0" not-null="false" />
+        </many-to-one>
+        
+		<!--字段代号-->
+        <property name="ziDuanDH" type="java.lang.String" lazy="false">
+        	<column name="ziDuanDH" precision="40" scale="0" not-null="false" />
+        </property>
+     </class>
+</hibernate-mapping>
