@@ -1,0 +1,5 @@
+<!-- 本应用 提供的webservice服务 -->
+<component name="app-trans" type="application" clientSrcPath="D:/data/workspace/app-trans-wsclient/src/main/java/" clientPackage="app.trans.wsclient">
+	<!-- 提供数据交换服务 -->
+	<webservice name="trans" class="com.poweruniverse.app.webservice.TransWebservice" />
+</component>

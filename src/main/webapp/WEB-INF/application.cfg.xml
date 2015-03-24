@@ -1,21 +1,18 @@
 <!-- 配置当前系统所使用的参数（修改后需要重新启动）
 	name:当前系统名称
 	title:页面默认标题
-	src:系统源文件目录
-	module:页面文件目录名
+	module:页面文件所在目录
 	ip:当前系统ip地址
 	port:当前系统www服务端口号
 	webservicePort:当前系统webservice服务端口号
-	webserviceSrc:webservice客户端访问代码生成目标路径
+	模式分为： 正式运行(work) 平台开发(plateform) 应用开发(application)
  -->
-<application name="" title="华电重工管理信息系统" 
-			 src="D:/data/workspace/app-trans/src/main/java/" 
-			 jdkPath="C:/java/jdk1.7.0_67/" 
+<application name="app-trans" title="华电重工管理信息系统" 
 			 module="module" 
 			 ip="127.0.0.1" 
 			 port="8080" 
-			 webservicePort="1081"
-			 webserviceSrc="D:/data/workspace/nim-base/src/main/java/" >
+			 webservicePort="1081" mode="plateform">
+	<develop appSrcPath="D:/data/workspace/app-trans/src/main/java/" jdkPath="C:/java/jdk1.7.0_67/" />
 	<pages>
 		<!-- 本系统登陆页面(必需) -->
 		<login page="/nim.html?_pt_=login/login.html"/>
@@ -25,7 +22,9 @@
 		<sso page=""/> -->
 	</pages>
 	<components>
-		<!--本地服务组件配置-->
+		<!--本地服务组件： 自动发布配置文件 *.component.xml中定义的webservice-->
+		<!--配置文件搜索顺序：web-inf目录、类路径 -->
+		<localComponent name="app-trans"/>
 		<localComponent name="nim-data"/>
 		<localComponent name="nim-plateform"/>
 		<!--远程服务组件配置-->

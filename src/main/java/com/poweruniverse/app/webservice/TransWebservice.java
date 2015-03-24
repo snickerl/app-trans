@@ -1,9 +1,26 @@
 package com.poweruniverse.app.webservice;
 
-public class TransWebservice {
+import javax.annotation.Resource;
+import javax.jws.WebService;
+import javax.xml.ws.WebServiceContext;
+
+import com.poweruniverse.nim.base.bean.UserInfo;
+import com.poweruniverse.nim.base.webservice.BasePlateformWebservice;
+
+@WebService
+public class TransWebservice extends BasePlateformWebservice{
+	
+	@Resource
+	private WebServiceContext wsContext;
+	
+	public TransWebservice(UserInfo userInfo) {
+		super();
+		this.userInfo = userInfo;
+	}
+	
 	
 	//
-	public void sendRecord(){
+	public void sendRecord(String sourceXTDH,String sourceSTLDH,Integer sourceId,String sourceData,String targetXTDH){
 		
 	}
 	
