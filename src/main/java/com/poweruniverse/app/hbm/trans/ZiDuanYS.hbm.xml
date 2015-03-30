@@ -2,7 +2,7 @@
 <!DOCTYPE hibernate-mapping PUBLIC 
 	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- version:2015-03-17 05:41:17 -->
+<!-- version:2015-03-24 20:26:14 -->
 <hibernate-mapping auto-import="false">  
     <class name="com.poweruniverse.app.entity.trans.ZiDuanYS" table="TRANS_ZiDuanYS" >
     	<!--主键-->
@@ -32,6 +32,15 @@
 		<!--目标字段类型-->
         <many-to-one name="targetZDLX" class="com.poweruniverse.nim.data.entity.sys.ZiDuanLX" fetch="select">
             <column name="targetZDLX" precision="12" scale="0" not-null="false" />
+        </many-to-one>
+        
+		<!--字段映射名称-->
+        <property name="ziDuanYSMC" type="java.lang.String" lazy="false">
+        	<column name="ziDuanYSMC" precision="200" scale="0" not-null="false" />
+        </property>
+		<!--关联实体类映射-->
+        <many-to-one name="guanLianSTLYS" class="com.poweruniverse.app.entity.trans.ShiTiLeiYS" fetch="select">
+            <column name="guanLianSTLYSDM" precision="12" scale="0" not-null="false" />
         </many-to-one>
         
      </class>

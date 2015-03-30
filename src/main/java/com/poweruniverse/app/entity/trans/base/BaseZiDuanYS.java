@@ -6,7 +6,7 @@ import com.poweruniverse.nim.data.entity.sys.base.EntityI;
 /*
 * 实体类：字段映射
 */
-@Version("2015-03-17 05:41:17")
+@Version("2015-03-24 20:26:14")
 public abstract class BaseZiDuanYS  implements Serializable,Comparable<Object> ,EntityI {
 	private static final long serialVersionUID = 1L;
 	private int hashCode = Integer.MIN_VALUE;
@@ -58,6 +58,17 @@ public abstract class BaseZiDuanYS  implements Serializable,Comparable<Object> ,
 	public com.poweruniverse.nim.data.entity.sys.ZiDuanLX getTargetZDLX(){return this.targetZDLX ;}
 	public void setTargetZDLX(com.poweruniverse.nim.data.entity.sys.ZiDuanLX targetZDLX){this.targetZDLX = targetZDLX;}
 
+			
+	// 属性：字段映射名称 （ziDuanYSMC）
+	private java.lang.String ziDuanYSMC = null;
+	public java.lang.String getZiDuanYSMC(){return this.ziDuanYSMC ;}
+	public void setZiDuanYSMC(java.lang.String ziDuanYSMC){this.ziDuanYSMC = ziDuanYSMC;}
+	
+	// 对象：关联实体类映射 （guanLianSTLYS）
+	private com.poweruniverse.app.entity.trans.ShiTiLeiYS guanLianSTLYS;
+	public com.poweruniverse.app.entity.trans.ShiTiLeiYS getGuanLianSTLYS(){return this.guanLianSTLYS ;}
+	public void setGuanLianSTLYS(com.poweruniverse.app.entity.trans.ShiTiLeiYS guanLianSTLYS){this.guanLianSTLYS = guanLianSTLYS;}
+
 	public boolean equals (Object obj) {
 		if (null == obj) return false;
 		if (!(obj instanceof com.poweruniverse.app.entity.trans.ZiDuanYS)) return false;
@@ -80,7 +91,7 @@ public abstract class BaseZiDuanYS  implements Serializable,Comparable<Object> ,
 	}
 	
 	public String toString() {
-		return this.ziDuanYSDM+"";
+		return this.ziDuanYSMC+"";
 	}
 
 	public Integer pkValue() {
@@ -111,6 +122,8 @@ public abstract class BaseZiDuanYS  implements Serializable,Comparable<Object> ,
 		ziDuanYS.setSourceZDLX(sourceZDLX);
 		ziDuanYS.setTargetZDDH(targetZDDH);
 		ziDuanYS.setTargetZDLX(targetZDLX);
+		ziDuanYS.setZiDuanYSMC(ziDuanYSMC);
+		ziDuanYS.setGuanLianSTLYS(guanLianSTLYS);
 		
 		return ziDuanYS;
 	}

@@ -2,7 +2,7 @@
 <!DOCTYPE hibernate-mapping PUBLIC 
 	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- version:2015-03-17 04:41:16 -->
+<!-- version:2015-03-26 05:45:16 -->
 <hibernate-mapping auto-import="false">  
     <class name="com.poweruniverse.app.entity.trans.ChuanShuJL" table="TRANS_ChuanShuJL" >
     	<!--主键-->
@@ -39,14 +39,6 @@
         <property name="xinXiLBMC" type="java.lang.String" lazy="false">
         	<column name="xinXiLBMC" precision="40" scale="0" not-null="false" />
         </property>
-		<!--目标实体类代号-->
-        <property name="targetSTLDH" type="java.lang.String" lazy="false">
-        	<column name="targetSTLDH" precision="40" scale="0" not-null="false" />
-        </property>
-		<!--目标类别名称-->
-        <property name="targetLBMC" type="java.lang.String" lazy="false">
-        	<column name="targetLBMC" precision="40" scale="0" not-null="false" />
-        </property>
 		<!--JSON数据-->
         <property name="jsonData" type="java.lang.String" lazy="false">
         	<column name="jsonData" precision="8000" scale="0" not-null="false" />
@@ -67,11 +59,7 @@
         <property name="cuoWuXXX" type="java.lang.String" lazy="false">
         	<column name="cuoWuXXX" precision="1200" scale="0" not-null="false" />
         </property>
-		<!--源主键字段代号-->
-        <property name="sourceZJDH" type="java.lang.String" lazy="false">
-        	<column name="sourceZJDH" precision="40" scale="0" not-null="false" />
-        </property>
-		<!--依赖数据集合-->
+		<!--依赖传输记录-->
         <set name="yls" inverse="true"  lazy="true" cascade="all-delete-orphan" order-by="chuanShuJLYLDM" >
         	<key>
         		<column name="chuanShuJLDM" precision="12" scale="0" not-null="true" />
@@ -89,6 +77,18 @@
 		<!--最后发送时间-->
         <property name="zuiHouFSSJ" type="java.util.Date" lazy="false">
         	<column name="zuiHouFSSJ" precision="7" scale="0" not-null="false" />
+        </property>
+		<!--源功能代号-->
+        <property name="sourceGNDH" type="java.lang.String" lazy="false">
+        	<column name="sourceGNDH" precision="200" scale="0" not-null="false" />
+        </property>
+		<!--源操作代号-->
+        <property name="sourceCZDH" type="java.lang.String" lazy="false">
+        	<column name="sourceCZDH" precision="200" scale="0" not-null="false" />
+        </property>
+		<!--目标实体类代号-->
+        <property name="targetSTLDH" type="java.lang.String" lazy="false">
+        	<column name="targetSTLDH" precision="200" scale="0" not-null="false" />
         </property>
      </class>
 </hibernate-mapping>

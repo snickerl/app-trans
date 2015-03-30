@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<page component="page" needsLogin="true" label="传输记录-查看">
+  <form component="dataDisplayForm" label="数据展示表单" name="cmp_dataDisplayForm_4" datasourceType="private" autoLoad="true" renderto="#shiTiLeiForm" renderType="rela" autoRender="true" onLoad="onFormLoaded">
+    <record component="stlRecord" label="功能数据对象(null-功能数据对象)" name="cmp_gnRecord_5" autoLoad="true" xiTongDH="trans" shiTiLeiDH="TRANS_ChuanShuJL" id="${params.id}">
+      <properties component="properties">
+        <property component="simpleProperty" name="sourceXTDH" label="源系统代号" fieldType="string"/>
+        <property component="simpleProperty" name="sourceSTLDH" label="源实体类代号" fieldType="string"/>
+        <property component="simpleProperty" name="sourceZJZ" label="源主键值" fieldType="int"/>
+        <property component="simpleProperty" name="targetXTDH" label="目标系统代号" fieldType="string"/>
+        <property component="simpleProperty" name="targetSTLDH" label="目标实体类代号" fieldType="string"/>
+        <property component="simpleProperty" name="targetZJZ" label="目标主键值" fieldType="int"/>
+        <property component="simpleProperty" name="shiFouCSWC" label="是否传输完成" fieldType="boolean"/>
+        <property component="simpleProperty" name="chuanShuCS" label="传输次数" fieldType="int"/>
+        <property component="simpleProperty" name="zuiHouFSSJ" label="最后发送时间" fieldType="date"/>
+        <property component="simpleProperty" name="cuoWuXXX" label="错误信息" fieldType="string"/>
+        <property component="simpleProperty" name="jsonData" label="JSON数据" fieldType="text"/>
+        <property component="complexProperty" name="yls" label="依赖传输记录" fieldType="set">
+          <properties component="properties">
+            <property component="complexProperty" name="chuanShuJL" label="传输记录" fieldType="object">
+              <properties component="properties">
+                <property component="simpleProperty" name="xinXiLBMC" label="信息类别名称" fieldType="string"/>
+                <property component="simpleProperty" name="sourceSTLDH" label="源实体类代号" fieldType="string"/>
+                <property component="simpleProperty" name="shiFouCSWC" label="是否传输完成" fieldType="boolean"/>
+                <property component="simpleProperty" name="chuanShuCS" label="传输次数" fieldType="int"/>
+                <property component="simpleProperty" name="zuiHouFSSJ" label="最后发送时间" fieldType="date"/>
+                <property component="simpleProperty" name="cuoWuXXX" label="错误信息" fieldType="string"/>
+              </properties>
+            </property>
+          </properties>
+        </property>
+      </properties>
+    </record>
+    <fields component="formFields">
+      <field component="stringDisplay" renderType="rela" width="120px" height="22px" name="sourceXTDH" label="源系统代号" fieldType="string" renderto="#sourceXTDH" renderTemplate="{{sourceXTDH}}"/>
+      <field component="stringDisplay" renderType="rela" width="120px" height="22px" name="sourceSTLDH" label="源实体类代号" fieldType="string" renderto="#sourceSTLDH" renderTemplate="{{sourceSTLDH}}"/>
+      <field component="intDisplay" renderType="rela" width="120px" height="22px" textAlign="right" zeroAsBlank="true" name="sourceZJZ" label="源主键值" fieldType="int" renderto="#sourceZJZ" renderTemplate="{{sourceZJZ}}"/>
+      <field component="stringDisplay" renderType="rela" width="120px" height="22px" name="targetXTDH" label="目标系统代号" fieldType="string" renderto="#targetXTDH" renderTemplate="{{targetXTDH}}"/>
+      <field component="stringDisplay" renderType="rela" width="120px" height="22px" name="targetSTLDH" label="目标实体类代号" fieldType="string" renderto="#targetSTLDH" renderTemplate="{{targetSTLDH}}"/>
+      <field component="intDisplay" renderType="rela" width="120px" height="22px" textAlign="right" zeroAsBlank="true" name="targetZJZ" label="目标主键值" fieldType="int" renderto="#targetZJZ" renderTemplate="{{targetZJZ}}"/>
+      <field fieldType="boolean" component="booleanDisplay" name="shiFouCSWC" label="是否传输完成" renderType="rela" width="120px" height="22px" renderto="#shiFouCSWC" renderTemplate="{{shiFouCSWC}}" trueText="完成" falseText="未完成"/>
+      <field component="intDisplay" renderType="rela" width="120px" height="22px" textAlign="right" zeroAsBlank="true" name="chuanShuCS" label="传输次数" fieldType="int" renderto="#chuanShuCS" renderTemplate="{{chuanShuCS}}"/>
+      <field component="dateDisplay" renderType="rela" width="120px" height="22px" name="zuiHouFSSJ" label="最后发送时间" fieldType="date" renderto="#chuanShuRQ" renderTemplate="{{zuiHouFSSJ}}"/>
+      <field fieldType="string" component="stringDisplay" name="cuoWuXXX" label="错误信息" renderType="rela" width="120px" height="22px" renderto="#cuoWuXX" renderTemplate="{{cuoWuXXX}}"/>
+      <field fieldType="set" component="setDisplay" name="yls" label="依赖传输记录" width="120px" height="22px">
+        <grid component="subGrid" label="子表格(依赖传输记录-子表格)" name="cmp_subGrid_31" headerLines="1" footerLines="0" renderto="#zslist">
+          <columns component="gridColumns">
+            <column component="intDisplayColumn" textAlign="right" zeroAsBlank="true" name="@index" label="行号" fieldType="int" renderto="#xuHao" renderTemplate="{{@index}}"/>
+            <column component="objectDisplayColumn" name="chuanShuJL" label="信息类别名称" fieldType="object" renderto="#xinXiLBMC" renderTemplate="{{chuanShuJL.xinXiLBMC}}"/>
+            <column fieldType="object" component="objectDisplayColumn" label="传输内容" name="chuanShuJL" renderto="#chuanShuNR" renderTemplate="{{chuanShuJL.sourceSTLDH}}
+
+{{#equals chuanShuJL.xinXiLBMC 'data'}}  数据 {{chuanShuJL.sourceSTLDH}} -&gt; {{chuanShuJL.targetSTLDH}}   {{/equals}}  
+{{#equals chuanShuJL.xinXiLBMC 'file'}} 附件  {{/equals}}  {{#equals chuanShuJL.xinXiLBMC 'task'}}  任务 {{chuanShuJL.sourceGNDH}} {{chuanShuJL.sourceCZDH}} -&gt; {{chuanShuJL.targetGNDH}} {{chuanShuJL.targetCZDH}}   {{/equals}}"/>
+            <column component="objectDisplayColumn" name="chuanShuJL" label="是否传输完成" fieldType="object" renderto="#chuanShuZT" renderTemplate="{{chuanShuJL.shiFouCSWC}}"/>
+            <column component="objectDisplayColumn" name="chuanShuJL" label="传输次数" fieldType="object" renderto="#chuanShuCS" renderTemplate="{{chuanShuJL.chuanShuCS}}"/>
+            <column component="objectDisplayColumn" name="chuanShuJL" label="最后发送时间" fieldType="object" renderto="#chuanShuRQ" renderTemplate="{{chuanShuJL.zuiHouFSSJ}}"/>
+            <column component="objectDisplayColumn" name="chuanShuJL" label="错误信息" fieldType="object" renderto="#cuoWuXX" renderTemplate="{{chuanShuJL.cuoWuXXX}}"/>
+          </columns>
+        </grid>
+      </field>
+    </fields>
+    <buttons component="buttons"/>
+  </form>
+</page>

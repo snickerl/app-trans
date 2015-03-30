@@ -6,7 +6,7 @@ import com.poweruniverse.nim.data.entity.sys.base.EntityI;
 /*
 * 实体类：实体类映射
 */
-@Version("2015-03-17 04:41:16")
+@Version("2015-03-24 20:35:18")
 public abstract class BaseShiTiLeiYS  implements Serializable,Comparable<Object> ,EntityI {
 	private static final long serialVersionUID = 1L;
 	private int hashCode = Integer.MIN_VALUE;
@@ -44,35 +44,27 @@ public abstract class BaseShiTiLeiYS  implements Serializable,Comparable<Object>
 	public void setTargetSTLDH(java.lang.String targetSTLDH){this.targetSTLDH = targetSTLDH;}
 	
 			
-	// 属性：源实体类名称 （sourceSTLMC）
-	private java.lang.String sourceSTLMC = null;
-	public java.lang.String getSourceSTLMC(){return this.sourceSTLMC ;}
-	public void setSourceSTLMC(java.lang.String sourceSTLMC){this.sourceSTLMC = sourceSTLMC;}
+	// 属性：实体类映射名称 （shiTiLeiYSMC）
+	private java.lang.String shiTiLeiYSMC = null;
+	public java.lang.String getShiTiLeiYSMC(){return this.shiTiLeiYSMC ;}
+	public void setShiTiLeiYSMC(java.lang.String shiTiLeiYSMC){this.shiTiLeiYSMC = shiTiLeiYSMC;}
 	
 			
-	// 属性：目标实体类名称 （targetSTLMC）
-	private java.lang.String targetSTLMC = null;
-	public java.lang.String getTargetSTLMC(){return this.targetSTLMC ;}
-	public void setTargetSTLMC(java.lang.String targetSTLMC){this.targetSTLMC = targetSTLMC;}
+	// 属性：目标主键字段代号 （targetZJZDDH）
+	private java.lang.String targetZJZDDH = null;
+	public java.lang.String getTargetZJZDDH(){return this.targetZJZDDH ;}
+	public void setTargetZJZDDH(java.lang.String targetZJZDDH){this.targetZJZDDH = targetZJZDDH;}
 	
-			
-	// 属性：目标主键代号 （targetZJDH）
-	private java.lang.String targetZJDH = null;
-	public java.lang.String getTargetZJDH(){return this.targetZJDH ;}
-	public void setTargetZJDH(java.lang.String targetZJDH){this.targetZJDH = targetZJDH;}
-	
-			
-	// 属性：源系统代号 （sourceXTDH）
-	private java.lang.String sourceXTDH = null;
-	public java.lang.String getSourceXTDH(){return this.sourceXTDH ;}
-	public void setSourceXTDH(java.lang.String sourceXTDH){this.sourceXTDH = sourceXTDH;}
-	
-			
-	// 属性：目标系统代号 （targetXTDH）
-	private java.lang.String targetXTDH = null;
-	public java.lang.String getTargetXTDH(){return this.targetXTDH ;}
-	public void setTargetXTDH(java.lang.String targetXTDH){this.targetXTDH = targetXTDH;}
-	
+	// 对象：源应用系统 （sourceYYXT）
+	private com.poweruniverse.app.entity.trans.YingYongXT sourceYYXT;
+	public com.poweruniverse.app.entity.trans.YingYongXT getSourceYYXT(){return this.sourceYYXT ;}
+	public void setSourceYYXT(com.poweruniverse.app.entity.trans.YingYongXT sourceYYXT){this.sourceYYXT = sourceYYXT;}
+
+	// 对象：目标应用系统 （targetYYXT）
+	private com.poweruniverse.app.entity.trans.YingYongXT targetYYXT;
+	public com.poweruniverse.app.entity.trans.YingYongXT getTargetYYXT(){return this.targetYYXT ;}
+	public void setTargetYYXT(com.poweruniverse.app.entity.trans.YingYongXT targetYYXT){this.targetYYXT = targetYYXT;}
+
 	// 集合：字段映射集合 （zds）
 	private java.util.Set<com.poweruniverse.app.entity.trans.ZiDuanYS> zds = new java.util.TreeSet<com.poweruniverse.app.entity.trans.ZiDuanYS>();
 	public java.util.Set<com.poweruniverse.app.entity.trans.ZiDuanYS> getZds(){return this.zds ;}
@@ -107,6 +99,12 @@ public abstract class BaseShiTiLeiYS  implements Serializable,Comparable<Object>
 		//
 		return subObj;
 	}
+	
+			
+	// 属性：源主键字段代号 （sourceZJZDDH）
+	private java.lang.String sourceZJZDDH = null;
+	public java.lang.String getSourceZJZDDH(){return this.sourceZJZDDH ;}
+	public void setSourceZJZDDH(java.lang.String sourceZJZDDH){this.sourceZJZDDH = sourceZJZDDH;}
 	
 	public boolean equals (Object obj) {
 		if (null == obj) return false;
@@ -158,14 +156,14 @@ public abstract class BaseShiTiLeiYS  implements Serializable,Comparable<Object>
 		
 		shiTiLeiYS.setSourceSTLDH(sourceSTLDH);
 		shiTiLeiYS.setTargetSTLDH(targetSTLDH);
-		shiTiLeiYS.setSourceSTLMC(sourceSTLMC);
-		shiTiLeiYS.setTargetSTLMC(targetSTLMC);
-		shiTiLeiYS.setTargetZJDH(targetZJDH);
-		shiTiLeiYS.setSourceXTDH(sourceXTDH);
-		shiTiLeiYS.setTargetXTDH(targetXTDH);
+		shiTiLeiYS.setShiTiLeiYSMC(shiTiLeiYSMC);
+		shiTiLeiYS.setTargetZJZDDH(targetZJZDDH);
+		shiTiLeiYS.setSourceYYXT(sourceYYXT);
+		shiTiLeiYS.setTargetYYXT(targetYYXT);
 		for(com.poweruniverse.app.entity.trans.ZiDuanYS subObj:this.getZds()){
 			shiTiLeiYS.addTozds(shiTiLeiYS, subObj.clone());
 		}
+		shiTiLeiYS.setSourceZJZDDH(sourceZJZDDH);
 		
 		return shiTiLeiYS;
 	}

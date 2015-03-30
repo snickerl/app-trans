@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<page component="page" needsLogin="true" label="实体类映射-列表" onLoad="onPageRady">
+  <grid component="displayGrid" datasourceType="private" datasourceName="cmp_gnDataset_zsgf" label="实体类映射" name="yingYongXTListGrid" autoLoad="true" onRowRendered="onGridRowRender" autoRender="true" headerLines="1" footerLines="0" renderto="#zslist" pagiTarget="#zsListpage">
+    <dataset component="stlDataset" label="实体类映射" name="stlDataset" autoLoad="true" xiTongDH="trans" shiTiLeiDH="TRANS_ShiTiLeiYS" start="0" limit="0">
+      <properties component="properties">
+        <property component="simpleProperty" name="shiTiLeiYSMC" label="实体类映射名称" fieldType="string"/>
+        <property component="complexProperty" name="sourceYYXT" label="源应用系统" fieldType="object">
+          <properties component="properties">
+            <property component="simpleProperty" name="yingYongXTMC" label="应用系统名称" fieldType="string"/>
+          </properties>
+        </property>
+        <property component="simpleProperty" name="sourceSTLDH" label="源实体类代号" fieldType="string"/>
+        <property component="complexProperty" name="targetYYXT" label="目标应用系统" fieldType="object">
+          <properties component="properties">
+            <property component="simpleProperty" name="yingYongXTMC" label="应用系统名称" fieldType="string"/>
+          </properties>
+        </property>
+        <property component="simpleProperty" name="targetSTLDH" label="目标实体类代号" fieldType="string"/>
+      </properties>
+      <filters component="filters"/>
+      <sorts component="sorts"/>
+    </dataset>
+    <columns component="gridColumns">
+      <column fieldType="int" component="intDisplayColumn" label="行号" name="@index" renderto="#GYS_xuHao" renderTemplate="{{@index}}" textAlign="right" zeroAsBlank="true"/>
+      <column component="stringDisplayColumn" name="shiTiLeiYSMC" label="实体类映射名称" fieldType="string" renderto="#GYS_gongFangBH" renderTemplate="{{shiTiLeiYSMC}}"/>
+      <column fieldType="object" component="objectDisplayColumn" label="源应用系统" name="sourceYYXT" renderto="#GYS_sjjs" renderTemplate="{{sourceYYXT.yingYongXTMC}}"/>
+      <column component="stringDisplayColumn" name="sourceSTLDH" label="源实体类代号" fieldType="string" renderto="#GYS_sjcc" renderTemplate="{{sourceSTLDH}}"/>
+      <column component="objectDisplayColumn" name="targetYYXT" label="目标应用系统" fieldType="object" renderto="#GYS_fjjs" renderTemplate="{{targetYYXT.yingYongXTMC}}"/>
+      <column component="stringDisplayColumn" name="targetSTLDH" label="目标实体类代号" fieldType="string" renderto="#GYS_fjcc" renderTemplate="{{targetSTLDH}}"/>
+    </columns>
+  </grid>
+  <import component="importSubpage" label="header" name="importSubpage_header" autoLoad="true" pageURL="header/header.html" renderto="#header">
+    <parameters component="parameters"/>
+  </import>
+  <import component="importSubpage" label="footer" name="importSubpage_footer" autoLoad="true" pageURL="footer/footer.html" renderto="#footer">
+    <parameters component="parameters"/>
+  </import>
+</page>

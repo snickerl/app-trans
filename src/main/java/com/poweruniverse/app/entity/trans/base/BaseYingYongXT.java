@@ -6,7 +6,7 @@ import com.poweruniverse.nim.data.entity.sys.base.EntityI;
 /*
 * 实体类：应用系统
 */
-@Version("2015-03-24 14:17:25")
+@Version("2015-03-24 20:57:18")
 public abstract class BaseYingYongXT  implements Serializable,Comparable<Object> ,EntityI {
 	private static final long serialVersionUID = 1L;
 	private int hashCode = Integer.MIN_VALUE;
@@ -38,10 +38,10 @@ public abstract class BaseYingYongXT  implements Serializable,Comparable<Object>
 	public void setYingYongXTMC(java.lang.String yingYongXTMC){this.yingYongXTMC = yingYongXTMC;}
 	
 			
-	// 属性：应用系统编号 （yingYongXTBH）
-	private java.lang.String yingYongXTBH = null;
-	public java.lang.String getYingYongXTBH(){return this.yingYongXTBH ;}
-	public void setYingYongXTBH(java.lang.String yingYongXTBH){this.yingYongXTBH = yingYongXTBH;}
+	// 属性：应用系统代号 （yingYongXTDH）
+	private java.lang.String yingYongXTDH = null;
+	public java.lang.String getYingYongXTDH(){return this.yingYongXTDH ;}
+	public void setYingYongXTDH(java.lang.String yingYongXTDH){this.yingYongXTDH = yingYongXTDH;}
 	
 			
 	// 属性：是否接收数据 （shiFouJSSJ）
@@ -146,7 +146,7 @@ public abstract class BaseYingYongXT  implements Serializable,Comparable<Object>
 		com.poweruniverse.app.entity.trans.YingYongXT yingYongXT = new com.poweruniverse.app.entity.trans.YingYongXT();
 		
 		yingYongXT.setYingYongXTMC(yingYongXTMC);
-		yingYongXT.setYingYongXTBH(yingYongXTBH);
+		yingYongXT.setYingYongXTDH(yingYongXTDH);
 		yingYongXT.setShiFouJSSJ(shiFouJSSJ);
 		yingYongXT.setShiFouCCSJ(shiFouCCSJ);
 		yingYongXT.setShiFouJSFJ(shiFouJSFJ);

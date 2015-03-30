@@ -2,7 +2,7 @@
 <!DOCTYPE hibernate-mapping PUBLIC 
 	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- version:2015-03-24 14:17:25 -->
+<!-- version:2015-03-24 20:57:18 -->
 <hibernate-mapping auto-import="false">  
     <class name="com.poweruniverse.app.entity.trans.YingYongXT" table="TRANS_YingYongXT" >
     	<!--主键-->
@@ -15,9 +15,9 @@
         <property name="yingYongXTMC" type="java.lang.String" lazy="false">
         	<column name="yingYongXTMC" precision="200" scale="0" not-null="false" />
         </property>
-		<!--应用系统编号-->
-        <property name="yingYongXTBH" type="java.lang.String" lazy="false">
-        	<column name="yingYongXTBH" precision="200" scale="0" not-null="false" />
+		<!--应用系统代号-->
+        <property name="yingYongXTDH" type="java.lang.String" lazy="false">
+        	<column name="yingYongXTDH" precision="200" scale="0" not-null="false" />
         </property>
 		<!--是否接收数据-->
         <property name="shiFouJSSJ" type="java.lang.Boolean" lazy="false">

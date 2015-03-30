@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<page component="page" needsLogin="true" label="实体类映射-查看" onLoad="onPageRady">
+  <form component="singleEditForm" label="实体类新增表单" name="shiTiLeiAppendForm" datasourceType="private" datasourceName="shiTiLeiRecord" autoLoad="true" renderto="#shiTiLeiForm" renderType="rela" autoRender="true" xiTongDH="trans" gongNengDH="stlys" caoZuoDH="edit">
+    <record component="gnRecord" label="实体类数据记录" name="shiTiLeiYSRecord" autoLoad="true" xiTongDH="trans" gongNengDH="stlys" caoZuoDH="show" id="${params.id}">
+      <properties component="properties">
+        <property component="simpleProperty" name="shiTiLeiYSMC" label="实体类映射名称" fieldType="string"/>
+        <property component="complexProperty" fieldType="object" label="源应用系统" name="sourceYYXT">
+          <properties component="properties">
+            <property component="simpleProperty" name="yingYongXTMC" label="应用系统名称" fieldType="string"/>
+            <property component="simpleProperty" name="yingYongXTDH" label="应用系统代号" fieldType="string"/>
+          </properties>
+        </property>
+        <property component="simpleProperty" name="sourceSTLDH" label="源实体类代号" fieldType="string"/>
+        <property component="simpleProperty" name="sourceZJZDDH" label="源主键字段代号" fieldType="string"/>
+        <property component="complexProperty" name="targetYYXT" label="目标应用系统" fieldType="object">
+          <properties component="properties">
+            <property component="simpleProperty" name="yingYongXTMC" label="应用系统名称" fieldType="string"/>
+            <property component="simpleProperty" name="yingYongXTDH" label="应用系统代号" fieldType="string"/>
+          </properties>
+        </property>
+        <property component="simpleProperty" name="targetSTLDH" label="目标实体类代号" fieldType="string"/>
+        <property component="simpleProperty" name="targetZJZDDH" label="目标主键字段代号" fieldType="string"/>
+        <property component="complexProperty" name="zds" label="字段映射集合" fieldType="set">
+          <properties component="properties">
+            <property component="simpleProperty" name="ziDuanYSMC" label="字段映射名称" fieldType="string"/>
+            <property component="simpleProperty" name="sourceZDDH" label="源字段代号" fieldType="string"/>
+            <property component="complexProperty" name="sourceZDLX" label="源字段类型" fieldType="object">
+              <properties component="properties">
+                <property component="simpleProperty" name="ziDuanLXMC" label="字段类型名称" fieldType="string"/>
+              </properties>
+            </property>
+            <property component="simpleProperty" name="targetZDDH" label="目标字段代号" fieldType="string"/>
+            <property component="complexProperty" name="targetZDLX" label="目标字段类型" fieldType="object">
+              <properties component="properties">
+                <property component="simpleProperty" name="ziDuanLXMC" label="字段类型名称" fieldType="string"/>
+              </properties>
+            </property>
+            <property component="complexProperty" name="guanLianSTLYS" label="关联实体类映射" fieldType="object">
+              <properties component="properties">
+                <property component="simpleProperty" name="shiTiLeiYSDM" label="实体类映射代码" fieldType="int"/>
+              </properties>
+            </property>
+          </properties>
+        </property>
+      </properties>
+    </record>
+    <fields component="formFields">
+      <field fieldType="string" component="stringEditor" name="shiTiLeiYSMC" label="实体类映射名称" renderType="insert" width="312px" height="22px" renderto="#shiTiLeiYSMC" renderTemplate="{{shiTiLeiYSMC}}" enabled="false" allowEdit="false" allowBlank="false" hidden="false"/>
+      <field fieldType="object" component="objectSelectEditor" name="sourceYYXT" label="源应用系统" renderType="insert" renderto="#sourceYYXT" renderTemplate="{{sourceYYXT.yingYongXTMC}}" enabled="false" allowEdit="false" allowBlank="false" hidden="false" datasourceType="private" searchMode="local" minLength="0" width="312px" height="150px">
+        <dataset component="stlDataset" label="源应用系统数据集" name="cmp_gnDataset_44" autoLoad="true" xiTongDH="trans" shiTiLeiDH="TRANS_YingYongXT" start="0" limit="0">
+          <properties component="properties">
+            <property component="simpleProperty" name="yingYongXTMC" label="应用系统名称" fieldType="string"/>
+            <property component="simpleProperty" name="yingYongXTDH" label="应用系统代号" fieldType="string"/>
+            <property component="simpleProperty" name="yingYongXTDM" label="应用系统代码" fieldType="int"/>
+          </properties>
+          <filters component="filters"/>
+          <sorts component="sorts"/>
+        </dataset>
+      </field>
+      <field fieldType="string" component="stringEditor" name="sourceSTLDH" label="源实体类代号" renderType="insert" width="312px" height="22px" renderto="#sourceSTLDH" renderTemplate="{{sourceSTLDH}}" enabled="false" allowEdit="true" allowBlank="false" hidden="false"/>
+      <field fieldType="string" component="stringEditor" name="sourceZJZDDH" label="源主键字段代号" renderType="insert" width="312px" height="22px" renderto="#sourceZJZDDH" renderTemplate="{{sourceZJZDDH}}" enabled="false" allowEdit="true" allowBlank="false" hidden="false"/>
+      <field fieldType="object" component="objectSelectEditor" name="targetYYXT" label="目标应用系统" renderType="insert" renderto="#targetYYXT" renderTemplate="{{targetYYXT.yingYongXTMC}}" enabled="false" allowEdit="true" allowBlank="false" hidden="false" datasourceType="private" searchMode="local" minLength="0" width="312px" height="150px">
+        <dataset component="stlDataset" label="目标应用系统-数据集" name="cmp_gnDataset_51" autoLoad="true" xiTongDH="trans" shiTiLeiDH="TRANS_YingYongXT" start="0" limit="0">
+          <properties component="properties">
+            <property component="simpleProperty" name="yingYongXTMC" label="应用系统名称" fieldType="string"/>
+            <property component="simpleProperty" name="yingYongXTDH" label="应用系统代号" fieldType="string"/>
+            <property component="simpleProperty" name="yingYongXTDM" label="应用系统代码" fieldType="int"/>
+          </properties>
+          <filters component="filters"/>
+          <sorts component="sorts"/>
+        </dataset>
+      </field>
+      <field fieldType="string" component="stringEditor" name="targetSTLDH" label="目标实体类代号" renderType="insert" width="312px" height="22px" renderto="#targetSTLDH" renderTemplate="{{targetSTLDH}}" enabled="false" allowEdit="true" allowBlank="false" hidden="false"/>
+      <field fieldType="string" component="stringEditor" name="targetZJZDDH" label="目标主键字段代号" renderType="insert" width="312px" height="22px" renderto="#targetZJZDDH" renderTemplate="{{targetZJZDDH}}" enabled="false" allowEdit="true" allowBlank="false" hidden="false"/>
+      <field fieldType="set" component="setGridEditor" name="zds" label="字段映射集合" width="120px" height="22px" enabled="false" allowBlank="false">
+        <buttons component="tools"/>
+        <grid component="subGrid" label="子表格(字段映射集合-子表格)" name="cmp_subGrid_46" renderto="#zslist" headerLines="1" footerLines="0" onRowRendered="onGridRowRender">
+          <columns component="gridColumns">
+            <column fieldType="int" component="intDisplayColumn" label="行号" name="@index" renderto="#xuHao" renderTemplate="{{@index}}" textAlign="right" zeroAsBlank="true"/>
+            <column fieldType="string" component="stringColumn" label="字段映射名称" name="ziDuanYSMC" enabled="false" allowBlank="false" renderto="#ziDuanYSMC" renderTemplate="{{ziDuanYSMC}}" renderType="insert" width="125px"/>
+            <column fieldType="string" component="stringColumn" label="源字段代号" name="sourceZDDH" enabled="false" allowBlank="false" renderto="#sourceZDDH" renderTemplate="{{sourceZDDH}}" renderType="insert" width="125px"/>
+            <column fieldType="object" component="objectSelectColumn" label="源字段类型" name="sourceZDLX" enabled="false" allowBlank="false" renderto="#sourceZDLX" renderTemplate="{{sourceZDLX.ziDuanLXMC}}" renderType="insert" datasourceType="private" searchMode="local" minLength="0" width="105px" height="150px" onChange="ziDuanLXChanged">
+              <dataset component="stlDataset" label="数据源" name="sourceZDLXDataset" autoLoad="true" xiTongDH="sys" shiTiLeiDH="SYS_ZiDuanLX" start="0" limit="0">
+                <properties component="properties">
+                  <property component="simpleProperty" name="ziDuanLXDH" label="字段类型代号" fieldType="string"/>
+                  <property component="simpleProperty" name="ziDuanLXMC" label="字段类型名称" fieldType="string"/>
+                  <property component="simpleProperty" name="ziDuanLXDM" label="字段类型代码" fieldType="int"/>
+                </properties>
+                <filters component="filters"/>
+                <sorts component="sorts"/>
+              </dataset>
+            </column>
+            <column fieldType="string" component="stringColumn" label="目标字段代号" name="targetZDDH" enabled="false" allowBlank="false" renderto="#targetZDDH" renderTemplate="{{targetZDDH}}" renderType="insert" width="125px"/>
+            <column fieldType="object" component="objectSelectColumn" label="目标字段类型" name="targetZDLX" enabled="false" allowBlank="false" renderto="#targetZDLX" renderTemplate="{{targetZDLX.ziDuanLXMC}}" renderType="insert" datasourceType="private" searchMode="local" minLength="0" width="105px" height="150px">
+              <dataset component="stlDataset" label="数据源" name="targetZDLXDataset" autoLoad="true" xiTongDH="sys" shiTiLeiDH="SYS_ZiDuanLX" start="0" limit="0">
+                <properties component="properties">
+                  <property component="simpleProperty" name="ziDuanLXDH" label="字段类型代号" fieldType="string"/>
+                  <property component="simpleProperty" name="ziDuanLXMC" label="字段类型名称" fieldType="string"/>
+                  <property component="simpleProperty" name="ziDuanLXDM" label="字段类型代码" fieldType="int"/>
+                </properties>
+                <filters component="filters"/>
+                <sorts component="sorts"/>
+              </dataset>
+            </column>
+            <column fieldType="object" component="objectSelectColumn" label="关联实体类映射" name="guanLianSTLYS" enabled="false" allowBlank="true" renderto="#guanLianSTL" renderTemplate="{{guanLianSTLYS.shiTiLeiYSMC}}" renderType="insert" datasourceType="private" searchMode="local" minLength="0" width="125px" height="150px">
+              <dataset component="stlDataset" label="数据源" name="guanLianSTLYSDataset" autoLoad="true" xiTongDH="trans" shiTiLeiDH="TRANS_ShiTiLeiYS" start="0" limit="0">
+                <properties component="properties">
+                  <property component="simpleProperty" fieldType="string" label="实体类映射名称" name="shiTiLeiYSMC"/>
+                  <property component="simpleProperty" name="shiTiLeiYSDM" label="实体类映射代码" fieldType="int"/>
+                </properties>
+                <filters component="filters"/>
+                <sorts component="sorts"/>
+              </dataset>
+            </column>
+          </columns>
+        </grid>
+      </field>
+    </fields>
+    <buttons component="buttons"/>
+  </form>
+</page>

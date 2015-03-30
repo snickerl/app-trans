@@ -6,7 +6,7 @@ import com.poweruniverse.nim.data.entity.sys.base.EntityI;
 /*
 * 实体类：传输记录
 */
-@Version("2015-03-17 04:41:16")
+@Version("2015-03-26 05:45:16")
 public abstract class BaseChuanShuJL  implements Serializable,Comparable<Object> ,EntityI {
 	private static final long serialVersionUID = 1L;
 	private int hashCode = Integer.MIN_VALUE;
@@ -74,18 +74,6 @@ public abstract class BaseChuanShuJL  implements Serializable,Comparable<Object>
 	public void setXinXiLBMC(java.lang.String xinXiLBMC){this.xinXiLBMC = xinXiLBMC;}
 	
 			
-	// 属性：目标实体类代号 （targetSTLDH）
-	private java.lang.String targetSTLDH = null;
-	public java.lang.String getTargetSTLDH(){return this.targetSTLDH ;}
-	public void setTargetSTLDH(java.lang.String targetSTLDH){this.targetSTLDH = targetSTLDH;}
-	
-			
-	// 属性：目标类别名称 （targetLBMC）
-	private java.lang.String targetLBMC = null;
-	public java.lang.String getTargetLBMC(){return this.targetLBMC ;}
-	public void setTargetLBMC(java.lang.String targetLBMC){this.targetLBMC = targetLBMC;}
-	
-			
 	// 属性：JSON数据 （jsonData）
 	private java.lang.String jsonData = null;
 	public java.lang.String getJsonData(){return this.jsonData ;}
@@ -115,13 +103,7 @@ public abstract class BaseChuanShuJL  implements Serializable,Comparable<Object>
 	public java.lang.String getCuoWuXXX(){return this.cuoWuXXX ;}
 	public void setCuoWuXXX(java.lang.String cuoWuXXX){this.cuoWuXXX = cuoWuXXX;}
 	
-			
-	// 属性：源主键字段代号 （sourceZJDH）
-	private java.lang.String sourceZJDH = null;
-	public java.lang.String getSourceZJDH(){return this.sourceZJDH ;}
-	public void setSourceZJDH(java.lang.String sourceZJDH){this.sourceZJDH = sourceZJDH;}
-	
-	// 集合：依赖数据集合 （yls）
+	// 集合：依赖传输记录 （yls）
 	private java.util.Set<com.poweruniverse.app.entity.trans.ChuanShuJLYL> yls = new java.util.TreeSet<com.poweruniverse.app.entity.trans.ChuanShuJLYL>();
 	public java.util.Set<com.poweruniverse.app.entity.trans.ChuanShuJLYL> getYls(){return this.yls ;}
 	public void setYls(java.util.Set<com.poweruniverse.app.entity.trans.ChuanShuJLYL> yls){this.yls = yls;}
@@ -173,6 +155,24 @@ public abstract class BaseChuanShuJL  implements Serializable,Comparable<Object>
 	private java.util.Date zuiHouFSSJ = null;
 	public java.util.Date getZuiHouFSSJ(){return this.zuiHouFSSJ ;}
 	public void setZuiHouFSSJ(java.util.Date zuiHouFSSJ){this.zuiHouFSSJ = zuiHouFSSJ;}
+	
+			
+	// 属性：源功能代号 （sourceGNDH）
+	private java.lang.String sourceGNDH = null;
+	public java.lang.String getSourceGNDH(){return this.sourceGNDH ;}
+	public void setSourceGNDH(java.lang.String sourceGNDH){this.sourceGNDH = sourceGNDH;}
+	
+			
+	// 属性：源操作代号 （sourceCZDH）
+	private java.lang.String sourceCZDH = null;
+	public java.lang.String getSourceCZDH(){return this.sourceCZDH ;}
+	public void setSourceCZDH(java.lang.String sourceCZDH){this.sourceCZDH = sourceCZDH;}
+	
+			
+	// 属性：目标实体类代号 （targetSTLDH）
+	private java.lang.String targetSTLDH = null;
+	public java.lang.String getTargetSTLDH(){return this.targetSTLDH ;}
+	public void setTargetSTLDH(java.lang.String targetSTLDH){this.targetSTLDH = targetSTLDH;}
 	
 	public boolean equals (Object obj) {
 		if (null == obj) return false;
@@ -229,20 +229,20 @@ public abstract class BaseChuanShuJL  implements Serializable,Comparable<Object>
 		chuanShuJL.setTargetCZDH(targetCZDH);
 		chuanShuJL.setTargetZJZ(targetZJZ);
 		chuanShuJL.setXinXiLBMC(xinXiLBMC);
-		chuanShuJL.setTargetSTLDH(targetSTLDH);
-		chuanShuJL.setTargetLBMC(targetLBMC);
 		chuanShuJL.setJsonData(jsonData);
 		chuanShuJL.setShuJuLBMC(shuJuLBMC);
 		chuanShuJL.setShiFouCSWC(shiFouCSWC);
 		chuanShuJL.setChuanShuCS(chuanShuCS);
 		chuanShuJL.setCuoWuXXX(cuoWuXXX);
-		chuanShuJL.setSourceZJDH(sourceZJDH);
 		for(com.poweruniverse.app.entity.trans.ChuanShuJLYL subObj:this.getYls()){
 			chuanShuJL.addToyls(chuanShuJL, subObj.clone());
 		}
 		chuanShuJL.setSourceXTDH(sourceXTDH);
 		chuanShuJL.setChuangJianSJ(chuangJianSJ);
 		chuanShuJL.setZuiHouFSSJ(zuiHouFSSJ);
+		chuanShuJL.setSourceGNDH(sourceGNDH);
+		chuanShuJL.setSourceCZDH(sourceCZDH);
+		chuanShuJL.setTargetSTLDH(targetSTLDH);
 		
 		return chuanShuJL;
 	}

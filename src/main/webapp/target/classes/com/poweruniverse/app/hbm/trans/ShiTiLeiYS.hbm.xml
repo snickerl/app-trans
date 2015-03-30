@@ -2,7 +2,7 @@
 <!DOCTYPE hibernate-mapping PUBLIC 
 	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- version:2015-03-17 04:41:16 -->
+<!-- version:2015-03-24 20:35:18 -->
 <hibernate-mapping auto-import="false">  
     <class name="com.poweruniverse.app.entity.trans.ShiTiLeiYS" table="TRANS_ShiTiLeiYS" >
     	<!--主键-->
@@ -19,26 +19,24 @@
         <property name="targetSTLDH" type="java.lang.String" lazy="false">
         	<column name="targetSTLDH" precision="200" scale="0" not-null="false" />
         </property>
-		<!--源实体类名称-->
-        <property name="sourceSTLMC" type="java.lang.String" lazy="false">
-        	<column name="sourceSTLMC" precision="200" scale="0" not-null="false" />
+		<!--实体类映射名称-->
+        <property name="shiTiLeiYSMC" type="java.lang.String" lazy="false">
+        	<column name="shiTiLeiYSMC" precision="200" scale="0" not-null="false" />
         </property>
-		<!--目标实体类名称-->
-        <property name="targetSTLMC" type="java.lang.String" lazy="false">
-        	<column name="targetSTLMC" precision="200" scale="0" not-null="false" />
+		<!--目标主键字段代号-->
+        <property name="targetZJZDDH" type="java.lang.String" lazy="false">
+        	<column name="targetZJZDDH" precision="200" scale="0" not-null="false" />
         </property>
-		<!--目标主键代号-->
-        <property name="targetZJDH" type="java.lang.String" lazy="false">
-        	<column name="targetZJDH" precision="200" scale="0" not-null="false" />
-        </property>
-		<!--源系统代号-->
-        <property name="sourceXTDH" type="java.lang.String" lazy="false">
-        	<column name="sourceXTDH" precision="200" scale="0" not-null="false" />
-        </property>
-		<!--目标系统代号-->
-        <property name="targetXTDH" type="java.lang.String" lazy="false">
-        	<column name="targetXTDH" precision="200" scale="0" not-null="false" />
-        </property>
+		<!--源应用系统-->
+        <many-to-one name="sourceYYXT" class="com.poweruniverse.app.entity.trans.YingYongXT" fetch="select">
+            <column name="sourceYYXTDM" precision="12" scale="0" not-null="false" />
+        </many-to-one>
+        
+		<!--目标应用系统-->
+        <many-to-one name="targetYYXT" class="com.poweruniverse.app.entity.trans.YingYongXT" fetch="select">
+            <column name="targetYYXTDM" precision="12" scale="0" not-null="false" />
+        </many-to-one>
+        
 		<!--字段映射集合-->
         <set name="zds" inverse="true"  lazy="true" cascade="all-delete-orphan" order-by="ziDuanYSDM" >
         	<key>
@@ -46,5 +44,9 @@
         	</key>
         	<one-to-many class="com.poweruniverse.app.entity.trans.ZiDuanYS" />
         </set>
+		<!--源主键字段代号-->
+        <property name="sourceZJZDDH" type="java.lang.String" lazy="false">
+        	<column name="sourceZJZDDH" precision="200" scale="0" not-null="false" />
+        </property>
      </class>
 </hibernate-mapping>

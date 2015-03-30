@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- version:2015-03-24 20:34:20 -->
+<hibernate-mapping auto-import="false">  
+    <class name="com.poweruniverse.app.entity.trans.GongNengYS" table="TRANS_GongNengYS" >
+    	<!--主键-->
+        <id name="gongNengYSDM" type="integer">
+	        <column name="gongNengYSDM" precision="12" scale="0" />
+	        <generator class="increment"></generator>
+        </id>
+        
+		<!--源应用系统-->
+        <many-to-one name="sourceYYXT" class="com.poweruniverse.app.entity.trans.YingYongXT" fetch="select">
+            <column name="sourceYYXTDM" precision="12" scale="0" not-null="false" />
+        </many-to-one>
+        
+		<!--目标应用系统-->
+        <many-to-one name="targetYYXT" class="com.poweruniverse.app.entity.trans.YingYongXT" fetch="select">
+            <column name="targetYYXTDM" precision="12" scale="0" not-null="false" />
+        </many-to-one>
+        
+		<!--源功能代号-->
+        <property name="sourceGNDH" type="java.lang.String" lazy="false">
+        	<column name="sourceGNDH" precision="200" scale="0" not-null="false" />
+        </property>
+		<!--目标功能代号-->
+        <property name="targetGNDH" type="java.lang.String" lazy="false">
+        	<column name="targetGNDH" precision="200" scale="0" not-null="false" />
+        </property>
+		<!--关联实体类映射-->
+        <many-to-one name="shiTiLeiYS" class="com.poweruniverse.app.entity.trans.ShiTiLeiYS" fetch="select">
+            <column name="shiTiLeiYSDM" precision="12" scale="0" not-null="false" />
+        </many-to-one>
+        
+		<!--功能映射名称-->
+        <property name="gongNengYSMC" type="java.lang.String" lazy="false">
+        	<column name="gongNengYSMC" precision="200" scale="0" not-null="false" />
+        </property>
+     </class>
+</hibernate-mapping>

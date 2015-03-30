@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<page component="page" needsLogin="true" label="传输记录-列表" onLoad="onPageRady">
+  <grid component="displayGrid" datasourceType="private" datasourceName="cmp_gnDataset_zsgf" label="传输记录" name="yingYongXTListGrid" autoLoad="true" onRowRendered="onGridRowRender" autoRender="true" headerLines="1" footerLines="0" renderto="#zslist" pagiTarget="#zsListpage">
+    <dataset component="stlDataset" label="应用系统" name="stlDataset" autoLoad="true" xiTongDH="trans" shiTiLeiDH="TRANS_ChuanShuJL" start="0" limit="0">
+      <properties component="properties">
+        <property component="simpleProperty" fieldType="string" label="源系统代号" name="sourceXTDH"/>
+        <property component="simpleProperty" name="xinXiLBMC" label="信息类别名称" fieldType="string"/>
+        <property component="simpleProperty" name="targetXTDH" label="目标系统代号" fieldType="string"/>
+        <property component="simpleProperty" fieldType="string" label="目标实体类代号" name="targetSTLDH"/>
+        <property component="simpleProperty" name="chuanShuCS" label="传输次数" fieldType="int"/>
+        <property component="simpleProperty" name="shiFouCSWC" label="是否传输完成" fieldType="boolean"/>
+        <property component="simpleProperty" name="cuoWuXXX" label="错误信息" fieldType="string"/>
+        <property component="simpleProperty" name="sourceZJZ" label="源主键值" fieldType="int"/>
+        <property component="simpleProperty" name="targetZJZ" label="目标主键值" fieldType="int"/>
+        <property component="simpleProperty" name="targetGNDH" label="目标功能代号" fieldType="string"/>
+        <property component="simpleProperty" name="targetCZDH" label="目标操作代号" fieldType="string"/>
+        <property component="simpleProperty" name="sourceGNDH" label="源功能代号" fieldType="string"/>
+        <property component="simpleProperty" name="sourceCZDH" label="源操作代号" fieldType="string"/>
+        <property component="simpleProperty" name="sourceSTLDH" label="源实体类代号" fieldType="string"/>
+      </properties>
+      <filters component="filters"/>
+      <sorts component="sorts"/>
+    </dataset>
+    <columns component="gridColumns">
+      <column component="intDisplayColumn" textAlign="right" zeroAsBlank="true" name="@index" label="行号" fieldType="int" renderto="#xuHao" renderTemplate="{{@index}}"/>
+      <column component="stringDisplayColumn" name="sourceXTDH" label="源系统代号" fieldType="string" renderto="#sourceYYXT" renderTemplate="{{sourceXTDH}}"/>
+      <column fieldType="int" component="intDisplayColumn" label="源主键值" name="sourceZJZ" renderto="#sourceZJZ" renderTemplate="{{sourceZJZ}}" textAlign="center" zeroAsBlank="true"/>
+      <column component="stringDisplayColumn" name="targetXTDH" label="目标系统代号" fieldType="string" renderto="#targetYYXT" renderTemplate="{{targetXTDH}}"/>
+      <column fieldType="int" component="intDisplayColumn" label="目标主键值" name="targetZJZ" renderto="#targetZJZ" renderTemplate="{{targetZJZ}}" textAlign="center" zeroAsBlank="true"/>
+      <column fieldType="string" component="stringDisplayColumn" label="信息类别名称" name="xinXiLBMC" renderto="#shuJuLB" renderTemplate="{{xinXiLBMC}}"/>
+      <column fieldType="string" component="stringDisplayColumn" label="显示内容" name="targetSTLDH" renderto="#xinXiNR" renderTemplate="{{#equals xinXiLBMC 'data'}}  数据 {{sourceSTLDH}} -&gt; {{targetSTLDH}}   {{/equals}}  {{#equals xinXiLBMC 'file'}} 附件  {{/equals}}  {{#equals xinXiLBMC 'task'}}  任务 {{sourceGNDH}} {{sourceCZDH}} -&gt; {{targetGNDH}} {{targetCZDH}}   {{/equals}}"/>
+      <column fieldType="boolean" component="booleanDisplayColumn" label="是否传输完成" name="shiFouCSWC" renderto="#shiFouCSWC" renderTemplate="{{shiFouCSWC}}" showCheckbox="false" trueText="完成" falseText="未完成"/>
+      <column component="intDisplayColumn" textAlign="right" zeroAsBlank="true" name="chuanShuCS" label="传输次数" fieldType="int" renderto="#chuanShuCS" renderTemplate="{{chuanShuCS}}"/>
+    </columns>
+  </grid>
+  <import component="importSubpage" label="header" name="importSubpage_header" autoLoad="true" pageURL="header/header.html" renderto="#header">
+    <parameters component="parameters"/>
+  </import>
+  <import component="importSubpage" label="footer" name="importSubpage_footer" autoLoad="true" pageURL="footer/footer.html" renderto="#footer">
+    <parameters component="parameters"/>
+  </import>
+</page>

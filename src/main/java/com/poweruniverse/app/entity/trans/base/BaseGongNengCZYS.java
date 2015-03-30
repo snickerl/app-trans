@@ -6,7 +6,7 @@ import com.poweruniverse.nim.data.entity.sys.base.EntityI;
 /*
 * 实体类：功能操作映射
 */
-@Version("2015-03-17 04:41:16")
+@Version("2015-03-24 20:01:47")
 public abstract class BaseGongNengCZYS  implements Serializable,Comparable<Object> ,EntityI {
 	private static final long serialVersionUID = 1L;
 	private int hashCode = Integer.MIN_VALUE;
@@ -32,34 +32,10 @@ public abstract class BaseGongNengCZYS  implements Serializable,Comparable<Objec
 	public void setGongNengCZYSDM(java.lang.Integer gongNengCZYSDM){this.gongNengCZYSDM = gongNengCZYSDM;}
 
 			
-	// 属性：目标功能代号 （targetGNDH）
-	private java.lang.String targetGNDH = null;
-	public java.lang.String getTargetGNDH(){return this.targetGNDH ;}
-	public void setTargetGNDH(java.lang.String targetGNDH){this.targetGNDH = targetGNDH;}
-	
-			
 	// 属性：源操作代号 （sourceCZDH）
 	private java.lang.String sourceCZDH = null;
 	public java.lang.String getSourceCZDH(){return this.sourceCZDH ;}
 	public void setSourceCZDH(java.lang.String sourceCZDH){this.sourceCZDH = sourceCZDH;}
-	
-			
-	// 属性：源功能代号 （sourceGNDH）
-	private java.lang.String sourceGNDH = null;
-	public java.lang.String getSourceGNDH(){return this.sourceGNDH ;}
-	public void setSourceGNDH(java.lang.String sourceGNDH){this.sourceGNDH = sourceGNDH;}
-	
-			
-	// 属性：目标系统代号 （targetXTDH）
-	private java.lang.String targetXTDH = null;
-	public java.lang.String getTargetXTDH(){return this.targetXTDH ;}
-	public void setTargetXTDH(java.lang.String targetXTDH){this.targetXTDH = targetXTDH;}
-	
-			
-	// 属性：源系统代号 （sourceXTDH）
-	private java.lang.String sourceXTDH = null;
-	public java.lang.String getSourceXTDH(){return this.sourceXTDH ;}
-	public void setSourceXTDH(java.lang.String sourceXTDH){this.sourceXTDH = sourceXTDH;}
 	
 			
 	// 属性：目标操作代号 （targetCZDH）
@@ -67,6 +43,17 @@ public abstract class BaseGongNengCZYS  implements Serializable,Comparable<Objec
 	public java.lang.String getTargetCZDH(){return this.targetCZDH ;}
 	public void setTargetCZDH(java.lang.String targetCZDH){this.targetCZDH = targetCZDH;}
 	
+			
+	// 属性：功能操作映射名称 （gongNengCZYSMC）
+	private java.lang.String gongNengCZYSMC = null;
+	public java.lang.String getGongNengCZYSMC(){return this.gongNengCZYSMC ;}
+	public void setGongNengCZYSMC(java.lang.String gongNengCZYSMC){this.gongNengCZYSMC = gongNengCZYSMC;}
+	
+	// 对象：功能映射 （gongNengYS）
+	private com.poweruniverse.app.entity.trans.GongNengYS gongNengYS;
+	public com.poweruniverse.app.entity.trans.GongNengYS getGongNengYS(){return this.gongNengYS ;}
+	public void setGongNengYS(com.poweruniverse.app.entity.trans.GongNengYS gongNengYS){this.gongNengYS = gongNengYS;}
+
 	public boolean equals (Object obj) {
 		if (null == obj) return false;
 		if (!(obj instanceof com.poweruniverse.app.entity.trans.GongNengCZYS)) return false;
@@ -89,7 +76,7 @@ public abstract class BaseGongNengCZYS  implements Serializable,Comparable<Objec
 	}
 	
 	public String toString() {
-		return this.gongNengCZYSDM+"";
+		return this.gongNengCZYSMC+"";
 	}
 
 	public Integer pkValue() {
@@ -115,12 +102,10 @@ public abstract class BaseGongNengCZYS  implements Serializable,Comparable<Objec
 	public com.poweruniverse.app.entity.trans.GongNengCZYS clone(){
 		com.poweruniverse.app.entity.trans.GongNengCZYS gongNengCZYS = new com.poweruniverse.app.entity.trans.GongNengCZYS();
 		
-		gongNengCZYS.setTargetGNDH(targetGNDH);
 		gongNengCZYS.setSourceCZDH(sourceCZDH);
-		gongNengCZYS.setSourceGNDH(sourceGNDH);
-		gongNengCZYS.setTargetXTDH(targetXTDH);
-		gongNengCZYS.setSourceXTDH(sourceXTDH);
 		gongNengCZYS.setTargetCZDH(targetCZDH);
+		gongNengCZYS.setGongNengCZYSMC(gongNengCZYSMC);
+		gongNengCZYS.setGongNengYS(gongNengYS);
 		
 		return gongNengCZYS;
 	}

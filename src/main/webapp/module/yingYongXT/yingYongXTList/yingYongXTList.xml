@@ -4,7 +4,7 @@
   <grid component="displayGrid" datasourceType="private" datasourceName="cmp_gnDataset_zsgf" label="应用系统接收" name="yingYongXTListGrid" autoLoad="true" onRowRendered="onGridRowRender" autoRender="true" headerLines="1" footerLines="0" renderto="#zslist" pagiTarget="#zsListpage">
     <dataset component="stlDataset" label="应用系统" name="stlDataset" autoLoad="true" xiTongDH="trans" caoZuoDH="select" start="0" limit="0" shiTiLeiDH="TRANS_YingYongXT">
       <properties component="properties">
-        <property component="simpleProperty" fieldType="string" label="应用系统编号" name="yingYongXTBH"/>
+        <property component="simpleProperty" fieldType="string" label="应用系统编号" name="yingYongXTDH"/>
         <property component="simpleProperty" name="yingYongXTMC" label="应用系统名称" fieldType="string"/>
         <property component="simpleProperty" fieldType="boolean" label="是否接收数据" name="shiFouJSSJ"/>
         <property component="simpleProperty" name="shiFouCCSJ" label="是否传出数据" fieldType="boolean"/>
@@ -17,15 +17,21 @@
       <sorts component="sorts"/>
     </dataset>
     <columns component="gridColumns">
-      <column fieldType="int" component="gridColumn" label="行号" name="@index" renderto="#GYS_xuHao" renderTemplate="{{@index}}"/>
-      <column fieldType="string" component="gridColumn" label="应用系统编号" name="yingYongXTBH" renderto="#GYS_gongFangBH" renderTemplate="{{yingYongXTBH}}"/>
-      <column component="gridColumn" name="yingYongXTMC" label="应用系统名称" fieldType="string" renderto="#GYS_gongYingSMC" renderTemplate="{{yingYongXTMC}}"/>
-      <column fieldType="boolean" component="gridColumn" label="是否接收数据" name="shiFouJSSJ" renderto="#GYS_sjjs" renderTemplate="{{#if shiFouJSSJ}}是{{else}}否{{/if}}"/>
-      <column fieldType="boolean" component="gridColumn" label="是否传出数据" name="shiFouCCSJ" renderto="#GYS_sjcc" renderTemplate="{{#if shiFouCCSJ}}是{{else}}否{{/if}}"/>
-      <column fieldType="boolean" component="gridColumn" label="是否接收附件" name="shiFouJSFJ" renderto="#GYS_fjjs" renderTemplate="{{#if shiFouJSFJ}}是{{else}}否{{/if}}"/>
-      <column fieldType="boolean" component="gridColumn" label="是否传出附件" name="shiFouCCFJ" renderto="#GYS_fjcc" renderTemplate="{{#if shiFouCCFJ}}是{{else}}否{{/if}}"/>
-      <column fieldType="boolean" component="gridColumn" label="是否接收任务" name="shiFouJSRW" renderto="#GYS_rwjs" renderTemplate="{{#if shiFouJSRW}}是{{else}}否{{/if}}"/>
-      <column fieldType="boolean" component="gridColumn" label="是否传出任务" name="shiFouCCRW" renderto="#GYS_rwcc" renderTemplate="{{#if shiFouCCRW}}是{{else}}否{{/if}}"/>
+      <column fieldType="int" component="intDisplayColumn" label="行号" name="@index" renderto="#GYS_xuHao" renderTemplate="{{@index}}" textAlign="center"/>
+      <column fieldType="string" component="stringDisplayColumn" label="应用系统编号" name="yingYongXTDH" renderto="#GYS_gongFangBH" renderTemplate="{{yingYongXTDH}}"/>
+      <column component="stringDisplayColumn" name="yingYongXTMC" label="应用系统名称" fieldType="string" renderto="#GYS_gongYingSMC" renderTemplate="{{yingYongXTMC}}"/>
+      <column fieldType="boolean" component="booleanDisplayColumn" label="是否接收数据" name="shiFouJSSJ" renderto="#GYS_sjjs" renderTemplate="{{#if shiFouJSSJ}}是{{else}}&amp;nbsp;{{/if}}" showCheckbox="false" trueText="是" falseText="&amp;nbsp;"/>
+      <column fieldType="boolean" component="booleanDisplayColumn" label="是否传出数据" name="shiFouCCSJ" renderto="#GYS_sjcc" renderTemplate="{{#if shiFouCCSJ}}是{{else}}&amp;nbsp;{{/if}}" showCheckbox="false" falseText="&amp;nbsp;" trueText="是"/>
+      <column fieldType="boolean" component="booleanDisplayColumn" label="是否接收附件" name="shiFouJSFJ" renderto="#GYS_fjjs" renderTemplate="{{#if shiFouJSFJ}}是{{else}}&amp;nbsp;{{/if}}" showCheckbox="false" falseText="&amp;nbsp;" trueText="是"/>
+      <column fieldType="boolean" component="booleanDisplayColumn" label="是否传出附件" name="shiFouCCFJ" renderto="#GYS_fjcc" renderTemplate="{{#if shiFouCCFJ}}是{{else}}&amp;nbsp;{{/if}}" showCheckbox="false" falseText="&amp;nbsp;" trueText="是"/>
+      <column fieldType="boolean" component="booleanDisplayColumn" label="是否接收任务" name="shiFouJSRW" renderto="#GYS_rwjs" renderTemplate="{{#if shiFouJSRW}}是{{else}}&amp;nbsp;{{/if}}" showCheckbox="false" falseText="&amp;nbsp;" trueText="是"/>
+      <column fieldType="boolean" component="booleanDisplayColumn" label="是否传出任务" name="shiFouCCRW" renderto="#GYS_rwcc" renderTemplate="{{#if shiFouCCRW}}是{{else}}&amp;nbsp;{{/if}}" showCheckbox="false" falseText="&amp;nbsp;" trueText="是"/>
     </columns>
   </grid>
+  <import component="importSubpage" label="header" name="importSubpage_header" autoLoad="true" pageURL="header/header.html" renderto="#header">
+    <parameters component="parameters"/>
+  </import>
+  <import component="importSubpage" label="footer" name="importSubpage_footer" autoLoad="true" pageURL="footer/footer.html" renderto="#footer">
+    <parameters component="parameters"/>
+  </import>
 </page>

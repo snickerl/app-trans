@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.activation.DataHandler;
-import javax.activation.FileDataSource;
 
 import net.sf.json.JSONObject;
 
@@ -31,8 +30,8 @@ import com.poweruniverse.app.entity.trans.ShiTiLeiYS;
 import com.poweruniverse.app.entity.trans.YingYongXT;
 import com.poweruniverse.app.trans.intface.TransInterface;
 import com.poweruniverse.nim.base.description.Application;
+import com.poweruniverse.nim.base.message.JSONMessageResult;
 import com.poweruniverse.nim.base.utils.FreemarkerUtils;
-import com.poweruniverse.nim.data.entity.sys.FuJian;
 import com.poweruniverse.nim.data.service.utils.HibernateSessionFactory;
 
 /**
@@ -69,8 +68,8 @@ public class TransJob implements Job {
 						.add(Restrictions.sqlRestriction("targetXTDH in (select xt.yingyongxtbh from trans_yingyongxt xt where xt.shifoujsfj = 1"))//只查询目标系统可以接收附件的
 						.add(Restrictions.eq("xinXiLBMC", "file"))
 						.add(Restrictions.eq("shiFouCSWC", false))//未完成 
-						.add(Property.forName("xinXiCSJLDM").notIn(subselect))//且不存在未完成的依赖
-						.addOrder(Order.asc("xinXiCSJLDM"));
+						.add(Property.forName("chuanShuJLDM").notIn(subselect))//且不存在未完成的依赖
+						.addOrder(Order.asc("chuanShuJLDM"));
 					@SuppressWarnings("unchecked")
 					List<ChuanShuJL> fileChuanShuJLs = (List<ChuanShuJL>)fileTransCriteria.setMaxResults(20).list();
 					logger.debug("附件传输进程...启动 共"+fileChuanShuJLs.size()+"条");
@@ -98,10 +97,10 @@ public class TransJob implements Job {
 							sess.beginTransaction();
 							
 							
-							JSONObject uploadRet = null;
+							JSONMessageResult uploadRet = null;
 							if("_system".equals(fileChuanShuJL.getTargetXTDH())){
 								//本地系统接受附件的任务
-								logger.debug("		向目标系统发送附件："+fileChuanShuJL.getSourceZJZ());
+								logger.debug("		向源系统请求附件："+fileChuanShuJL.getSourceZJZ());
 								uploadRet = takeFile(fileChuanShuJL);
 								logger.debug("		目标服务器返回："+uploadRet);
 							}else{
@@ -112,10 +111,8 @@ public class TransJob implements Job {
 							}
 							
 							//记录传输结果
-							boolean isSendOk = uploadRet.getBoolean("success");
-							if(isSendOk){
-								JSONObject dataRet = uploadRet.getJSONObject("data");
-								Integer newId = dataRet.getInt(transSTLMap.getTargetZJDH());//目标系统用目标系统实体类的主键列名返回新的主键值
+							if(uploadRet.isSuccess()){
+								Integer newId = (Integer)uploadRet.get(transSTLMap.getTargetZJZDDH());//目标系统用目标系统实体类的主键列名返回新的主键值
 								//记录传输成功信息（下一条相同记录传输时 会检查是否有已成功的记录 这里不做额外处理了）
 								fileChuanShuJL = (ChuanShuJL)sess.load(ChuanShuJL.class, fileChuanShuJL.getChuanShuJLDM());
 								
@@ -126,11 +123,10 @@ public class TransJob implements Job {
 							}else{
 								//记录传输错误信息
 								if(uploadRet.has("errorMsg")){
-									fileChuanShuJL.setCuoWuXXX(uploadRet.getString("errorMsg"));
+									fileChuanShuJL.setCuoWuXXX(uploadRet.getErrorMsg());
 								}else{
-									fileChuanShuJL.setCuoWuXXX("出现错误，未返回错误信息");
+									fileChuanShuJL.setCuoWuXXX("出现错误，但未返回错误信息");
 								}
-								
 							}
 							sess.update(fileChuanShuJL);
 							sess.getTransaction().commit();
@@ -153,8 +149,8 @@ public class TransJob implements Job {
 					.add(Restrictions.sqlRestriction("targetXTDH in (select xt.yingyongxtbh from trans_yingyongxt xt where xt.shifoujssj = 1"))//只查询目标系统可以接收数据的
 					.add(Restrictions.eq("xinXiLBMC", "data"))
 					.add(Restrictions.eq("shiFouCSWC", false))//未完成 且不存在未完成的依赖关系
-					.add(Property.forName("xinXiCSJLDM").notIn(subselect))
-					.addOrder(Order.asc("xinXiCSJLDM"));
+					.add(Property.forName("chuanShuJLDM").notIn(subselect))
+					.addOrder(Order.asc("chuanShuJLDM"));
 				@SuppressWarnings("unchecked")
 				List<ChuanShuJL> dataChuanShuJLs = (List<ChuanShuJL>)dataTransCriteria.setMaxResults(10).list();
 				logger.debug("数据传输进程...启动 共"+dataChuanShuJLs.size()+"条");
@@ -182,15 +178,13 @@ public class TransJob implements Job {
 						sess.beginTransaction();
 						
 						logger.debug("		向目标系统发送信息");
-						JSONObject uploadRet = transData(dataChuanShuJL);
+						JSONMessageResult uploadRet = transData(dataChuanShuJL);
 						logger.debug("		目标服务器返回："+uploadRet);
 						
 						//记录传输结果
-						boolean isSendOk = uploadRet.getBoolean("success");
-						if(isSendOk){
+						if(uploadRet.isSuccess()){
 							//记录传输成功信息（下一条相同记录传输时 会检查是否有已成功的记录 这里不做处理了）
-							JSONObject dataRet = uploadRet.getJSONObject("data");
-							Integer newId = dataRet.getInt(transSTLMap.getTargetZJDH());//目标系统用目标系统实体类的主键列名返回新的主键值
+							Integer newId = (Integer)uploadRet.get(transSTLMap.getTargetZJZDDH());//目标系统用目标系统实体类的主键列名返回新的主键值
 							
 							dataChuanShuJL = (ChuanShuJL)sess.load(ChuanShuJL.class, dataChuanShuJL.getChuanShuJLDM());
 							dataChuanShuJL.setShiFouCSWC(true);
@@ -199,7 +193,11 @@ public class TransJob implements Job {
 							dataChuanShuJL.setCuoWuXXX(null);
 						}else{
 							//记录传输错误信息
-							dataChuanShuJL.setCuoWuXXX(uploadRet.getString("errorMsg"));
+							if(uploadRet.has("errorMsg")){
+								dataChuanShuJL.setCuoWuXXX(uploadRet.getErrorMsg());
+							}else{
+								dataChuanShuJL.setCuoWuXXX("出现错误，但未返回错误信息");
+							}
 						}
 						sess.update(dataChuanShuJL);
 						sess.getTransaction().commit();
@@ -218,8 +216,8 @@ public class TransJob implements Job {
 					.add(Restrictions.sqlRestriction("targetXTDH in (select xt.yingyongxtbh from trans_yingyongxt xt where xt.shifoujsrw = 1"))//只查询目标系统可以接收任务的
 					.add(Restrictions.eq("xinXiLBMC", "task"))
 					.add(Restrictions.eq("shiFouCSWC", false))//未完成 且不存在未完成的依赖关系
-					.add(Property.forName("xinXiCSJLDM").notIn(subselect))
-					.addOrder(Order.asc("xinXiCSJLDM"));
+					.add(Property.forName("chuanShuJLDM").notIn(subselect))
+					.addOrder(Order.asc("chuanShuJLDM"));
 				@SuppressWarnings("unchecked")
 				List<ChuanShuJL> taskChuanShuJLs = (List<ChuanShuJL>)taskTransCriteria.setMaxResults(10).list();
 				logger.debug("任务传输进程...启动 共"+taskChuanShuJLs.size()+"条");
@@ -247,15 +245,13 @@ public class TransJob implements Job {
 						sess.beginTransaction();
 						
 						logger.debug("		向目标系统发送信息");
-						JSONObject uploadRet = transTask(taskChuanShuJL);
+						JSONMessageResult uploadRet = transTask(taskChuanShuJL);
 						logger.debug("		目标服务器返回："+uploadRet);
 						
 						//记录传输结果
-						boolean isSendOk = uploadRet.getBoolean("success");
-						if(isSendOk){
+						if(uploadRet.isSuccess()){
 							//记录传输成功信息（下一条相同记录传输时 会检查是否有已成功的记录 这里不做处理了）
-							JSONObject dataRet = uploadRet.getJSONArray("data").getJSONObject(0);
-							Integer newId = dataRet.getInt(transSTLMap.getTargetZJDH());//目标系统用目标系统实体类的主键列名返回新的主键值
+							Integer newId = (Integer)uploadRet.get(transSTLMap.getTargetZJZDDH());//目标系统用目标系统实体类的主键列名返回新的主键值
 							
 							taskChuanShuJL = (ChuanShuJL)sess.load(ChuanShuJL.class, taskChuanShuJL.getChuanShuJLDM());
 							taskChuanShuJL.setShiFouCSWC(true);
@@ -264,7 +260,11 @@ public class TransJob implements Job {
 							taskChuanShuJL.setCuoWuXXX(null);
 						}else{
 							//记录传输错误信息
-							taskChuanShuJL.setCuoWuXXX(uploadRet.getString("errorMsg"));
+							if(uploadRet.has("errorMsg")){
+								taskChuanShuJL.setCuoWuXXX(uploadRet.getErrorMsg());
+							}else{
+								taskChuanShuJL.setCuoWuXXX("出现错误，但未返回错误信息");
+							}
 						}
 						sess.update(taskChuanShuJL);
 						sess.getTransaction().commit();
@@ -297,8 +297,8 @@ public class TransJob implements Job {
 	
 	
 	//传输数据
-	public JSONObject transData(ChuanShuJL transInfo) throws Exception{
-		JSONObject result = null;
+	public JSONMessageResult transData(ChuanShuJL transInfo) throws Exception{
+		JSONMessageResult result = null;
 		// 发送数据
 		try {
 			String targetXTDH = transInfo.getTargetXTDH();
@@ -336,28 +336,23 @@ public class TransJob implements Job {
 						targetId = hisTrans.getTargetZJZ();
 					}
 				}
-				String uploadRet = transImpl.postRecord(transInfo.getTargetSTLDH(), targetId,jsonString );
-				logger.debug("		数据传输返回值:"+uploadRet);
-				result = JSONObject.fromObject(uploadRet);
+				result = transImpl.postRecord(transInfo.getTargetSTLDH(), targetId,jsonString );
+				logger.debug("		数据传输返回值:"+result);
 			}else{
 				logger.debug("		数据传输失败：数据接收接口不存在");
-				result = new JSONObject();
-				result.put("success", false);
-				result.put("errorMsg","数据接收接口不存在");
+				result = new JSONMessageResult("数据接收接口不存在");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("		数据传输失败:"+e.getMessage());
-			result = new JSONObject();
-			result.put("success", false);
-			result.put("errorMsg", e.getMessage());
+			result = new JSONMessageResult(e.getMessage());
 		}
 		return result;
 	}
 	
 	//接收文件
-	public JSONObject takeFile(ChuanShuJL transInfo) throws Exception{
-		JSONObject result = null;
+	public JSONMessageResult takeFile(ChuanShuJL transInfo) throws Exception{
+		JSONMessageResult result = null;
 		FileOutputStream fos = null;
 		String sourceXTDH = transInfo.getSourceXTDH();
 		try {
@@ -386,16 +381,12 @@ public class TransJob implements Job {
 				fos=null;
 				logger.debug("		从系统'"+sourceXTDH+"'接收附件成功");
 			}else{
-				result = new JSONObject();
-				result.put("success", false);
-				result.put("errorMsg","系统'"+sourceXTDH+"'的接口实现类不存在");
+				result = new JSONMessageResult("系统'"+sourceXTDH+"'的接口实现类不存在");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("		从系统'"+sourceXTDH+"'接收附件失败:"+e.getMessage());
-			result = new JSONObject();
-			result.put("success", false);
-			result.put("errorMsg", e.getMessage());
+			result = new JSONMessageResult(e.getMessage());
 		}finally{
 			if(fos!=null){
 				fos.close();
@@ -405,8 +396,8 @@ public class TransJob implements Job {
 	}
 
 	//发送文件
-	public JSONObject transFile(ChuanShuJL transInfo) throws Exception{
-		JSONObject result = null;
+	public JSONMessageResult transFile(ChuanShuJL transInfo) throws Exception{
+		JSONMessageResult result = null;
 		// 发送数据
 		try {
 			//取目标系统代号 获取对应的传输接口
@@ -417,9 +408,8 @@ public class TransJob implements Job {
 				logger.debug("		从系统'"+sourceXTDH+"'传输附件'"+transInfo.getSourceZJZ()+"'到系统'"+targetXTDH+"'开始" );
 				File file = new File(Application.getInstance().getContextPath() +"WEB-INF/file/"+sourceXTDH+"/file_"+ transInfo.getSourceZJZ());
 				if(file.exists()){
-					String uploadRet = transImpl.postFile(transInfo.getTargetZJZ(), file);
-					logger.debug("		附件传输完成，目标系统返回值:"+uploadRet);
-					result = JSONObject.fromObject(uploadRet);
+					result = transImpl.postFile(transInfo.getTargetZJZ(), file);
+					logger.debug("		附件传输完成，目标系统返回值:"+result);
 //				}else if(fj.getWenJianCD()==0){
 //					logger.error("		文件不存在且大小为零，忽略此文件");
 //					result = new JSONObject();
@@ -427,28 +417,22 @@ public class TransJob implements Job {
 //					result.put("errorMsg", "文件不存在或无文件名，且大小为零，忽略此文件");
 				}else{
 					logger.error("		附件传输失败:文件("+file.getName()+")不存在");
-					result = new JSONObject();
-					result.put("success", false);
-					result.put("errorMsg", "文件("+file.getName()+")不存在");
+					result = new JSONMessageResult("文件("+file.getName()+")不存在");
 				}
 			}else{
-				result = new JSONObject();
-				result.put("success", false);
-				result.put("errorMsg","系统'"+targetXTDH+"'的接口实现类不存在");
+				result = new JSONMessageResult("系统'"+targetXTDH+"'的接口实现类不存在");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("		附件传输失败:"+e.getMessage());
-			result = new JSONObject();
-			result.put("success", false);
-			result.put("errorMsg", e.getMessage());
+			result = new JSONMessageResult(e.getMessage());
 		}
 		return result;
 	}
 	
 	//发送任务 这里也会传递数据 主要用于流程检视变量的记录 最新数据在之前的数据传输中应该已经传递了
-	public JSONObject transTask(ChuanShuJL transInfo) throws Exception{
-		JSONObject result = null;
+	public JSONMessageResult transTask(ChuanShuJL transInfo) throws Exception{
+		JSONMessageResult result = null;
 		// 发送数据
 		try {
 			String targetXTDH = transInfo.getTargetXTDH();
@@ -484,27 +468,20 @@ public class TransJob implements Job {
 				if(hisTrans!=null){
 					targetId = hisTrans.getTargetZJZ();
 					
-					String uploadRet = transImpl.postTask(transInfo.getTargetGNDH(), transInfo.getTargetCZDH(), targetId, jsonString);
-					logger.debug("		任务传输完成:目标系统返回值:"+uploadRet);
-					result = JSONObject.fromObject(uploadRet);
+					result = transImpl.postTask(transInfo.getTargetGNDH(), transInfo.getTargetCZDH(), targetId, jsonString);
+					logger.debug("		任务传输完成:目标系统返回值:"+result);
 				}else{
 					//对应的数据尚未传输成功 不能执行任务传输 (先数据 再任务)
 					logger.error("		任务传输失败:依赖的数据尚未传输成功！");
-					result = new JSONObject();
-					result.put("success", false);
-					result.put("errorMsg", "依赖的数据尚未传输成功！");
+					result = new JSONMessageResult("依赖的数据尚未传输成功！");
 				}
 			}else{
-				result = new JSONObject();
-				result.put("success", false);
-				result.put("errorMsg","系统'"+targetXTDH+"'的接口实现类不存在");
+				result = new JSONMessageResult("系统'"+targetXTDH+"'的接口实现类不存在");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("		任务传输失败:"+e.getMessage());
-			result = new JSONObject();
-			result.put("success", false);
-			result.put("errorMsg", e.getMessage());
+			result = new JSONMessageResult(e.getMessage());
 		}
 		return result;
 	}
