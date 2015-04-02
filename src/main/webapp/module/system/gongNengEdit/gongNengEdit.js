@@ -1,4 +1,9 @@
 function onPageRady(){
+ //显示标题
+  var gnDs = LUI.Datasource.getInstance('gongNengRecord');
+  var record = gnDs.getRecord(0);
+  document.title = LUI.Page.instance.title +" - "+record.getFieldValue('gongNengMC');
+  
   $('#newCZBtn').click(function(){
   		//增加新的字段
   		var stlRecord = LUI.Datasource.getInstance('gongNengRecord').getRecord(0);
@@ -20,3 +25,4 @@ function onGridRowRender(grid,ob,evt){
         })
     }
 }
+

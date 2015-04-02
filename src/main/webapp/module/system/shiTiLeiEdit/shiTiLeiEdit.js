@@ -1,4 +1,9 @@
 function onPageRady(){
+  //显示标题
+  var stlDs = LUI.Datasource.getInstance('shiTiLeiRecord');
+  var record = stlDs.getRecord(0);
+  document.title = LUI.Page.instance.title +" - "+record.getFieldValue('shiTiLeiMC');
+  
   $('#newZiDuanBtn').click(function(){
   		//增加新的字段
   		var stlRecord = LUI.Datasource.getInstance('shiTiLeiRecord').getRecord(0);
@@ -169,6 +174,7 @@ function ziDuanLXChanged(field,ob,evt){
 			guanLianFLZDField.disable();
 		}else if(newVal.ziDuanLXDH == 'set'){//集合
           	if(!evt.params.isInitial){
+                lieMingField.setValue(null);
                 ziDuanCDField.setValue(null);
                 ziDuanJDField.setValue(null);
               
@@ -187,6 +193,7 @@ function ziDuanLXChanged(field,ob,evt){
 			
 		}else if(newVal.ziDuanLXDH == 'fileset'){//文件集合	
           	if(!evt.params.isInitial){
+              lieMingField.setValue(null);
                 ziDuanCDField.setValue(null);
                 ziDuanJDField.setValue(null);
 				guanLianSTLField.setValue(null);

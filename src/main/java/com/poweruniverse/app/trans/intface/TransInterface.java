@@ -14,17 +14,21 @@ import com.poweruniverse.nim.base.message.JSONMessageResult;
 public abstract class TransInterface {
 	private String serviceIp = null;
 	private String servicePort = null;
+	private String userName = null;
+	private String password = null;
 	
-	public TransInterface(String serviceIp, String servicePort) {
+	public TransInterface(String serviceIp, String servicePort,String userName,String password) {
 		super();
 		this.serviceIp = serviceIp;
 		this.servicePort = servicePort;
+		this.userName = userName;
+		this.password = password;
 	}
 
 	//返回消息为json格式 的字符串:
 	//成功:{success:true,id:XXXXX}  返回本系统的id
 	//失败:{success:false,errorMsg:'错误内容'}  
-	public abstract JSONMessageResult postRecord(String shiTiLeiDH,Integer targetZJZ,String jsonString);
+	public abstract JSONMessageResult postRecord(String shiTiLeiDH,String zhuJianZDDH,Integer targetZJZ,String jsonString);
 	
 	//返回消息为json格式 的字符串:
 	//成功:{success:true,id:XXXXX}  返回本系统的id
@@ -34,7 +38,7 @@ public abstract class TransInterface {
 	//返回消息为json格式 的字符串:
 	//成功:{success:true,id:XXXXX}  返回本系统的id
 	//失败:{success:false,errorMsg:'错误内容'}  
-	public abstract JSONMessageResult postTask(String gongNengDH,String caoZuoDH,Integer targetZJZ,String jsonString);
+	public abstract JSONMessageResult postTask(String gongNengDH,String caoZuoDH,String zhuJianZDDH,Integer targetZJZ,String jsonString);
 	
 	
 	//向目标系统请求文件( 保存到本地 准备发送给目标系统)
@@ -48,6 +52,14 @@ public abstract class TransInterface {
 
 	protected String getServicePort() {
 		return servicePort;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public String getPassword( ) {
+		return password;
 	}
 	
 }

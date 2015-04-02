@@ -2,7 +2,7 @@
 <!DOCTYPE hibernate-mapping PUBLIC 
 	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- version:2015-03-26 05:45:16 -->
+<!-- version:2015-04-02 09:14:32 -->
 <hibernate-mapping auto-import="false">  
     <class name="com.poweruniverse.app.entity.trans.ChuanShuJL" table="TRANS_ChuanShuJL" >
     	<!--主键-->
@@ -89,6 +89,14 @@
 		<!--目标实体类代号-->
         <property name="targetSTLDH" type="java.lang.String" lazy="false">
         	<column name="targetSTLDH" precision="200" scale="0" not-null="false" />
+        </property>
+		<!--创建人-->
+        <property name="chuangJianRen" type="java.lang.String" lazy="false">
+        	<column name="chuangJianRen" precision="200" scale="0" not-null="false" />
+        </property>
+		<!--创建IP-->
+        <property name="chuangJianIp" type="java.lang.String" lazy="false">
+        	<column name="chuangJianIp" precision="200" scale="0" not-null="false" />
         </property>
      </class>
 </hibernate-mapping>

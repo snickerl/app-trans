@@ -29,6 +29,8 @@
             </property>
           </properties>
         </property>
+        <property component="simpleProperty" name="chuangJianRen" label="创建人" fieldType="string"/>
+        <property component="simpleProperty" name="chuangJianSJ" label="创建时间" fieldType="date"/>
       </properties>
     </record>
     <fields component="formFields">
@@ -47,10 +49,7 @@
           <columns component="gridColumns">
             <column component="intDisplayColumn" textAlign="right" zeroAsBlank="true" name="@index" label="行号" fieldType="int" renderto="#xuHao" renderTemplate="{{@index}}"/>
             <column component="objectDisplayColumn" name="chuanShuJL" label="信息类别名称" fieldType="object" renderto="#xinXiLBMC" renderTemplate="{{chuanShuJL.xinXiLBMC}}"/>
-            <column fieldType="object" component="objectDisplayColumn" label="传输内容" name="chuanShuJL" renderto="#chuanShuNR" renderTemplate="{{chuanShuJL.sourceSTLDH}}
-
-{{#equals chuanShuJL.xinXiLBMC 'data'}}  数据 {{chuanShuJL.sourceSTLDH}} -&gt; {{chuanShuJL.targetSTLDH}}   {{/equals}}  
-{{#equals chuanShuJL.xinXiLBMC 'file'}} 附件  {{/equals}}  {{#equals chuanShuJL.xinXiLBMC 'task'}}  任务 {{chuanShuJL.sourceGNDH}} {{chuanShuJL.sourceCZDH}} -&gt; {{chuanShuJL.targetGNDH}} {{chuanShuJL.targetCZDH}}   {{/equals}}"/>
+            <column fieldType="object" component="objectDisplayColumn" label="传输内容" name="chuanShuJL" renderto="#chuanShuNR" renderTemplate="{{chuanShuJL.sourceSTLDH}}  {{#equals chuanShuJL.xinXiLBMC 'data'}}  数据 {{chuanShuJL.sourceSTLDH}} -&gt; {{chuanShuJL.targetSTLDH}}   {{/equals}}   {{#equals chuanShuJL.xinXiLBMC 'file'}} 附件  {{/equals}}  {{#equals chuanShuJL.xinXiLBMC 'task'}}  任务 {{chuanShuJL.sourceGNDH}} {{chuanShuJL.sourceCZDH}} -&gt; {{chuanShuJL.targetGNDH}} {{chuanShuJL.targetCZDH}}   {{/equals}}"/>
             <column component="objectDisplayColumn" name="chuanShuJL" label="是否传输完成" fieldType="object" renderto="#chuanShuZT" renderTemplate="{{chuanShuJL.shiFouCSWC}}"/>
             <column component="objectDisplayColumn" name="chuanShuJL" label="传输次数" fieldType="object" renderto="#chuanShuCS" renderTemplate="{{chuanShuJL.chuanShuCS}}"/>
             <column component="objectDisplayColumn" name="chuanShuJL" label="最后发送时间" fieldType="object" renderto="#chuanShuRQ" renderTemplate="{{chuanShuJL.zuiHouFSSJ}}"/>
@@ -58,6 +57,8 @@
           </columns>
         </grid>
       </field>
+      <field component="stringDisplay" renderType="rela" width="120px" height="22px" name="chuangJianRen" label="创建人" fieldType="string" renderto="#chuangJianRen" renderTemplate="{{chuangJianRen}}"/>
+      <field fieldType="date" component="dateTimeDisplay" name="chuangJianSJ" label="创建时间" renderType="rela" width="120px" height="22px" renderto="#chuangJianRQ" renderTemplate="{{chuangJianSJ}}"/>
     </fields>
     <buttons component="buttons"/>
   </form>

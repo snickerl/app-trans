@@ -2,7 +2,7 @@
 
 <page component="page" needsLogin="true" label="传输记录-列表" onLoad="onPageRady">
   <grid component="displayGrid" datasourceType="private" datasourceName="cmp_gnDataset_zsgf" label="传输记录" name="yingYongXTListGrid" autoLoad="true" onRowRendered="onGridRowRender" autoRender="true" headerLines="1" footerLines="0" renderto="#zslist" pagiTarget="#zsListpage">
-    <dataset component="stlDataset" label="应用系统" name="stlDataset" autoLoad="true" xiTongDH="trans" shiTiLeiDH="TRANS_ChuanShuJL" start="0" limit="0">
+    <dataset component="stlDataset" label="应用系统" name="stlDataset" autoLoad="true" xiTongDH="trans" shiTiLeiDH="TRANS_ChuanShuJL" start="0" limit="20">
       <properties component="properties">
         <property component="simpleProperty" fieldType="string" label="源系统代号" name="sourceXTDH"/>
         <property component="simpleProperty" name="xinXiLBMC" label="信息类别名称" fieldType="string"/>
@@ -18,20 +18,23 @@
         <property component="simpleProperty" name="sourceGNDH" label="源功能代号" fieldType="string"/>
         <property component="simpleProperty" name="sourceCZDH" label="源操作代号" fieldType="string"/>
         <property component="simpleProperty" name="sourceSTLDH" label="源实体类代号" fieldType="string"/>
+        <property component="simpleProperty" fieldType="date" label="创建时间" name="chuangJianSJ"/>
+        <property component="simpleProperty" name="chuangJianRen" label="创建人" fieldType="string"/>
       </properties>
       <filters component="filters"/>
-      <sorts component="sorts"/>
+      <sorts component="sorts">
+        <sort component="propertySort" label="创建时间" property="chuangJianSJ" dir="DESC"/>
+      </sorts>
     </dataset>
     <columns component="gridColumns">
       <column component="intDisplayColumn" textAlign="right" zeroAsBlank="true" name="@index" label="行号" fieldType="int" renderto="#xuHao" renderTemplate="{{@index}}"/>
       <column component="stringDisplayColumn" name="sourceXTDH" label="源系统代号" fieldType="string" renderto="#sourceYYXT" renderTemplate="{{sourceXTDH}}"/>
-      <column fieldType="int" component="intDisplayColumn" label="源主键值" name="sourceZJZ" renderto="#sourceZJZ" renderTemplate="{{sourceZJZ}}" textAlign="center" zeroAsBlank="true"/>
-      <column component="stringDisplayColumn" name="targetXTDH" label="目标系统代号" fieldType="string" renderto="#targetYYXT" renderTemplate="{{targetXTDH}}"/>
-      <column fieldType="int" component="intDisplayColumn" label="目标主键值" name="targetZJZ" renderto="#targetZJZ" renderTemplate="{{targetZJZ}}" textAlign="center" zeroAsBlank="true"/>
+      <column fieldType="string" component="stringDisplayColumn" label="目标系统代号" name="targetXTDH" renderto="#targetYYXT" renderTemplate="{{targetXTDH}}"/>
       <column fieldType="string" component="stringDisplayColumn" label="信息类别名称" name="xinXiLBMC" renderto="#shuJuLB" renderTemplate="{{xinXiLBMC}}"/>
-      <column fieldType="string" component="stringDisplayColumn" label="显示内容" name="targetSTLDH" renderto="#xinXiNR" renderTemplate="{{#equals xinXiLBMC 'data'}}  数据 {{sourceSTLDH}} -&gt; {{targetSTLDH}}   {{/equals}}  {{#equals xinXiLBMC 'file'}} 附件  {{/equals}}  {{#equals xinXiLBMC 'task'}}  任务 {{sourceGNDH}} {{sourceCZDH}} -&gt; {{targetGNDH}} {{targetCZDH}}   {{/equals}}"/>
+      <column fieldType="string" component="stringDisplayColumn" label="显示内容" name="targetSTLDH" renderto="#xinXiNR" renderTemplate="{{#equals xinXiLBMC 'data'}}  数据 {{sourceSTLDH}}.{{sourceZJZ}} -&gt; {{targetSTLDH}}.{{targetZJZ}}   {{/equals}}  {{#equals xinXiLBMC 'file'}} 附件  {{sourceZJZ}} -&gt;{{targetZJZ}}{{/equals}}  {{#equals xinXiLBMC 'task'}}  任务 {{sourceGNDH}}.{{sourceCZDH}}.{{sourceZJZ}} -&gt; {{targetGNDH}}.{{targetCZDH}}.{{targetZJZ}} {{/equals}}"/>
       <column fieldType="boolean" component="booleanDisplayColumn" label="是否传输完成" name="shiFouCSWC" renderto="#shiFouCSWC" renderTemplate="{{shiFouCSWC}}" showCheckbox="false" trueText="完成" falseText="未完成"/>
-      <column component="intDisplayColumn" textAlign="right" zeroAsBlank="true" name="chuanShuCS" label="传输次数" fieldType="int" renderto="#chuanShuCS" renderTemplate="{{chuanShuCS}}"/>
+      <column fieldType="int" component="intDisplayColumn" label="传输次数" name="chuanShuCS" renderto="#chuanShuCS" renderTemplate="{{chuanShuCS}}" textAlign="right" zeroAsBlank="true"/>
+      <column fieldType="date" component="dateDisplayColumn" label="创建信息" name="chuangJianSJ" renderto="#chuangJianXX" renderTemplate="{{substr chuangJianSJ 0 16}} [{{chuangJianRen}}]"/>
     </columns>
   </grid>
   <import component="importSubpage" label="header" name="importSubpage_header" autoLoad="true" pageURL="header/header.html" renderto="#header">

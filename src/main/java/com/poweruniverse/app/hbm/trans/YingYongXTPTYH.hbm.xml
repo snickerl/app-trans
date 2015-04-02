@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- version:2015-04-01 08:03:27 -->
+<hibernate-mapping auto-import="false">  
+    <class name="com.poweruniverse.app.entity.trans.YingYongXTPTYH" table="TRANS_YingYongXTPTYH" >
+    	<!--主键-->
+        <id name="shuJuPTYHDM" type="integer">
+	        <column name="shuJuPTYHDM" precision="12" scale="0" />
+	        <generator class="increment"></generator>
+        </id>
+        
+		<!--用户-->
+        <many-to-one name="yongHu" class="com.poweruniverse.nim.data.entity.sys.YongHu" fetch="select">
+            <column name="yongHuDM" precision="12" scale="0" not-null="false" />
+        </many-to-one>
+        
+		<!--应用系统-->
+        <many-to-one name="yingYongXT" class="com.poweruniverse.app.entity.trans.YingYongXT" fetch="select">
+            <column name="yingYongXTDM" precision="12" scale="0" not-null="false" />
+        </many-to-one>
+        
+     </class>
+</hibernate-mapping>

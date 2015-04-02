@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<page component="page" needsLogin="true" label="用户-编辑">
+  <form component="singleEditForm" label="用户新增表单" name="yongHuEditForm" datasourceType="private" datasourceName="shiTiLeiRecord" autoLoad="true" renderto="#shiTiLeiForm" renderType="rela" autoRender="true" xiTongDH="sys" gongNengDH="yh" caoZuoDH="edit">
+    <record onSubmit="onYongHuAppendSubmit" component="gnRecord" label="用户记录" name="yongHuRecord" autoLoad="true" xiTongDH="sys" gongNengDH="yh" caoZuoDH="edit" id="${params.id}">
+      <properties component="properties">
+        <property component="simpleProperty" name="yongHuMC" label="用户名称" fieldType="string"/>
+        <property component="simpleProperty" name="dengLuDH" label="登录名" fieldType="string"/>
+        <property component="simpleProperty" name="dengLuMM" label="登录密码" fieldType="string"/>
+        <property component="complexProperty" name="yongHuZT" label="用户状态" fieldType="object">
+          <properties component="properties">
+            <property component="simpleProperty" name="yongHuZTMC" label="用户状态名称" fieldType="string"/>
+          </properties>
+        </property>
+      </properties>
+    </record>
+    <fields component="formFields">
+      <field component="stringEditor" renderType="insert" width="120px" height="22px" enabled="true" allowEdit="true" allowBlank="false" hidden="false" name="yongHuMC" label="用户名称" fieldType="string" renderto="#yongHuMC" renderTemplate="{{yongHuMC}}"/>
+      <field component="stringEditor" renderType="insert" width="120px" height="22px" enabled="true" allowEdit="true" allowBlank="false" hidden="false" name="dengLuDH" label="登录名" fieldType="string" renderto="#dengLuDH" renderTemplate="{{dengLuDH}}"/>
+      <field component="stringEditor" renderType="insert" width="120px" height="22px" enabled="true" allowEdit="true" allowBlank="false" hidden="false" name="dengLuMM" label="登录密码" fieldType="string" renderto="#dengLuMM" renderTemplate="{{dengLuMM}}"/>
+      <field component="objectSelectEditor" renderType="insert" enabled="true" allowEdit="true" allowBlank="false" hidden="false" datasourceType="private" searchMode="local" minLength="0" width="120px" height="150px" name="yongHuZT" label="用户状态" fieldType="object" renderto="#yongHuZT" renderTemplate="{{yongHuZT.yongHuZTMC}}">
+        <dataset component="stlDataset" label="功能数据集(用户状态-功能数据集)" name="cmp_gnDataset_17" autoLoad="true" start="0" limit="0" xiTongDH="sys" shiTiLeiDH="SYS_YongHuZT">
+          <properties component="properties">
+            <property component="simpleProperty" name="yongHuZTMC" label="用户状态名称" fieldType="string"/>
+            <property component="simpleProperty" name="yongHuZTDM" label="用户状态代码" fieldType="int"/>
+          </properties>
+          <filters component="filters"/>
+          <sorts component="sorts"/>
+        </dataset>
+      </field>
+    </fields>
+    <buttons component="buttons">
+      <submit component="submitButton" name="submitButton" label="提交按钮" enabled="true" renderType="rela" renderto="#saveBtn"/>
+    </buttons>
+  </form>
+</page>

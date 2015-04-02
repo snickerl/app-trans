@@ -2,7 +2,7 @@
 <!DOCTYPE hibernate-mapping PUBLIC 
 	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- version:2015-03-24 20:57:18 -->
+<!-- version:2015-04-01 08:12:11 -->
 <hibernate-mapping auto-import="false">  
     <class name="com.poweruniverse.app.entity.trans.YingYongXT" table="TRANS_YingYongXT" >
     	<!--主键-->
@@ -54,6 +54,21 @@
 		<!--应用系统webservice端口-->
         <property name="yingYongXTPort" type="java.lang.String" lazy="false">
         	<column name="yingYongXTPort" precision="200" scale="0" not-null="false" />
+        </property>
+		<!--数据平台用户集合-->
+        <set name="shuJuPTYHs" inverse="true"  lazy="true" cascade="all-delete-orphan" order-by="shuJuPTYHDM" >
+        	<key>
+        		<column name="yingYongXTDM" precision="12" scale="0" not-null="true" />
+        	</key>
+        	<one-to-many class="com.poweruniverse.app.entity.trans.YingYongXTPTYH" />
+        </set>
+		<!--应用系统登录代号-->
+        <property name="yingYongDLDH" type="java.lang.String" lazy="false">
+        	<column name="yingYongDLDH" precision="200" scale="0" not-null="false" />
+        </property>
+		<!--应用系统登录密码-->
+        <property name="yingYongDLMM" type="java.lang.String" lazy="false">
+        	<column name="yingYongDLMM" precision="200" scale="0" not-null="false" />
         </property>
      </class>
 </hibernate-mapping>

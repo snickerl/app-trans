@@ -31,7 +31,7 @@ function onPageRady(){
 
 	$('#generateBtn').click(function(){
 		var submitData = [];
-		var stlDataset = LUI.Datasource.getInstance('stlDataset');
+		var stlDataset = LUI.Datasource.getInstance('shiTiLeiListDataset');
 		for(var i=0;i<stlDataset.size();i++){
 			var stlRecord =	stlDataset.getRecord(i);
 			submitData[submitData.length] = {

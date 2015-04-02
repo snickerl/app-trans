@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<page component="page" needsLogin="true" label="应用系统-编辑">
+<page component="page" needsLogin="true" label="应用系统-编辑" onLoad="onPageReady">
   <form component="singleEditForm" label="应用系统编辑表单" name="shiTiLeiEditForm" datasourceType="private" datasourceName="shiTiLeiRecord" autoLoad="true" renderto="#shiTiLeiForm" renderType="rela" autoRender="true" xiTongDH="trans" gongNengDH="yyxt" caoZuoDH="edit">
     <record onSubmit="onYyxtDataSubmit" component="gnRecord" label="应用系统记录" name="yingYongXTRecord" autoLoad="true" xiTongDH="trans" gongNengDH="yyxt" caoZuoDH="edit" id="${params.id}">
       <properties component="properties">
@@ -15,6 +15,17 @@
         <property component="simpleProperty" name="jieKouSXL" label="接口实现类" fieldType="string"/>
         <property component="simpleProperty" name="yingYongXTIP" label="应用系统ip地址" fieldType="string"/>
         <property component="simpleProperty" name="yingYongXTPort" label="应用系统webservice端口" fieldType="string"/>
+        <property component="complexProperty" name="shuJuPTYHs" label="数据平台用户集合" fieldType="set">
+          <properties component="properties">
+            <property component="complexProperty" name="yongHu" label="用户" fieldType="object">
+              <properties component="properties">
+                <property component="simpleProperty" name="yongHuMC" label="用户名称" fieldType="string"/>
+              </properties>
+            </property>
+          </properties>
+        </property>
+        <property component="simpleProperty" name="yingYongDLDH" label="应用系统登录代号" fieldType="string"/>
+        <property component="simpleProperty" name="yingYongDLMM" label="应用系统登录密码" fieldType="string"/>
       </properties>
     </record>
     <fields component="formFields">
@@ -27,8 +38,28 @@
       <field fieldType="boolean" component="booleanCheckEditor" name="shiFouJSRW" label="是否接收任务" renderType="insert" width="120px" height="22px" renderto="#rwjk_input" renderTemplate="{{shiFouJSRW}}" enabled="true" allowEdit="true" allowBlank="false" hidden="false"/>
       <field fieldType="boolean" component="booleanCheckEditor" name="shiFouCCRW" label="是否传出任务" renderType="insert" width="120px" height="22px" renderto="#rwjk_output" renderTemplate="{{shiFouCCRW}}" enabled="true" allowEdit="true" allowBlank="false" hidden="false"/>
       <field fieldType="string" component="stringEditor" name="jieKouSXL" label="接口实现类" renderType="insert" width="371px" height="29px" renderto="#sjjk" renderTemplate="{{jieKouSXL}}" enabled="true" allowEdit="true" allowBlank="false" hidden="false"/>
-      <field component="stringEditor" renderType="insert" width="120px" height="22px" enabled="true" allowEdit="true" allowBlank="false" hidden="false" name="yingYongXTIP" label="应用系统ip地址" fieldType="string" renderto="#fjjk" renderTemplate="{{yingYongXTIP}}"/>
+      <field fieldType="string" component="stringEditor" name="yingYongXTIP" label="应用系统ip地址" renderType="insert" width="120px" height="22px" renderto="#fjjk" renderTemplate="{{yingYongXTIP}}" enabled="true" allowEdit="true" allowBlank="false" hidden="false"/>
       <field component="stringEditor" renderType="insert" width="120px" height="22px" enabled="true" allowEdit="true" allowBlank="false" hidden="false" name="yingYongXTPort" label="应用系统webservice端口" fieldType="string" renderto="#rwjk" renderTemplate="{{yingYongXTPort}}"/>
+      <field fieldType="set" component="setGridEditor" name="shuJuPTYHs" label="数据平台用户集合" width="120px" height="22px" enabled="true" allowBlank="false">
+        <buttons component="tools"/>
+        <grid component="subGrid" label="子表格(数据平台用户集合-子表格)" name="cmp_subGrid_34" renderto="#zslist" headerLines="1" footerLines="0" onRowRendered="onGridRowRender">
+          <columns component="gridColumns">
+            <column component="intDisplayColumn" textAlign="right" zeroAsBlank="true" name="@index" label="行号" fieldType="int" renderto="#xuHao" renderTemplate="{{@index}}"/>
+            <column fieldType="object" component="objectSelectColumn" label="用户" name="yongHu" renderto="#ziDuanDH" renderTemplate="{{yongHu.yongHuMC}}" enabled="true" allowBlank="false" renderType="insert" datasourceType="private" searchMode="local" minLength="0" width="120px" height="150px">
+              <dataset component="stlDataset" label="数据源" name="dataset" autoLoad="true" start="0" limit="0" xiTongDH="sys" shiTiLeiDH="SYS_YongHu">
+                <properties component="properties">
+                  <property component="simpleProperty" name="yongHuMC" label="用户名称" fieldType="string"/>
+                  <property component="simpleProperty" name="yongHuDM" label="用户代码" fieldType="int"/>
+                </properties>
+                <filters component="filters"/>
+                <sorts component="sorts"/>
+              </dataset>
+            </column>
+          </columns>
+        </grid>
+      </field>
+      <field fieldType="string" component="stringEditor" name="yingYongDLDH" label="应用系统登录代号" renderType="insert" width="120px" height="22px" renderto="#dengLuDH" renderTemplate="{{yingYongDLDH}}" enabled="true" allowEdit="true" allowBlank="false" hidden="false"/>
+      <field fieldType="string" component="passwordEditor" name="yingYongDLMM" label="应用系统登录密码" renderType="insert" width="120px" height="22px" renderto="#dengLuMM" renderTemplate="{{yingYongDLMM}}" enabled="true" allowEdit="true" allowBlank="false" hidden="false"/>
     </fields>
     <buttons component="buttons">
       <submit component="submitButton" name="submitButton" label="提交按钮" enabled="true" renderType="rela" renderto="#saveBtn"/>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- version:2015-04-01 07:05:14 -->
+<hibernate-mapping auto-import="false">  
+    <class name="com.poweruniverse.app.entity.trans.ZhangHao" table="TRANS_ZhangHao" >
+    	<!--主键-->
+        <id name="zhangHaoDM" type="integer">
+	        <column name="zhangHaoDM" precision="12" scale="0" />
+	        <generator class="increment"></generator>
+        </id>
+        
+		<!--账号名称-->
+        <property name="zhangHaoMC" type="java.lang.String" lazy="false">
+        	<column name="zhangHaoMC" precision="200" scale="0" not-null="false" />
+        </property>
+		<!--登录代号-->
+        <property name="dengLuDH" type="java.lang.String" lazy="false">
+        	<column name="dengLuDH" precision="200" scale="0" not-null="false" />
+        </property>
+		<!--登录密码-->
+        <property name="dengLuMM" type="java.lang.String" lazy="false">
+        	<column name="dengLuMM" precision="200" scale="0" not-null="false" />
+        </property>
+		<!--应用系统-->
+        <many-to-one name="yingYongXT" class="com.poweruniverse.app.entity.trans.YingYongXT" fetch="select">
+            <column name="yingYongXTDM" precision="12" scale="0" not-null="false" />
+        </many-to-one>
+        
+     </class>
+</hibernate-mapping>

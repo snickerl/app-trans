@@ -6,7 +6,7 @@ import com.poweruniverse.nim.data.entity.sys.base.EntityI;
 /*
 * 实体类：实体类映射
 */
-@Version("2015-03-24 20:35:18")
+@Version("2015-04-01 08:03:27")
 public abstract class BaseShiTiLeiYS  implements Serializable,Comparable<Object> ,EntityI {
 	private static final long serialVersionUID = 1L;
 	private int hashCode = Integer.MIN_VALUE;
@@ -128,7 +128,7 @@ public abstract class BaseShiTiLeiYS  implements Serializable,Comparable<Object>
 	}
 	
 	public String toString() {
-		return this.shiTiLeiYSDM+"";
+		return this.shiTiLeiYSMC+"";
 	}
 
 	public Integer pkValue() {

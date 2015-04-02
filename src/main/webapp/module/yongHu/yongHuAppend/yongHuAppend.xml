@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<page component="page" needsLogin="true" label="用户-新增">
+  <form component="singleEditForm" label="用户新增表单" name="yongHuEditForm" datasourceType="private" datasourceName="shiTiLeiRecord" autoLoad="true" renderto="#shiTiLeiForm" renderType="rela" autoRender="true" xiTongDH="sys" gongNengDH="yh" caoZuoDH="append">
+    <record onSubmit="onYongHuAppendSubmit" component="gnRecord" label="用户记录" name="yongHuRecord" autoLoad="true" xiTongDH="sys" gongNengDH="yh" caoZuoDH="append" id="${params.id}">
+      <properties component="properties">
+        <property component="simpleProperty" name="yongHuMC" label="用户名称" fieldType="string"/>
+        <property component="simpleProperty" name="dengLuDH" label="登录名" fieldType="string"/>
+        <property component="simpleProperty" name="dengLuMM" label="登录密码" fieldType="string"/>
+      </properties>
+    </record>
+    <fields component="formFields">
+      <field component="stringEditor" renderType="insert" width="120px" height="22px" enabled="true" allowEdit="true" allowBlank="false" hidden="false" name="yongHuMC" label="用户名称" fieldType="string" renderto="#yongHuMC" renderTemplate="{{yongHuMC}}"/>
+      <field component="stringEditor" renderType="insert" width="120px" height="22px" enabled="true" allowEdit="true" allowBlank="false" hidden="false" name="dengLuDH" label="登录名" fieldType="string" renderto="#dengLuDH" renderTemplate="{{dengLuDH}}"/>
+      <field component="stringEditor" renderType="insert" width="120px" height="22px" enabled="true" allowEdit="true" allowBlank="false" hidden="false" name="dengLuMM" label="登录密码" fieldType="string" renderto="#dengLuMM" renderTemplate="{{dengLuMM}}"/>
+    </fields>
+    <buttons component="buttons">
+      <submit component="submitButton" name="submitButton" label="提交按钮" enabled="true" renderType="rela" renderto="#saveBtn"/>
+    </buttons>
+  </form>
+</page>

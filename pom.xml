@@ -37,6 +37,11 @@
     	<artifactId>nim-data-wsclient</artifactId>
     	<version>1.1</version>
     </dependency>
+    <dependency>
+    	<groupId>com.poweruniverse</groupId>
+    	<artifactId>oim-xny-wsclient</artifactId>
+    	<version>1.1</version>
+    </dependency>
   </dependencies>
   
   <build>
@@ -56,6 +61,11 @@
 	            <groupId>org.mortbay.jetty</groupId>
 	            <artifactId>maven-jetty-plugin</artifactId>
 	            <configuration>
+	            	<connectors>  
+			            <connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">  
+			                <port>8081</port>  
+			            </connector>  
+			        </connectors>
 					<contextPath>/</contextPath>
 					<webDefaultXml>src/main/webapp/WEB-INF/jetty-default.xml</webDefaultXml> 
 				</configuration>  

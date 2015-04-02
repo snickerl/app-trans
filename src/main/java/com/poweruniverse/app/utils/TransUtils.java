@@ -1,17 +1,12 @@
 package com.poweruniverse.app.utils;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
-import java.util.Set;
 
 import net.sf.json.JSONNull;
 import net.sf.json.JSONObject;
 
-import org.activiti.engine.impl.json.JsonObjectConverter;
-import org.apache.commons.beanutils.PropertyUtils;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
@@ -21,11 +16,8 @@ import com.poweruniverse.app.entity.trans.ChuanShuJLYL;
 import com.poweruniverse.app.entity.trans.GongNengCZYS;
 import com.poweruniverse.app.entity.trans.ShiTiLeiYS;
 import com.poweruniverse.app.entity.trans.ZiDuanYS;
-import com.poweruniverse.nim.data.entity.sys.GongNeng;
-import com.poweruniverse.nim.data.entity.sys.ShiTiLei;
-import com.poweruniverse.nim.data.entity.sys.ZiDuan;
+import com.poweruniverse.nim.data.entity.sys.YongHu;
 import com.poweruniverse.nim.data.entity.sys.ZiDuanLX;
-import com.poweruniverse.nim.data.entity.sys.base.EntityI;
 import com.poweruniverse.nim.data.service.utils.HibernateSessionFactory;
 
 /**
@@ -46,7 +38,7 @@ public class TransUtils {
 	 * @param jsonData
 	 * @return
 	 */
-	public static ChuanShuJL createTaskTrans(GongNengCZYS transGNCZMap,Integer sourceId,JSONObject sourceData) throws Exception{
+	public static ChuanShuJL createTaskTrans(GongNengCZYS transGNCZMap,Integer sourceId,JSONObject sourceData,YongHu yh,String ip) throws Exception{
 		Session sess = HibernateSessionFactory.getSession();
 		//此实体类的映射关系
 		ShiTiLeiYS transSTLMap = transGNCZMap.getGongNengYS().getShiTiLeiYS();
@@ -58,6 +50,8 @@ public class TransUtils {
 		transInfo.setSourceSTLDH(transSTLMap.getSourceSTLDH());
 		transInfo.setSourceZJZ(sourceId);
 		transInfo.setChuangJianSJ(Calendar.getInstance().getTime());//创建时间
+		transInfo.setChuangJianRen(yh.getYongHuMC());//创建人
+		transInfo.setChuangJianIp(ip);//创建人ip
 		
 		transInfo.setShiFouCSWC(false);//未传输完成
 		transInfo.setShuJuLBMC("json");//传输内容是json 只有 json|xml
@@ -106,7 +100,7 @@ public class TransUtils {
 						newJsonObj.put(
 							zdMap.getTargetZDDH(), 
 							JSONObject.fromObject("{"+
-									zdGLSTLYS.getTargetZJZDDH()+":'"+encodeOutputPKValue(zdGLSTLYS.getSourceYYXT().getYingYongXTDH(),subPKValue)+"'"
+									zdGLSTLYS.getTargetZJZDDH()+":'"+encodeOutputPKValue(zdGLSTLYS.getSourceSTLDH(),subPKValue)+"'"
 							+ "}")
 						);
 					}else {
@@ -137,7 +131,7 @@ public class TransUtils {
 						newJsonObj.put(
 							zdMap.getTargetZDDH(), 
 							JSONObject.fromObject("{"+
-									zdGLSTLYS.getTargetZJZDDH()+":'"+encodeOutputPKValue(zdGLSTLYS.getSourceYYXT().getYingYongXTDH(),subPKValue)+"'"
+									zdGLSTLYS.getTargetZJZDDH()+":'"+encodeOutputPKValue(zdGLSTLYS.getSourceSTLDH(),subPKValue)+"'"
 							+ "}")
 						);
 					}else {
@@ -173,7 +167,7 @@ public class TransUtils {
 	 * @return
 	 * @throws Exception
 	 */
-	public static ChuanShuJL createRecordTrans(ShiTiLeiYS transSTLMap,Integer sourceId,JSONObject sourceData) throws Exception{
+	public static ChuanShuJL createRecordTrans(ShiTiLeiYS transSTLMap,Integer sourceId,JSONObject sourceData,YongHu yh,String ip) throws Exception{
 		Session sess = HibernateSessionFactory.getSession();
 		
 		//此实体类
@@ -182,6 +176,8 @@ public class TransUtils {
 		transInfo.setSourceXTDH(transSTLMap.getSourceYYXT().getYingYongXTDH());
 		transInfo.setSourceSTLDH(transSTLMap.getSourceSTLDH());
 		transInfo.setChuangJianSJ(Calendar.getInstance().getTime());//创建时间
+		transInfo.setChuangJianRen(yh.getYongHuMC());//创建人
+		transInfo.setChuangJianIp(ip);//创建人ip
 		
 		transInfo.setSourceZJZ(sourceId);
 		
@@ -245,7 +241,7 @@ public class TransUtils {
 						newJsonObj.put(
 							zdMap.getTargetZDDH(), 
 							JSONObject.fromObject("{"+
-									zdGLSTLYS.getTargetZJZDDH()+":'"+encodeOutputPKValue(zdGLSTLYS.getSourceYYXT().getYingYongXTDH(),subPKValue)+"'"
+									zdGLSTLYS.getTargetZJZDDH()+":'"+encodeOutputPKValue(zdGLSTLYS.getSourceSTLDH(),subPKValue)+"'"
 							+ "}")
 						);
 					}else {
@@ -276,7 +272,7 @@ public class TransUtils {
 						newJsonObj.put(
 							zdMap.getTargetZDDH(), 
 							JSONObject.fromObject("{"+
-									zdGLSTLYS.getTargetZJZDDH()+":'"+encodeOutputPKValue(zdGLSTLYS.getSourceYYXT().getYingYongXTDH(),subPKValue)+"'"
+									zdGLSTLYS.getTargetZJZDDH()+":'"+encodeOutputPKValue(zdGLSTLYS.getSourceSTLDH(),subPKValue)+"'"
 							+ "}")
 						);
 					}else {
@@ -313,7 +309,7 @@ public class TransUtils {
 	 * @return
 	 * @throws Exception
 	 */
-	public static ChuanShuJL createFuJianTrans(String sourceXTDH,Integer sourceZJZ,String targetXTDH) throws Exception{
+	public static ChuanShuJL createFuJianTrans(String sourceXTDH,Integer sourceZJZ,String targetXTDH,YongHu yh,String ip) throws Exception{
 		if(sourceZJZ == null){
 			throw new Exception("生成待传输附件数据：必须提供附件的主键值");
 		}
@@ -331,8 +327,10 @@ public class TransUtils {
 			//之前没有传输过 新增待传输记录
 			transInfo = new ChuanShuJL();
 			transInfo.setSourceXTDH(sourceXTDH);
-			transInfo.setChuangJianSJ(Calendar.getInstance().getTime());//创建时间
 			transInfo.setSourceZJZ(sourceZJZ);
+			transInfo.setChuangJianSJ(Calendar.getInstance().getTime());//创建时间
+			transInfo.setChuangJianRen(yh.getYongHuMC());//创建人
+			transInfo.setChuangJianIp(ip);//创建人ip
 			
 			transInfo.setTargetXTDH(targetXTDH);
 			transInfo.setTargetZJZ(null);

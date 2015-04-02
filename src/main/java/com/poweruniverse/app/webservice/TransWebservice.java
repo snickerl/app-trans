@@ -30,16 +30,19 @@ import com.poweruniverse.app.entity.trans.ChuanShuJLYL;
 import com.poweruniverse.app.entity.trans.GongNengCZYS;
 import com.poweruniverse.app.entity.trans.ShiTiLeiYS;
 import com.poweruniverse.app.entity.trans.YingYongXT;
+import com.poweruniverse.app.entity.trans.YingYongXTPTYH;
 import com.poweruniverse.app.utils.TransUtils;
 import com.poweruniverse.nim.base.bean.UserInfo;
 import com.poweruniverse.nim.base.description.Application;
 import com.poweruniverse.nim.base.message.JSONMessageResult;
 import com.poweruniverse.nim.base.utils.FreemarkerUtils;
-import com.poweruniverse.nim.baseClass.BasePlateformWebservice;
+import com.poweruniverse.nim.base.webservice.AbstractWebservice;
+import com.poweruniverse.nim.data.entity.sys.YongHu;
+import com.poweruniverse.nim.data.entity.sys.YongHuZT;
 import com.poweruniverse.nim.data.service.utils.HibernateSessionFactory;
 
 @WebService
-public class TransWebservice extends BasePlateformWebservice{
+public class TransWebservice extends AbstractWebservice{
 	
 	@Resource
 	private WebServiceContext wsContext;
@@ -61,10 +64,14 @@ public class TransWebservice extends BasePlateformWebservice{
 		if(sourceId == null){
 			return new JSONMessageResult("源系统数据主键值不允许为空!");
 		}
-		
 		JSONMessageResult result = null;
 		Session sess = null;
 		try {
+			//当前登录用户的id
+			Integer yhdm = getYongHuDM(wsContext,false);
+			if( yhdm == null){
+				return new JSONMessageResult("请提供有效的登录信息!");
+			}
 			sess = HibernateSessionFactory.getSession();
 			//检查应用系统定义
 			YingYongXT sourceYYXT = (YingYongXT)sess.createCriteria(YingYongXT.class)
@@ -83,6 +90,16 @@ public class TransWebservice extends BasePlateformWebservice{
 			if(targetYYXT==null){
 				return new JSONMessageResult("目标系统("+sourceXTDH+")不存在!");
 			}
+			//检查是否为应用系统指定数据发送用户 
+			YongHu yh = null;
+			for(YingYongXTPTYH yyxtyh:sourceYYXT.getShuJuPTYHs()){
+				if(yyxtyh.getYongHu().getYongHuZT().getYongHuZTDM() == YongHuZT.ZhengChang && yhdm.equals(yyxtyh.getYongHu().getYongHuDM())){
+					yh = yyxtyh.getYongHu();
+				}
+			}
+			if(yh==null){
+				return new JSONMessageResult("请提供有效的登录信息!");
+			}
 			//检查实体类映射关系是否存在
 			ShiTiLeiYS transSTLMap = (ShiTiLeiYS)sess.createCriteria(ShiTiLeiYS.class)
 					.add(Restrictions.eq("sourceYYXT.id", sourceYYXT.getYingYongXTDM()))
@@ -95,7 +112,7 @@ public class TransWebservice extends BasePlateformWebservice{
 			//将数据字符串转换为json对象
 			JSONObject sourceJSONObj = JSONObject.fromObject(sourceJSONData);
 			//创建传输记录
-			ChuanShuJL transInfo = TransUtils.createRecordTrans(transSTLMap, sourceId,sourceJSONObj);
+			ChuanShuJL transInfo = TransUtils.createRecordTrans(transSTLMap, sourceId,sourceJSONObj,yh,this.getClientIP(wsContext));
 			sess.save(transInfo);
 			
 			result = new JSONMessageResult();
@@ -145,11 +162,27 @@ public class TransWebservice extends BasePlateformWebservice{
 			if(targetYYXT==null){
 				return new JSONMessageResult("目标系统("+sourceXTDH+")不存在!");
 			}
-			//先创建一个接收附件的传输请求
-			ChuanShuJL fuJianGetTrans = TransUtils.createFuJianTrans(sourceXTDH, sourceId, "_system");
+			
+			//检查是否为应用系统指定数据发送用户 
+			Integer yhdm = getYongHuDM(wsContext,false);
+			YongHu yh = null;
+			if( yhdm == null){
+				return new JSONMessageResult("请提供有效的登录信息!");
+			}else{
+				for(YingYongXTPTYH yyxtyh:sourceYYXT.getShuJuPTYHs()){
+					if(yyxtyh.getYongHu().getYongHuZT().getYongHuZTDM() == YongHuZT.ZhengChang && yhdm.equals(yyxtyh.getYongHu().getYongHuDM())){
+						yh = yyxtyh.getYongHu();
+					}
+				}
+				if(yh==null){
+					return new JSONMessageResult("请提供有效的登录信息!");
+				}
+			}
+			//先创建一个数据交换平台接收附件的请求
+			ChuanShuJL fuJianGetTrans = TransUtils.createFuJianTrans(sourceXTDH, sourceId, "_system",yh,this.getClientIP(wsContext));
 			sess.saveOrUpdate(fuJianGetTrans);
-			//再创建发送附件的传输请求
-			ChuanShuJL fuJianSendTrans = TransUtils.createFuJianTrans("_system", sourceId, targetXTDH);
+			//再创建从数据交换平台发送附件的传输请求
+			ChuanShuJL fuJianSendTrans = TransUtils.createFuJianTrans("_system", sourceId, targetXTDH,yh,"127.0.0.1");//
 			fuJianSendTrans.addToyls(fuJianSendTrans, fuJianGetTrans);
 			sess.saveOrUpdate(fuJianGetTrans);
 			
@@ -206,6 +239,22 @@ public class TransWebservice extends BasePlateformWebservice{
 			if(targetYYXT==null){
 				return new JSONMessageResult("目标系统("+sourceXTDH+")不存在!");
 			}
+			
+			//检查是否为应用系统指定数据发送用户 
+			Integer yhdm = getYongHuDM(wsContext,false);
+			YongHu yh = null;
+			if( yhdm == null){
+				return new JSONMessageResult("请提供有效的登录信息!");
+			}else{
+				for(YingYongXTPTYH yyxtyh:sourceYYXT.getShuJuPTYHs()){
+					if(yyxtyh.getYongHu().getYongHuZT().getYongHuZTDM() == YongHuZT.ZhengChang && yhdm.equals(yyxtyh.getYongHu().getYongHuDM())){
+						yh = yyxtyh.getYongHu();
+					}
+				}
+				if(yh == null){
+					return new JSONMessageResult("请提供有效的登录信息!");
+				}
+			}
 			//检查功能操作映射关系是否存在
 			GongNengCZYS transGNCZMap = (GongNengCZYS)sess.createCriteria(GongNengCZYS.class)
 					.createAlias("gongNengYS", "gnczys_gnys")
@@ -219,7 +268,7 @@ public class TransWebservice extends BasePlateformWebservice{
 			}
 			
 			//创建传输记录
-			ChuanShuJL transInfo = TransUtils.createTaskTrans(transGNCZMap, sourceId,sourceJSONObj);
+			ChuanShuJL transInfo = TransUtils.createTaskTrans(transGNCZMap, sourceId,sourceJSONObj,yh,this.getClientIP(wsContext));
 			sess.save(transInfo);
 			
 			result = new JSONMessageResult();
@@ -692,7 +741,7 @@ public class TransWebservice extends BasePlateformWebservice{
 			}
 			//所有未完成的下级记录(子查询)
 			DetachedCriteria subselect = DetachedCriteria.forClass(ChuanShuJLYL.class);
-				subselect.createAlias("xinXiCSYL", "mx_yl");
+				subselect.createAlias("yiLaiCSJL", "mx_yl");
 				subselect.add(Restrictions.eq("mx_yl.shiFouCSWC", false));
 				subselect.setProjection(Projections.property("xinXiCSJL.id"));
 			//取得数据传输记录
@@ -781,7 +830,7 @@ public class TransWebservice extends BasePlateformWebservice{
 			}
 			//所有未完成的下级记录(子查询)
 			DetachedCriteria subselect = DetachedCriteria.forClass(ChuanShuJLYL.class);
-				subselect.createAlias("xinXiCSYL", "mx_yl");
+				subselect.createAlias("yiLaiCSJL", "mx_yl");
 				subselect.add(Restrictions.eq("mx_yl.shiFouCSWC", false));
 				subselect.setProjection(Projections.property("xinXiCSJL.id"));
 			//取得数据传输记录
@@ -871,7 +920,7 @@ public class TransWebservice extends BasePlateformWebservice{
 			}
 			//所有未完成的下级记录(子查询)
 			DetachedCriteria subselect = DetachedCriteria.forClass(ChuanShuJLYL.class);
-				subselect.createAlias("xinXiCSYL", "mx_yl");
+				subselect.createAlias("yiLaiCSJL", "mx_yl");
 				subselect.add(Restrictions.eq("mx_yl.shiFouCSWC", false));
 				subselect.setProjection(Projections.property("xinXiCSJL.id"));
 			//取得数据传输记录

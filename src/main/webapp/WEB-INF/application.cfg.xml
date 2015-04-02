@@ -10,8 +10,8 @@
 <application name="app-trans" title="华电重工管理信息系统" 
 			 module="module" 
 			 ip="127.0.0.1" 
-			 port="8080" 
-			 webservicePort="1081" mode="plateform">
+			 port="8081" 
+			 webservicePort="1091" mode="plateform">
 	<develop appSrcPath="D:/data/workspace/app-trans/src/main/java/" jdkPath="C:/java/jdk1.7.0_67/" />
 	<pages>
 		<!-- 本系统登陆页面(必需) -->

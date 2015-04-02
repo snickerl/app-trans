@@ -6,7 +6,7 @@ import com.poweruniverse.nim.data.entity.sys.base.EntityI;
 /*
 * 实体类：传输记录
 */
-@Version("2015-03-26 05:45:16")
+@Version("2015-04-02 09:14:32")
 public abstract class BaseChuanShuJL  implements Serializable,Comparable<Object> ,EntityI {
 	private static final long serialVersionUID = 1L;
 	private int hashCode = Integer.MIN_VALUE;
@@ -174,6 +174,18 @@ public abstract class BaseChuanShuJL  implements Serializable,Comparable<Object>
 	public java.lang.String getTargetSTLDH(){return this.targetSTLDH ;}
 	public void setTargetSTLDH(java.lang.String targetSTLDH){this.targetSTLDH = targetSTLDH;}
 	
+			
+	// 属性：创建人 （chuangJianRen）
+	private java.lang.String chuangJianRen = null;
+	public java.lang.String getChuangJianRen(){return this.chuangJianRen ;}
+	public void setChuangJianRen(java.lang.String chuangJianRen){this.chuangJianRen = chuangJianRen;}
+	
+			
+	// 属性：创建IP （chuangJianIp）
+	private java.lang.String chuangJianIp = null;
+	public java.lang.String getChuangJianIp(){return this.chuangJianIp ;}
+	public void setChuangJianIp(java.lang.String chuangJianIp){this.chuangJianIp = chuangJianIp;}
+	
 	public boolean equals (Object obj) {
 		if (null == obj) return false;
 		if (!(obj instanceof com.poweruniverse.app.entity.trans.ChuanShuJL)) return false;
@@ -243,6 +255,8 @@ public abstract class BaseChuanShuJL  implements Serializable,Comparable<Object>
 		chuanShuJL.setSourceGNDH(sourceGNDH);
 		chuanShuJL.setSourceCZDH(sourceCZDH);
 		chuanShuJL.setTargetSTLDH(targetSTLDH);
+		chuanShuJL.setChuangJianRen(chuangJianRen);
+		chuanShuJL.setChuangJianIp(chuangJianIp);
 		
 		return chuanShuJL;
 	}

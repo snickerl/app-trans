@@ -91,7 +91,7 @@
 
 
 /**列表list begin**/
-.hhi_list02{ width:980px; background:#fefefe; border:#ddd 1px solid; margin-top:15px;}
+.hhi_list02{ width:480px; background:#fefefe; border:#ddd 1px solid; margin-top:15px;}
 .hhi_list02 .content{ list-style:none; padding:0; margin:0; }
 .hhi_list02 li{ font-size:12px; text-align:left; white-space:nowrap; word-break:keep-all; float:left; width:100%; margin-top:5px; color:#666; line-height:24px;}
 .li_hoverbg:hover{ color:#f60;}
@@ -103,3 +103,12 @@
 .h_page{ height:24px; line-height:24px; font-size:12px; text-align:center; padding:5px;}
 .h_page a{ color:#666; padding:0 10px; text-decoration:none;}
 .h_page a:hover,.h_page a.on{ color:#f60;}
+.base-icon04 {
+    background-image: url("images/base-icon4.png");
+    background-repeat: no-repeat;
+    cursor: pointer;
+    display: inline-block;
+    height: 16px;
+    margin-top: 3px;
+    width: 16px;
+}

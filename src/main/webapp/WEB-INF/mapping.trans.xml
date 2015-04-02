@@ -4,8 +4,9 @@
   <mapping resource="com/poweruniverse/app/hbm/trans/ChuanShuJL.hbm.xml"/>  
   <mapping resource="com/poweruniverse/app/hbm/trans/ChuanShuJLYL.hbm.xml"/>  
   <mapping resource="com/poweruniverse/app/hbm/trans/GongNengCZYS.hbm.xml"/>  
+  <mapping resource="com/poweruniverse/app/hbm/trans/GongNengYS.hbm.xml"/>  
   <mapping resource="com/poweruniverse/app/hbm/trans/ShiTiLeiYS.hbm.xml"/>  
-  <mapping resource="com/poweruniverse/app/hbm/trans/ZiDuanYS.hbm.xml"/>  
   <mapping resource="com/poweruniverse/app/hbm/trans/YingYongXT.hbm.xml"/>  
-  <mapping resource="com/poweruniverse/app/hbm/trans/GongNengYS.hbm.xml"/>
+  <mapping resource="com/poweruniverse/app/hbm/trans/ZiDuanYS.hbm.xml"/>  
+  <mapping resource="com/poweruniverse/app/hbm/trans/YingYongXTPTYH.hbm.xml"/>
 </session-mappings>

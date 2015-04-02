@@ -6,7 +6,7 @@ import com.poweruniverse.nim.data.entity.sys.base.EntityI;
 /*
 * 实体类：应用系统
 */
-@Version("2015-03-24 20:57:18")
+@Version("2015-04-01 08:12:11")
 public abstract class BaseYingYongXT  implements Serializable,Comparable<Object> ,EntityI {
 	private static final long serialVersionUID = 1L;
 	private int hashCode = Integer.MIN_VALUE;
@@ -97,6 +97,53 @@ public abstract class BaseYingYongXT  implements Serializable,Comparable<Object>
 	public java.lang.String getYingYongXTPort(){return this.yingYongXTPort ;}
 	public void setYingYongXTPort(java.lang.String yingYongXTPort){this.yingYongXTPort = yingYongXTPort;}
 	
+	// 集合：数据平台用户集合 （shuJuPTYHs）
+	private java.util.Set<com.poweruniverse.app.entity.trans.YingYongXTPTYH> shuJuPTYHs = new java.util.TreeSet<com.poweruniverse.app.entity.trans.YingYongXTPTYH>();
+	public java.util.Set<com.poweruniverse.app.entity.trans.YingYongXTPTYH> getShuJuPTYHs(){return this.shuJuPTYHs ;}
+	public void setShuJuPTYHs(java.util.Set<com.poweruniverse.app.entity.trans.YingYongXTPTYH> shuJuPTYHs){this.shuJuPTYHs = shuJuPTYHs;}
+	public void addToshuJuPTYHs(Object parent,Object detail){
+		com.poweruniverse.app.entity.trans.YingYongXT mainObj = (com.poweruniverse.app.entity.trans.YingYongXT)parent;
+		com.poweruniverse.app.entity.trans.YingYongXTPTYH subObj = (com.poweruniverse.app.entity.trans.YingYongXTPTYH)detail;
+		subObj.setYingYongXT(mainObj);
+		mainObj.getShuJuPTYHs().add(subObj);
+	}
+	public void removeFromshuJuPTYHs(Object parent,Object detail){
+		com.poweruniverse.app.entity.trans.YingYongXT mainObj = (com.poweruniverse.app.entity.trans.YingYongXT)parent;
+		com.poweruniverse.app.entity.trans.YingYongXTPTYH subObj = (com.poweruniverse.app.entity.trans.YingYongXTPTYH)detail;
+		subObj.setYingYongXT(null);
+		mainObj.getShuJuPTYHs().remove(subObj);
+	}
+	public Object getshuJuPTYHsById(Object id){
+		java.util.Iterator<com.poweruniverse.app.entity.trans.YingYongXTPTYH> ds = this.getShuJuPTYHs().iterator();
+		com.poweruniverse.app.entity.trans.YingYongXTPTYH d = null;
+		while(ds.hasNext()){
+			d = ds.next();
+			if(d.getShuJuPTYHDM()!=null && d.getShuJuPTYHDM().equals(id)){
+				return d;
+			}
+		}
+		return null;
+	}
+	public com.poweruniverse.app.entity.trans.YingYongXTPTYH newshuJuPTYHsByParent(com.poweruniverse.app.entity.trans.YingYongXT parent) throws Exception{
+		com.poweruniverse.app.entity.trans.YingYongXTPTYH subObj = new com.poweruniverse.app.entity.trans.YingYongXTPTYH();
+		//
+		subObj.setYingYongXT(parent);
+		//
+		return subObj;
+	}
+	
+			
+	// 属性：应用系统登录代号 （yingYongDLDH）
+	private java.lang.String yingYongDLDH = null;
+	public java.lang.String getYingYongDLDH(){return this.yingYongDLDH ;}
+	public void setYingYongDLDH(java.lang.String yingYongDLDH){this.yingYongDLDH = yingYongDLDH;}
+	
+			
+	// 属性：应用系统登录密码 （yingYongDLMM）
+	private java.lang.String yingYongDLMM = null;
+	public java.lang.String getYingYongDLMM(){return this.yingYongDLMM ;}
+	public void setYingYongDLMM(java.lang.String yingYongDLMM){this.yingYongDLMM = yingYongDLMM;}
+	
 	public boolean equals (Object obj) {
 		if (null == obj) return false;
 		if (!(obj instanceof com.poweruniverse.app.entity.trans.YingYongXT)) return false;
@@ -156,6 +203,11 @@ public abstract class BaseYingYongXT  implements Serializable,Comparable<Object>
 		yingYongXT.setJieKouSXL(jieKouSXL);
 		yingYongXT.setYingYongXTIP(yingYongXTIP);
 		yingYongXT.setYingYongXTPort(yingYongXTPort);
+		for(com.poweruniverse.app.entity.trans.YingYongXTPTYH subObj:this.getShuJuPTYHs()){
+			yingYongXT.addToshuJuPTYHs(yingYongXT, subObj.clone());
+		}
+		yingYongXT.setYingYongDLDH(yingYongDLDH);
+		yingYongXT.setYingYongDLMM(yingYongDLMM);
 		
 		return yingYongXT;
 	}

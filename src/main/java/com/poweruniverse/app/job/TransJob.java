@@ -3,6 +3,8 @@ package com.poweruniverse.app.job;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.lang.reflect.Constructor;
+import java.net.URL;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -32,6 +34,7 @@ import com.poweruniverse.app.trans.intface.TransInterface;
 import com.poweruniverse.nim.base.description.Application;
 import com.poweruniverse.nim.base.message.JSONMessageResult;
 import com.poweruniverse.nim.base.utils.FreemarkerUtils;
+import com.poweruniverse.nim.base.utils.InvokeUtils;
 import com.poweruniverse.nim.data.service.utils.HibernateSessionFactory;
 
 /**
@@ -47,7 +50,11 @@ public class TransJob implements Job {
 	private static boolean running = false;
 	
 	public void execute(JobExecutionContext arg1) throws JobExecutionException {
-		
+		if(logger==null){
+			logger = Logger.getLogger("oim_send");
+		}
+		logger.info("----------------------------------------------");
+
 		if (running ) {
 			logger.info("上一数据接口传输进程尚未完成，未再次启动数据接口传输任务...");
 			return;
@@ -55,114 +62,106 @@ public class TransJob implements Job {
 			running = true;
 			Session sess = null;
 			try {
+				logger.info("接口传输进程...开始");
 				sess = HibernateSessionFactory.getSession();
 				//所有未完成的下级记录(子查询)
 				DetachedCriteria subselect = DetachedCriteria.forClass(ChuanShuJLYL.class);
-					subselect.createAlias("xinXiCSYL", "mx_yl");
+					subselect.createAlias("yiLaiCSJL", "mx_yl");
 					subselect.add(Restrictions.eq("mx_yl.shiFouCSWC", false));
-					subselect.setProjection(Projections.property("xinXiCSJL.id"));
+					subselect.setProjection(Projections.property("chuanShuJL.id"));
 				///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 				//先传输附件
 				///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 				Criteria fileTransCriteria = sess.createCriteria(ChuanShuJL.class)
-						.add(Restrictions.sqlRestriction("targetXTDH in (select xt.yingyongxtbh from trans_yingyongxt xt where xt.shifoujsfj = 1"))//只查询目标系统可以接收附件的
+						.add(Restrictions.sqlRestriction("targetXTDH in (select xt.yingYongXTDH from trans_yingyongxt xt where xt.shifoujsfj = 1)"))//只查询目标系统可以接收附件的
 						.add(Restrictions.eq("xinXiLBMC", "file"))
 						.add(Restrictions.eq("shiFouCSWC", false))//未完成 
 						.add(Property.forName("chuanShuJLDM").notIn(subselect))//且不存在未完成的依赖
 						.addOrder(Order.asc("chuanShuJLDM"));
 					@SuppressWarnings("unchecked")
 					List<ChuanShuJL> fileChuanShuJLs = (List<ChuanShuJL>)fileTransCriteria.setMaxResults(20).list();
-					logger.debug("附件传输进程...启动 共"+fileChuanShuJLs.size()+"条");
+					logger.debug("	附件传输进程...启动");
 					for(int i=0;i<fileChuanShuJLs.size();i++){
 						ChuanShuJL fileChuanShuJL = fileChuanShuJLs.get(i);
 						//传输此信息
 						logger.debug("开始传输附件 id:" +fileChuanShuJL.getSourceZJZ()+"->"+fileChuanShuJL.getTargetXTDH()+" ... 第"+i+"条 共"+fileChuanShuJLs.size()+"条");
-						//检查此数据的映射关系
-						ShiTiLeiYS transSTLMap = (ShiTiLeiYS)sess.createCriteria(ShiTiLeiYS.class)
-								.add(Restrictions.eq("sourceXTDH", fileChuanShuJL.getSourceXTDH()))
-								.add(Restrictions.eq("sourceSTLDH", fileChuanShuJL.getSourceSTLDH()))
-								.add(Restrictions.eq("targetXTDH", fileChuanShuJL.getTargetXTDH()))
-								.uniqueResult();
-						if(transSTLMap!=null){
-							logger.debug("		映射关系检查通过");
-							//记录传输次数 传输时间
-							if (!sess.getTransaction().isActive()) {
-								sess.beginTransaction();
-					        }
-							fileChuanShuJL.setChuanShuCS(fileChuanShuJL.getChuanShuCS()==null?1:fileChuanShuJL.getChuanShuCS()+1);//发送次数+1
-							fileChuanShuJL.setZuiHouFSSJ(Calendar.getInstance().getTime());//最后发送时间
-							sess.update(fileChuanShuJL);
-							sess.getTransaction().commit();
-							logger.debug("		记录传输次数+1完成");
+
+						//记录传输次数 传输时间
+						if (!sess.getTransaction().isActive()) {
 							sess.beginTransaction();
-							
-							
-							JSONMessageResult uploadRet = null;
-							if("_system".equals(fileChuanShuJL.getTargetXTDH())){
-								//本地系统接受附件的任务
-								logger.debug("		向源系统请求附件："+fileChuanShuJL.getSourceZJZ());
-								uploadRet = takeFile(fileChuanShuJL);
-								logger.debug("		目标服务器返回："+uploadRet);
-							}else{
-								//向目标系统发送附件的任务
-								logger.debug("		向目标系统发送附件："+fileChuanShuJL.getSourceZJZ());
-								uploadRet = transFile(fileChuanShuJL);
-								logger.debug("		目标服务器返回："+uploadRet);
-							}
-							
-							//记录传输结果
-							if(uploadRet.isSuccess()){
-								Integer newId = (Integer)uploadRet.get(transSTLMap.getTargetZJZDDH());//目标系统用目标系统实体类的主键列名返回新的主键值
-								//记录传输成功信息（下一条相同记录传输时 会检查是否有已成功的记录 这里不做额外处理了）
-								fileChuanShuJL = (ChuanShuJL)sess.load(ChuanShuJL.class, fileChuanShuJL.getChuanShuJLDM());
-								
-								fileChuanShuJL.setShiFouCSWC(true);
-								fileChuanShuJL.setTargetZJZ(newId);
-								//清除传输错误信息
-								fileChuanShuJL.setCuoWuXXX(null);
-							}else{
-								//记录传输错误信息
-								if(uploadRet.has("errorMsg")){
-									fileChuanShuJL.setCuoWuXXX(uploadRet.getErrorMsg());
-								}else{
-									fileChuanShuJL.setCuoWuXXX("出现错误，但未返回错误信息");
-								}
-							}
-							sess.update(fileChuanShuJL);
-							sess.getTransaction().commit();
-							logger.debug("		记录传输结果 完成");
-							sess.beginTransaction();
-							
+				        }
+						fileChuanShuJL.setChuanShuCS(fileChuanShuJL.getChuanShuCS()==null?1:fileChuanShuJL.getChuanShuCS()+1);//发送次数+1
+						fileChuanShuJL.setZuiHouFSSJ(Calendar.getInstance().getTime());//最后发送时间
+						sess.update(fileChuanShuJL);
+						sess.getTransaction().commit();
+						logger.debug("		记录传输次数+1完成");
+						sess.beginTransaction();
+						
+						
+						JSONMessageResult uploadRet = null;
+						if("_system".equals(fileChuanShuJL.getTargetXTDH())){
+							//本地系统接受附件的任务
+							logger.debug("		向源系统请求附件："+fileChuanShuJL.getSourceZJZ());
+							uploadRet = takeFile(fileChuanShuJL);
+							logger.debug("		目标服务器返回："+uploadRet);
 						}else{
-							logger.error("		映射关系不存在("+fileChuanShuJL.getSourceXTDH()+"."+fileChuanShuJL.getSourceSTLDH()+"->"+fileChuanShuJL.getTargetXTDH()+")，取消传输");
+							//向目标系统发送附件的任务
+							logger.debug("		向目标系统发送附件："+fileChuanShuJL.getSourceZJZ());
+							uploadRet = transFile(fileChuanShuJL);
+							logger.debug("		目标服务器返回："+uploadRet);
 						}
-					
+						
+						//记录传输结果
+						if(uploadRet.isSuccess()){
+							Integer newId = (Integer)uploadRet.get("fuJianDM");//目标系统用目标系统实体类的主键列名返回新的主键值
+							//记录传输成功信息（下一条相同记录传输时 会检查是否有已成功的记录 这里不做额外处理了）
+							fileChuanShuJL = (ChuanShuJL)sess.load(ChuanShuJL.class, fileChuanShuJL.getChuanShuJLDM());
+							
+							fileChuanShuJL.setShiFouCSWC(true);
+							fileChuanShuJL.setTargetZJZ(newId);
+							//清除传输错误信息
+							fileChuanShuJL.setCuoWuXXX(null);
+						}else{
+							//记录传输错误信息
+							if(uploadRet.has("errorMsg")){
+								fileChuanShuJL.setCuoWuXXX(uploadRet.getErrorMsg());
+							}else{
+								fileChuanShuJL.setCuoWuXXX("出现错误，但未返回错误信息");
+							}
+						}
+						sess.update(fileChuanShuJL);
+						sess.getTransaction().commit();
+						logger.debug("		记录传输结果 完成");
+						sess.beginTransaction();
+						
 						logger.debug("完成传输 第"+i+"条 共"+fileChuanShuJLs.size()+"条");
 					}
-					logger.debug("附件传输进程...完成 共"+fileChuanShuJLs.size()+"条");
+					logger.debug("		附件传输进程...完成 共"+fileChuanShuJLs.size()+"条");
 			
 				
 				///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 				//再传输数据
 				///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 				Criteria dataTransCriteria = sess.createCriteria(ChuanShuJL.class)
-					.add(Restrictions.sqlRestriction("targetXTDH in (select xt.yingyongxtbh from trans_yingyongxt xt where xt.shifoujssj = 1"))//只查询目标系统可以接收数据的
+					.add(Restrictions.sqlRestriction("targetXTDH in (select xt.yingYongXTDH from trans_yingyongxt xt where xt.shifoujssj = 1)"))//只查询目标系统可以接收数据的
 					.add(Restrictions.eq("xinXiLBMC", "data"))
 					.add(Restrictions.eq("shiFouCSWC", false))//未完成 且不存在未完成的依赖关系
 					.add(Property.forName("chuanShuJLDM").notIn(subselect))
 					.addOrder(Order.asc("chuanShuJLDM"));
 				@SuppressWarnings("unchecked")
 				List<ChuanShuJL> dataChuanShuJLs = (List<ChuanShuJL>)dataTransCriteria.setMaxResults(10).list();
-				logger.debug("数据传输进程...启动 共"+dataChuanShuJLs.size()+"条");
+				logger.debug("	数据传输进程...启动 ");
 				for(int i=0;i<dataChuanShuJLs.size();i++){
 					ChuanShuJL dataChuanShuJL = dataChuanShuJLs.get(i);
 					logger.debug("开始传输 "+dataChuanShuJL.getSourceSTLDH()+"."+dataChuanShuJL.getSourceZJZ()+"->"+dataChuanShuJL.getTargetXTDH()+"."+dataChuanShuJL.getTargetSTLDH()+" ... 第"+i+"条 共"+dataChuanShuJLs.size()+"条");
 					
 					//检查此数据的映射关系
 					ShiTiLeiYS transSTLMap = (ShiTiLeiYS)sess.createCriteria(ShiTiLeiYS.class)
-							.add(Restrictions.eq("sourceXTDH", dataChuanShuJL.getSourceXTDH()))
+							.createAlias("sourceYYXT", "stlys_source_yyxt")
+							.createAlias("targetYYXT", "stlys_target_yyxt")
+							.add(Restrictions.eq("stlys_source_yyxt.yingYongXTDH", dataChuanShuJL.getSourceXTDH()))
 							.add(Restrictions.eq("sourceSTLDH", dataChuanShuJL.getSourceSTLDH()))
-							.add(Restrictions.eq("targetXTDH", dataChuanShuJL.getTargetXTDH()))
+							.add(Restrictions.eq("stlys_target_yyxt.yingYongXTDH", dataChuanShuJL.getTargetXTDH()))
 							.uniqueResult();
 					if(transSTLMap!=null){
 						logger.debug("		映射关系检查通过");
@@ -178,7 +177,7 @@ public class TransJob implements Job {
 						sess.beginTransaction();
 						
 						logger.debug("		向目标系统发送信息");
-						JSONMessageResult uploadRet = transData(dataChuanShuJL);
+						JSONMessageResult uploadRet = transData(dataChuanShuJL,transSTLMap);
 						logger.debug("		目标服务器返回："+uploadRet);
 						
 						//记录传输结果
@@ -209,18 +208,18 @@ public class TransJob implements Job {
 					}
 					logger.debug("完成传输 第"+i+"条 共"+dataChuanShuJLs.size()+"条");
 				}
-				logger.debug("数据传输进程...完成 共"+dataChuanShuJLs.size()+"条");
+				logger.debug("		数据传输进程...完成 共"+dataChuanShuJLs.size()+"条");
 				
 				//最后传任务
 				Criteria taskTransCriteria = sess.createCriteria(ChuanShuJL.class)
-					.add(Restrictions.sqlRestriction("targetXTDH in (select xt.yingyongxtbh from trans_yingyongxt xt where xt.shifoujsrw = 1"))//只查询目标系统可以接收任务的
+					.add(Restrictions.sqlRestriction("targetXTDH in (select xt.yingYongXTDH from trans_yingyongxt xt where xt.shifoujsrw = 1)"))//只查询目标系统可以接收任务的
 					.add(Restrictions.eq("xinXiLBMC", "task"))
 					.add(Restrictions.eq("shiFouCSWC", false))//未完成 且不存在未完成的依赖关系
 					.add(Property.forName("chuanShuJLDM").notIn(subselect))
 					.addOrder(Order.asc("chuanShuJLDM"));
 				@SuppressWarnings("unchecked")
 				List<ChuanShuJL> taskChuanShuJLs = (List<ChuanShuJL>)taskTransCriteria.setMaxResults(10).list();
-				logger.debug("任务传输进程...启动 共"+taskChuanShuJLs.size()+"条");
+				logger.debug("	任务传输进程...启动");
 				for(int i=0;i<taskChuanShuJLs.size();i++){
 					//传输此信息
 					ChuanShuJL taskChuanShuJL = taskChuanShuJLs.get(i);
@@ -228,9 +227,11 @@ public class TransJob implements Job {
 					
 					//检查此数据的映射关系
 					ShiTiLeiYS transSTLMap = (ShiTiLeiYS)sess.createCriteria(ShiTiLeiYS.class)
-							.add(Restrictions.eq("sourceXTDH", taskChuanShuJL.getSourceXTDH()))
+							.createAlias("sourceYYXT", "stlys_source_yyxt")
+							.createAlias("targetYYXT", "stlys_target_yyxt")
+							.add(Restrictions.eq("stlys_source_yyxt.yingYongXTDH", taskChuanShuJL.getSourceXTDH()))
 							.add(Restrictions.eq("sourceSTLDH", taskChuanShuJL.getSourceSTLDH()))
-							.add(Restrictions.eq("targetXTDH", taskChuanShuJL.getTargetXTDH()))
+							.add(Restrictions.eq("stlys_target_yyxt.yingYongXTDH", taskChuanShuJL.getTargetXTDH()))
 							.uniqueResult();
 					if(transSTLMap!=null){
 						//记录传输次数 传输时间
@@ -245,7 +246,7 @@ public class TransJob implements Job {
 						sess.beginTransaction();
 						
 						logger.debug("		向目标系统发送信息");
-						JSONMessageResult uploadRet = transTask(taskChuanShuJL);
+						JSONMessageResult uploadRet = transTask(taskChuanShuJL,transSTLMap);
 						logger.debug("		目标服务器返回："+uploadRet);
 						
 						//记录传输结果
@@ -277,9 +278,9 @@ public class TransJob implements Job {
 				
 					logger.debug("完成传输 第"+i+"条 共"+taskChuanShuJLs.size()+"条");
 				}
-				logger.debug("任务传输进程...完成 共"+taskChuanShuJLs.size()+"条");
+				logger.debug("		任务传输进程...完成 共"+taskChuanShuJLs.size()+"条");
 			} catch (Exception e) {
-				logger.error("	错误:"+e.getMessage());
+				logger.error("接口传输进程...错误:"+e.getMessage());
 				e.printStackTrace();
 				if (sess != null) {
 					HibernateSessionFactory.closeSession(false);
@@ -287,7 +288,7 @@ public class TransJob implements Job {
 				}
 			} finally {
 				running = false;
-				logger.debug("接口数据传输进程...完成");
+				logger.info("接口传输进程...完成");
 				if (sess != null) {
 					HibernateSessionFactory.closeSession(true);
 				}
@@ -297,7 +298,7 @@ public class TransJob implements Job {
 	
 	
 	//传输数据
-	public JSONMessageResult transData(ChuanShuJL transInfo) throws Exception{
+	public JSONMessageResult transData(ChuanShuJL transInfo,ShiTiLeiYS transSTLMap) throws Exception{
 		JSONMessageResult result = null;
 		// 发送数据
 		try {
@@ -309,8 +310,13 @@ public class TransJob implements Job {
 				//替换数据中 关联对象的主键值为依赖的数据传输中 得到的目标系统主键值
 				Map<String, Object> root = new HashMap<String, Object>();
 				for(ChuanShuJLYL depend:transInfo.getYls()){
-					ChuanShuJL yl = depend.getChuanShuJL();
-					root.put(yl.getSourceSTLDH()+"_"+yl.getSourceZJZ(), yl.getTargetZJZ());
+					ChuanShuJL yl = depend.getYiLaiCSJL();
+					if(yl.getShiFouCSWC()==false){
+						logger.debug("		依赖的数据:"+yl.getSourceSTLDH()+"."+yl.getSourceZJZ()+"尚未传输成功");
+						return new JSONMessageResult("依赖的数据:"+yl.getSourceSTLDH()+"."+yl.getSourceZJZ()+"尚未传输成功");
+					}else{
+						root.put(yl.getSourceSTLDH()+"_"+yl.getSourceZJZ(), yl.getTargetZJZ());
+					}
 				}
 				String jsonString =  transInfo.getJsonData();
 				if(jsonString.indexOf("${")>=0){
@@ -336,10 +342,10 @@ public class TransJob implements Job {
 						targetId = hisTrans.getTargetZJZ();
 					}
 				}
-				result = transImpl.postRecord(transInfo.getTargetSTLDH(), targetId,jsonString );
+				result = transImpl.postRecord(transInfo.getTargetSTLDH(), transSTLMap.getTargetZJZDDH(),targetId,jsonString );
 				logger.debug("		数据传输返回值:"+result);
 			}else{
-				logger.debug("		数据传输失败：数据接收接口不存在");
+				logger.error("		数据传输失败：数据接收接口不存在");
 				result = new JSONMessageResult("数据接收接口不存在");
 			}
 		} catch (Exception e) {
@@ -431,7 +437,7 @@ public class TransJob implements Job {
 	}
 	
 	//发送任务 这里也会传递数据 主要用于流程检视变量的记录 最新数据在之前的数据传输中应该已经传递了
-	public JSONMessageResult transTask(ChuanShuJL transInfo) throws Exception{
+	public JSONMessageResult transTask(ChuanShuJL transInfo,ShiTiLeiYS transSTLMap) throws Exception{
 		JSONMessageResult result = null;
 		// 发送数据
 		try {
@@ -468,7 +474,7 @@ public class TransJob implements Job {
 				if(hisTrans!=null){
 					targetId = hisTrans.getTargetZJZ();
 					
-					result = transImpl.postTask(transInfo.getTargetGNDH(), transInfo.getTargetCZDH(), targetId, jsonString);
+					result = transImpl.postTask(transInfo.getTargetGNDH(), transInfo.getTargetCZDH(),transSTLMap.getTargetZJZDDH(), targetId, jsonString);
 					logger.debug("		任务传输完成:目标系统返回值:"+result);
 				}else{
 					//对应的数据尚未传输成功 不能执行任务传输 (先数据 再任务)
@@ -490,10 +496,19 @@ public class TransJob implements Job {
 		TransInterface impl = null;
 		if(!transImpMap.containsKey(xiTongDH)){
 			YingYongXT yyxt = (YingYongXT)HibernateSessionFactory.getSession().createCriteria(YingYongXT.class)
-				.add(Restrictions.eq("yingYongXTBH", xiTongDH)).uniqueResult();
+				.add(Restrictions.eq("yingYongXTDH", xiTongDH)).uniqueResult();
 			if(yyxt.getJieKouSXL()!=null){
 				try {
-					impl = (TransInterface)(Class.forName(yyxt.getJieKouSXL()).newInstance());
+					Class<?> impClass = Class.forName(yyxt.getJieKouSXL());
+					Constructor<?> impClassConstructor = impClass.getConstructor(String.class,String.class,String.class,String.class);
+					
+					Object[] args = new Object[4];
+					args[0] = yyxt.getYingYongXTIP();
+					args[1] = yyxt.getYingYongXTPort();
+					args[2] = yyxt.getYingYongDLDH();
+					args[3] = yyxt.getYingYongDLMM();
+					
+					impl = (TransInterface)impClassConstructor.newInstance(args);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
